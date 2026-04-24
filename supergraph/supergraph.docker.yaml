@@ -1,0 +1,8 @@
+# Composition when subgraph runs in Docker Compose (service name `graphql`, port 3002).
+# Run from `romainRetreatServer`: `yarn compose:supergraph:docker` while `graphql` is up.
+federation_version: '=2.8.0'
+subgraphs:
+  payload:
+    routing_url: http://graphql:3002/graphql
+    schema:
+      subgraph_url: http://graphql:3002/graphql

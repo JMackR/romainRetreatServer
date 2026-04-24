@@ -1,0 +1,9 @@
+# Apollo Router — same role as in https://github.com/apollographql/supergraph-demo-fed2
+# Run with: `docker compose -f docker-compose.yml -f docker-compose.supergraph.yml up router`
+# Requires `supergraph/supergraph.graphql` (generate via `yarn --cwd romainRetreatServer compose:supergraph`).
+
+supergraph:
+  listen: 0.0.0.0:4000
+
+cors:
+  allow_any_origin: true

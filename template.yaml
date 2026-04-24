@@ -1,0 +1,136 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform:
+  - AWS::Serverless-2016-10-31
+  - AWS::LanguageExtensions
+Description: Payload GraphQL Federation subgraph on AWS Lambda (Function URL), optional VPC for RDS.
+
+# sam build && sam deploy --guided
+# Use RDS (or similar) for DATABASE_URL in production — not ephemeral SQLite.
+
+Globals:
+  Function:
+    Timeout: 29
+    MemorySize: 1024
+    Runtime: nodejs22.x
+    Architectures:
+      - arm64
+
+Parameters:
+  DatabaseUrl:
+    Type: String
+    Description: >-
+      Postgres URL for RDS. For IAM DB auth (UseRdsIamAuth=true), use a passwordless URL, e.g.
+      postgresql://postgres@your-db.xxx.us-east-1.rds.amazonaws.com:5432/postgres?sslmode=require
+  PayloadSecret:
+    Type: String
+    NoEcho: true
+  UseRdsIamAuth:
+    Type: String
+    Default: 'false'
+    AllowedValues: ['true', 'false']
+    Description: >-
+      When true, Lambda uses RDS IAM database authentication (password in DATABASE_URL is ignored).
+      Requires RdsDbiResourceId and Lambda execution role permission rds-db:connect (added below).
+  RdsDbiResourceId:
+    Type: String
+    Default: ''
+    Description: >-
+      RDS DB instance resource ID (starts with db-, from RDS console Configuration). Required when UseRdsIamAuth is true.
+  RdsIamDbUser:
+    Type: String
+    Default: postgres
+    Description: Database user for IAM auth (must match the user in DATABASE_URL and in the IAM policy resource).
+  PayloadDatabasePush:
+    Type: String
+    Default: '0'
+    AllowedValues: ['0', '1']
+    Description: >-
+      Set to 1 once on an empty Postgres DB so Payload can create tables (Drizzle push). Set back to 0 afterward.
+
+Conditions:
+  UseRdsIam: !Equals [!Ref UseRdsIamAuth, 'true']
+
+Rules:
+  RdsIamRequiresDbiResourceId:
+    RuleCondition: !Equals [!Ref UseRdsIamAuth, 'true']
+    Assertions:
+      - AssertDescription: Set RdsDbiResourceId when UseRdsIamAuth is true (RDS console → Configuration → Resource ID).
+        Assert: !Not [!Equals [!Ref RdsDbiResourceId, '']]
+
+Resources:
+  SubgraphFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - romainRetreatServer/src/lambda.ts
+        Format: esm
+        Target: es2022
+        Sourcemap: true
+        # Avoid bundling Next (WASM ?module imports) and native sharp; SAM copies them from node_modules.
+        External:
+          - next
+          - sharp
+          - react
+          - react-dom
+          - '@payloadcms/next'
+    Properties:
+      # Monorepo: CodeUri is repo root (../ from this template) so esbuild resolves romainRetreatCMS. Use sam build -m package.json from romainRetreatServer (yarn sam:build).
+      CodeUri: ../
+      Handler: romainRetreatServer/src/lambda.handler
+      Environment:
+        Variables:
+          DATABASE_URL: !Ref DatabaseUrl
+          PAYLOAD_SECRET: !Ref PayloadSecret
+          PAYLOAD_DISABLE_GRAPHQL: 'true'
+          NODE_OPTIONS: '--no-deprecation'
+          RDS_IAM_AUTH: !If [UseRdsIam, '1', '0']
+          PAYLOAD_DATABASE_PUSH: !Ref PayloadDatabasePush
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        # Needed when you attach the function to a VPC (Console or stack update) for private RDS.
+        - AWSLambdaVPCAccessExecutionRole
+      # VPC: attach in AWS Console (Configuration → VPC) to avoid EarlyValidation on Fn::Split with empty params.
+      FunctionUrlConfig:
+        AuthType: NONE
+        Cors:
+          AllowOrigins:
+            - '*'
+          # Max 6 entries; * is allowed for methods. OPTIONS is not a valid value here.
+          AllowMethods:
+            - '*'
+          # Wildcard * is rejected by early validation for headers — list common request headers.
+          AllowHeaders:
+            - Content-Type
+            - Authorization
+            - Accept
+            - Origin
+            - X-Requested-With
+            - apollo-require-preflight
+
+  SubgraphFunctionRdsIamPolicy:
+    Type: AWS::IAM::Policy
+    Condition: UseRdsIam
+    Properties:
+      PolicyName: !Sub '${AWS::StackName}-subgraph-rds-iam-connect'
+      Roles:
+        - !Ref SubgraphFunctionRole
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: RdsIamDbConnect
+            Effect: Allow
+            Action: rds-db:connect
+            Resource: !Sub 'arn:aws:rds-db:${AWS::Region}:${AWS::AccountId}:dbuser:${RdsDbiResourceId}/${RdsIamDbUser}'
+
+Outputs:
+  SubgraphUrl:
+    Description: Lambda Function URL base (no path). Append /graphql for GraphOS routing_url.
+    Value: !GetAtt SubgraphFunctionUrl.FunctionUrl
+  SubgraphGraphqlUrl:
+    Description: Convenience URL for GraphOS routing_url (Federation subgraph path)
+    Value: !Sub '${SubgraphFunctionUrl.FunctionUrl}/graphql'
+  SubgraphGraphqlApiUrl:
+    Description: Payload default API GraphQL path on the same Function URL
+    Value: !Sub '${SubgraphFunctionUrl.FunctionUrl}/api/graphql'

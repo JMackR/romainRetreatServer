@@ -1,0 +1,44 @@
+{
+  "name": "romain-retreat-server",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "cross-env NODE_OPTIONS=--no-deprecation tsx watch src/server.ts",
+    "start": "cross-env NODE_OPTIONS=--no-deprecation tsx src/server.ts",
+    "typecheck": "tsc --noEmit",
+    "compose:supergraph": "cross-env APOLLO_ELV2_LICENSE=accept sh -c 'rover supergraph compose --config supergraph/supergraph.yaml > supergraph/supergraph.graphql'",
+    "compose:supergraph:docker": "cross-env APOLLO_ELV2_LICENSE=accept sh -c 'rover supergraph compose --config supergraph/supergraph.docker.yaml > supergraph/supergraph.graphql'",
+    "export:subgraph-sdl": "tsx scripts/export-subgraph-sdl.mts",
+    "publish:subgraph": "tsx scripts/publish-subgraph.mts",
+    "sam:build": "sam build -m package.json",
+    "sam:deploy": "yarn sam:build && sam deploy"
+  },
+  "dependencies": {
+    "@apollo/subgraph": "^2.9.0",
+    "@aws-sdk/rds-signer": "3",
+    "@graphql-tools/utils": "^11.0.1",
+    "@hono/node-server": "^1.19.0",
+    "@payloadcms/db-postgres": "3.83.0",
+    "@payloadcms/db-sqlite": "3.83.0",
+    "@payloadcms/next": "3.83.0",
+    "@payloadcms/richtext-lexical": "3.83.0",
+    "cross-env": "^7.0.3",
+    "dotenv": "16.4.7",
+    "graphql": "^16.8.1",
+    "graphql-http": "^1.22.4",
+    "hono": "^4.10.0",
+    "next": "16.2.3",
+    "payload": "3.83.0",
+    "pg-connection-string": "2.6.4",
+    "sharp": "0.34.2"
+  },
+  "devDependencies": {
+    "@types/node": "22.19.9",
+    "tsx": "4.21.0",
+    "typescript": "5.7.3"
+  },
+  "engines": {
+    "node": "^18.20.2 || >=20.9.0"
+  }
+}
