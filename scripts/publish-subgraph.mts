@@ -61,7 +61,7 @@ run(
   'npx',
   [
     '--yes',
-    '@apollo/rover@0.26',
+    '@apollo/rover@0.38.1',
     'subgraph',
     'publish',
     graphRef,

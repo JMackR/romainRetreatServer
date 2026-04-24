@@ -2,7 +2,7 @@
  * AWS Lambda entry (API Gateway HTTP API / REST, or Function URL).
  * Uses the same Hono app as `server.ts`; initialize once per cold start.
  */
-import 'dotenv/config'
+import './load-env.js'
 
 import { handle, type LambdaContext, type LambdaEvent } from 'hono/aws-lambda'
 
