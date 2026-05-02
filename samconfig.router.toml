@@ -1,0 +1,22 @@
+# Router stack config (separate from the Lambda subgraph stacks).
+#
+# Deploy:  yarn deploy:router
+# Tail:    yarn logs:router
+
+version = 0.1
+
+[default.global.parameters]
+stack_name = "romain-retreat-router"
+region = "us-east-1"
+
+[default.deploy.parameters]
+capabilities = "CAPABILITY_IAM"
+confirm_changeset = false
+resolve_s3 = true
+region = "us-east-1"
+# VpcId / SubnetIds discovered at deploy time by scripts/deploy-router.mts and
+# appended to parameter_overrides — leaving them out here lets the script supply
+# whatever the account currently has as default.
+parameter_overrides = "ApolloKeySecretArn=\"arn:aws:secretsmanager:us-east-1:600823817332:secret:romain-retreat/apollo-key-EMnAE2\" ApolloGraphRef=\"RomainRetreat@current\""
+s3_prefix = "romain-retreat-router"
+image_repositories = []

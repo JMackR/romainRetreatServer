@@ -1,0 +1,29 @@
+# Rover composition config — cft-federation-server style: one entry per logical subgraph.
+# Use this when the 5 subgraph services are running on the host (e.g. via `make up-subgraphs`
+# which maps container :4000 to host ports 4001..4005). Keep `schema.file` in sync via
+# `yarn export:subgraph-sdl`.
+#
+#   yarn compose:supergraph:local        # → ../supergraph.local.graphql + supergraph.graphql
+#   make compose                         # writes both local.graphql and docker.graphql
+federation_version: '=2.8.0'
+subgraphs:
+  users:
+    routing_url: http://localhost:4001/graphql
+    schema:
+      file: ../../subgraphs/users/src/users.graphql
+  groups:
+    routing_url: http://localhost:4002/graphql
+    schema:
+      file: ../../subgraphs/groups/src/groups.graphql
+  search:
+    routing_url: http://localhost:4003/graphql
+    schema:
+      file: ../../subgraphs/search/src/search.graphql
+  content:
+    routing_url: http://localhost:4004/graphql
+    schema:
+      file: ../../subgraphs/content/src/content.graphql
+  system:
+    routing_url: http://localhost:4005/graphql
+    schema:
+      file: ../../subgraphs/system/src/system.graphql

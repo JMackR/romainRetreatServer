@@ -46,6 +46,13 @@ Parameters:
     AllowedValues: ['0', '1']
     Description: >-
       Set to 1 once on an empty Postgres DB so Payload can create tables (Drizzle push). Set back to 0 afterward.
+  SubgraphMode:
+    Type: String
+    Default: unified
+    AllowedValues: [unified, users, groups, search, content, system]
+    Description: >-
+      "unified" = one Lambda with the full monolith and all /api/subgraph/* paths. A domain name
+      = only that domain's federated handler (use one stack + Function URL per GraphOS subgraph, routing_url .../graphql).
 
 Conditions:
   UseRdsIam: !Equals [!Ref UseRdsIamAuth, 'true']
@@ -61,24 +68,18 @@ Resources:
   SubgraphFunction:
     Type: AWS::Serverless::Function
     Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        EntryPoints:
-          - romainRetreatServer/src/lambda.ts
-        Format: esm
-        Target: es2022
-        Sourcemap: true
-        # Avoid bundling Next (WASM ?module imports) and native sharp; SAM copies them from node_modules.
-        External:
-          - next
-          - sharp
-          - react
-          - react-dom
-          - '@payloadcms/next'
+      # We do the bundling ourselves in `Makefile:build-SubgraphFunction` because the
+      # SAM esbuild builder cannot copy externals (`next`, `sharp`, `react`, `react-dom`,
+      # `@payloadcms/next`) when CodeUri is the monorepo root (no node_modules there) —
+      # all 6 lambdas were 502'ing with `Cannot find package 'react' imported from /var/task/lambda.mjs`.
+      # The Makefile target runs esbuild → `$(ARTIFACTS_DIR)/lambda.mjs` and then
+      # `npm install --cpu=arm64 --os=linux --libc=glibc` so `sharp` gets the linux-arm64 prebuilt.
+      BuildMethod: makefile
     Properties:
-      # Monorepo: CodeUri is repo root (../ from this template) so esbuild resolves romainRetreatCMS. Use sam build -m package.json from romainRetreatServer (yarn sam:build).
-      CodeUri: ../
-      Handler: romainRetreatServer/src/lambda.handler
+      # CodeUri is romainRetreatServer/ so SAM finds Makefile here. esbuild itself follows
+      # `../../../romainRetreatCMS/...` paths from inside the bundle entrypoint regardless of CodeUri.
+      CodeUri: ./
+      Handler: lambda.handler
       Environment:
         Variables:
           DATABASE_URL: !Ref DatabaseUrl
@@ -87,6 +88,7 @@ Resources:
           NODE_OPTIONS: '--no-deprecation'
           RDS_IAM_AUTH: !If [UseRdsIam, '1', '0']
           PAYLOAD_DATABASE_PUSH: !Ref PayloadDatabasePush
+          PAYLOAD_LAMBDA_SUBGRAPH: !Ref SubgraphMode
       Policies:
         - AWSLambdaBasicExecutionRole
         # Needed when you attach the function to a VPC (Console or stack update) for private RDS.
@@ -129,8 +131,11 @@ Outputs:
     Description: Lambda Function URL base (no path). Append /graphql for GraphOS routing_url.
     Value: !GetAtt SubgraphFunctionUrl.FunctionUrl
   SubgraphGraphqlUrl:
-    Description: Convenience URL for GraphOS routing_url (Federation subgraph path)
+    Description: URL for GraphOS routing_url (single domain when SubgraphMode != unified; else monolith on /graphql)
     Value: !Sub '${SubgraphFunctionUrl.FunctionUrl}/graphql'
+  SubgraphModeUsed:
+    Description: Same as parameter SubgraphMode (unified or one domain for this function)
+    Value: !Ref SubgraphMode
   SubgraphGraphqlApiUrl:
     Description: Payload default API GraphQL path on the same Function URL
     Value: !Sub '${SubgraphFunctionUrl.FunctionUrl}/api/graphql'

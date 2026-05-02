@@ -1,0 +1,15 @@
+{
+  "name": "@romain/subgraph-content",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Romain Retreat federation subgraph (content domain) — Payload + Hono shared runtime, cft-federation-server layout.",
+  "type": "module",
+  "main": "index.ts",
+  "scripts": {
+    "start": "tsx index.ts",
+    "start:dev": "tsx watch index.ts"
+  },
+  "engines": {
+    "node": "^18.20.2 || >=20.9.0"
+  }
+}

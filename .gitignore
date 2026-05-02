@@ -30,3 +30,6 @@ yarn-error.log*
 # Local runtime data
 data/*.db
 data/*.db-*
+
+# Generated (run: yarn export:subgraph-sdl; needs DATABASE_URL + PAYLOAD_SECRET)
+supergraph/payload.subgraph.graphql

@@ -2,11 +2,14 @@
 
 Standalone **Payload GraphQL** for Romain Retreat. It loads the same [`romainRetreatCMS` `payload.config.ts`](../romainRetreatCMS/src/payload.config.ts) as the CMS, so the executable GraphQL API matches the CMS’s `/api/graphql` (when GraphQL is not disabled). Keep `payload` and `@payloadcms/*` **versions in lockstep** with `romainRetreatCMS/package.json` so the generated schema is identical.
 
+> **Deploying?** See [`DEPLOYMENT.md`](./DEPLOYMENT.md) for end-to-end recipes — local Docker stack, native local dev, AWS first-time setup, Lambda/Router deploys, Apollo Studio publish, Aurora seeding, and Vercel for the CMS.
+
 ## Ports
 
 | Service              | Port | URL                                      |
 | -------------------- | ---- | ---------------------------------------- |
 | GraphQL (this app)   | 3002 | `http://127.0.0.1:3002/api/graphql`      |
+| Apollo Router (Docker) | 4000 | `http://127.0.0.1:4000/` (after `yarn docker:federation:up`) |
 | Payload admin (Next) | 3001 | `http://127.0.0.1:3001/admin`            |
 | Next web             | 3000 | `http://127.0.0.1:3000`                  |
 
@@ -22,17 +25,81 @@ Standalone **Payload GraphQL** for Romain Retreat. It loads the same [`romainRet
 
 3. In **`romainRetreatCMS/.env`**, use the same `PAYLOAD_SECRET` and `DATABASE_URL`. Set `PAYLOAD_DISABLE_GRAPHQL=true` in the CMS if you only want the standalone server to serve GraphQL in dev (see `romainRetreatCMS/.env.example`).
 
-4. **Refresh the committed subgraph SDL** when you change collections, fields, or `payload.config`: run `yarn export:subgraph-sdl` (requires `PAYLOAD_SECRET` and a `DATABASE_URL` the adapter can use). The file `supergraph/payload.subgraph.graphql` is the Federation 2 view for `rover` and GraphOS; the **source of truth** for types is always the shared `payload.config`.
+4. **Regenerate the subgraph SDL** when you change collections, fields, or `payload.config`: `yarn export:subgraph-sdl` (requires `PAYLOAD_SECRET` and `DATABASE_URL`). It updates `supergraph/payload-sdl/*.graphql` and `supergraph/payload-sdl/_merged.graphql` (the GraphQL for `rover` / GraphOS) from the shared `payload.config`, not hand-edited. A legacy `supergraph/payload.subgraph.graphql` is removed if it exists.
 
 5. **Optional check** before a release: `yarn check:payload-version` — fails if `payload` / `@payloadcms/*` versions in this repo and `romainRetreatCMS` have diverged.
 
-## Apollo Federation (supergraph)
+## Apollo Federation (supergraph) — cft-federation-server style
 
-This service exposes a **Federation 2** subgraph: `POST /graphql` and `POST /api/graphql` (same handler). Romain’s `supergraph/supergraph.yaml` points the `payload` subgraph at `http://127.0.0.1:3002/graphql` for local `rover` composition.
+The repo follows the same on-disk layout as [`cft-federation-server`](../../Loop/cft-federation-server) (a 2023 Federation 2 demo): one folder per logical subgraph under [`subgraphs/`](./subgraphs/README.md), shell helpers under [`.scripts/`](./.scripts/), Rover composition configs under [`supergraph/schema/`](./supergraph/schema/README.md), top-level [`Makefile`](./Makefile) targets, [`docker-compose.federation.yml`](./docker-compose.federation.yml), and [`apollo.publish.env`](./apollo.publish.env.example) (Apollo Studio credentials — gitignored).
 
-- Compose the supergraph (from this directory, with Rover and `APOLLO_ELV2_LICENSE=accept`): `yarn compose:supergraph`
-- Export SDL for GraphOS (and to update `supergraph/payload.subgraph.graphql` after config changes): `yarn export:subgraph-sdl`
+| Concept (cft) | Where it lives in Romain |
+| --- | --- |
+| `subgraphs/<name>/{package.json,Dockerfile,index.ts,src/<name>.graphql}` | `subgraphs/{users,groups,search,content,system}/…` (all share one Payload runtime) |
+| `docker-compose.yaml` (one service per subgraph, ports 4001…) | `docker-compose.federation.yml` — `users:4001`, `groups:4002`, `search:4003`, `content:4004`, `system:4005` |
+| `Makefile` (`up-subgraphs`, `publish-subgraphs`, `compose`, `run-router`, `smoke`, `down`, …) | `Makefile` (this repo) |
+| `.scripts/{publish,smoke,query,config,subgraphs}.sh` + `subgraphs/{localhost,docker-compose}-networking.sh` | `.scripts/…` (same names + structure) |
+| `graph-api.env` (`APOLLO_KEY`, `APOLLO_GRAPH_REF`) | `apollo.publish.env` (single source of truth — same two vars + `SUBGRAPH_NAME`/`SUBGRAPH_ROUTING_URL` for legacy `yarn publish:subgraph`) |
+| `config.yaml` (CORS reference) | `config.yaml` |
+| `supergraph/router.yaml` + Rust Apollo Router | `supergraph/router.yaml` + `ghcr.io/apollographql/router` Docker image (or `make deps` to download the binary) |
+| `supergraph/schema/{local,docker}.yaml` (5-subgraph compose configs) | `supergraph/schema/{local,docker}.yaml` (5-subgraph) plus `local.unified.yaml` (legacy single `payload`) |
 
-The web app should use GraphQL on **:3002** (this subgraph) when the CMS has GraphQL disabled, so a single schema powers both the public API and the federated supergraph.
+### Runtime model
 
-From the monorepo root you can use `yarn server:dev` if you have that script.
+**All five subgraphs share a single Payload + Hono image.** Each container/process selects a single pruned Federation 2 view via `PAYLOAD_LAMBDA_SUBGRAPH=<domain>` (see `subgraphs/_shared/subgraph/payloadSubgraphByDomain.ts:buildFederatedSubgraphForDomain`). This avoids 5× DB pools / 5× Payload bootstraps for one CMS while keeping the layout cft-shaped. AWS uses the same env (`SubgraphMode` parameter in `template.yaml`) to deploy one Lambda per subgraph (`yarn deploy:lambda all`).
+
+### Local development
+
+```sh
+# 1. download Apollo Router + Rover (one-time)
+make deps                      # or: brew install apollographql/tap/rover apollographql/tap/router
+make deps-check                # sanity check
+
+# 2. start the 5 subgraph containers (ports 4001..4005)
+make up-subgraphs              # docker compose up users groups search content system
+
+# 3. compose locally (without Apollo Studio)
+make config                    # rewrites supergraph/schema/{local,docker}.yaml from .scripts/subgraphs/*
+make compose                   # rover supergraph compose → supergraph/supergraph.{local,docker}.graphql
+make run-router-local          # ./router --supergraph supergraph.local.graphql
+
+# 4. or, with Apollo Studio (managed federation)
+cp apollo.publish.env.example apollo.publish.env
+edit apollo.publish.env        # set APOLLO_KEY + APOLLO_GRAPH_REF (.scripts/* + scripts/publish-subgraph.mts both read this)
+make publish-subgraphs         # rover subgraph publish for each domain
+make run-router                # router pulls the supergraph from Studio Uplink
+
+# 5. one-shot Docker (subgraphs + supergraph compose + router)
+yarn docker:federation:up      # → router on http://localhost:4000
+
+# 6. smoke / query
+make smoke                     # quick introspection check
+make query                     # sample query
+
+# 7. teardown
+make down
+```
+
+Convenience yarn aliases: `yarn dev:subgraph:users` (etc.) for one process without Docker, `yarn publish:subgraphs` (= `.scripts/publish.sh`), `yarn router:config:local` / `:docker` (= `.scripts/config.sh`), `yarn smoke`, `yarn query`.
+
+### Legacy unified mode
+
+The original single `payload` subgraph on `:3002` is still available:
+
+- Run unified: `yarn dev` (or `yarn start`) — exposes `POST /graphql`, `POST /api/graphql`, **and** `POST /api/subgraph/<domain>/graphql` for every domain in one process.
+- Compose unified: `yarn compose:supergraph:unified` (uses `supergraph/schema/local.unified.yaml`).
+- Publish unified: `yarn publish:subgraph` (sends the merged `supergraph/payload-sdl/_merged.graphql` once).
+
+This is handy when iterating on Payload itself; for federation work prefer the cft-style 5-subgraph flow above.
+
+### SDL
+
+`yarn export:subgraph-sdl` regenerates **both** `supergraph/payload-sdl/<domain>.graphql` (used by `_merged.graphql`) **and** `subgraphs/<domain>/src/<domain>.graphql` (used by `supergraph/schema/{local,docker}.yaml`). Run it whenever collections, fields, or `payload.config` change.
+
+### AWS
+
+- One Lambda per subgraph: `yarn deploy:lambda all` — five stacks named `${SAM_STACK_PREFIX}-sg-<domain>` (default prefix `romain-retreat`); each Function URL becomes the `routing_url` in `supergraph/schema/aws.introspect.yaml` / `aws.unified-file.yaml`.
+- One unified Lambda (all routes in one function): `yarn deploy:lambda unified`.
+- Compose against AWS: `yarn compose:supergraph:aws` (introspect each Function URL) or `yarn compose:supergraph:aws:file` (read `_merged.graphql`).
+
+The web app should use GraphQL on **:3002** (unified) for fast iteration, or **:4000** (router) when verifying federation behavior end-to-end.

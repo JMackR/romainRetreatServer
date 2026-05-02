@@ -1,0 +1,3896 @@
+extend schema
+  @link(url: "https://specs.apollo.dev/federation/v2.8", import: ["@key", "@shareable", "@inaccessible", "@tag", "@override", "@extends", "@external", "@requires", "@provides"])
+
+type Query {
+  Group(id: Int!, draft: Boolean, select: Boolean, trash: Boolean): Group
+  Groups(draft: Boolean, where: Group_where, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean): Groups
+  countGroups(draft: Boolean, trash: Boolean, where: Group_where): countGroups
+  docAccessGroup(id: Int!): groupsDocAccess
+  GroupMember(id: Int!, draft: Boolean, select: Boolean, trash: Boolean): GroupMember
+  GroupMembers(draft: Boolean, where: GroupMember_where, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean): GroupMembers
+  countGroupMembers(draft: Boolean, trash: Boolean, where: GroupMember_where): countGroupMembers
+  docAccessGroupMember(id: Int!): groupMembersDocAccess
+  GroupPost(id: Int!, draft: Boolean, select: Boolean, trash: Boolean): GroupPost
+  GroupPosts(draft: Boolean, where: GroupPost_where, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean): GroupPosts
+  countGroupPosts(draft: Boolean, trash: Boolean, where: GroupPost_where): countGroupPosts
+  docAccessGroupPost(id: Int!): groupPostsDocAccess
+  GroupComment(id: Int!, draft: Boolean, select: Boolean, trash: Boolean): GroupComment
+  GroupComments(draft: Boolean, where: GroupComment_where, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean): GroupComments
+  countGroupComments(draft: Boolean, trash: Boolean, where: GroupComment_where): countGroupComments
+  docAccessGroupComment(id: Int!): groupCommentsDocAccess
+  GroupPostLike(id: Int!, draft: Boolean, select: Boolean, trash: Boolean): GroupPostLike
+  GroupPostLikes(draft: Boolean, where: GroupPostLike_where, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean): GroupPostLikes
+  countGroupPostLikes(draft: Boolean, trash: Boolean, where: GroupPostLike_where): countGroupPostLikes
+  docAccessGroupPostLike(id: Int!): groupPostLikesDocAccess
+  GroupCommentLike(id: Int!, draft: Boolean, select: Boolean, trash: Boolean): GroupCommentLike
+  GroupCommentLikes(draft: Boolean, where: GroupCommentLike_where, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean): GroupCommentLikes
+  countGroupCommentLikes(draft: Boolean, trash: Boolean, where: GroupCommentLike_where): countGroupCommentLikes
+  docAccessGroupCommentLike(id: Int!): groupCommentLikesDocAccess
+  GroupEvent(id: Int!, draft: Boolean, select: Boolean, trash: Boolean): GroupEvent
+  GroupEvents(draft: Boolean, where: GroupEvent_where, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean): GroupEvents
+  countGroupEvents(draft: Boolean, trash: Boolean, where: GroupEvent_where): countGroupEvents
+  docAccessGroupEvent(id: Int!): groupEventsDocAccess
+  GroupInvite(id: Int!, draft: Boolean, select: Boolean, trash: Boolean): GroupInvite
+  GroupInvites(draft: Boolean, where: GroupInvite_where, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean): GroupInvites
+  countGroupInvites(draft: Boolean, trash: Boolean, where: GroupInvite_where): countGroupInvites
+  docAccessGroupInvite(id: Int!): groupInvitesDocAccess
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+  @specifiedBy(url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf")
+
+type Media
+  @key(fields: "id", resolvable: false)
+{
+  id: Int!
+}
+
+type PayloadFolder
+  @key(fields: "id", resolvable: false)
+{
+  id: Int!
+}
+
+type PayloadFolder_DocumentsAndFolders
+  @shareable
+{
+  docs: JSON!
+  hasNextPage: Boolean!
+  totalDocs: Int
+}
+
+enum PayloadFolder_folderType {
+  media
+}
+
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar DateTime
+
+type Media_Sizes
+  @shareable
+{
+  thumbnail: Media_Sizes_Thumbnail
+  square: Media_Sizes_Square
+  small: Media_Sizes_Small
+  medium: Media_Sizes_Medium
+  large: Media_Sizes_Large
+  xlarge: Media_Sizes_Xlarge
+  og: Media_Sizes_Og
+}
+
+type Media_Sizes_Thumbnail
+  @shareable
+{
+  url: String
+  width: Float
+  height: Float
+  mimeType: String
+  filesize: Float
+  filename: String
+}
+
+type Media_Sizes_Square
+  @shareable
+{
+  url: String
+  width: Float
+  height: Float
+  mimeType: String
+  filesize: Float
+  filename: String
+}
+
+type Media_Sizes_Small
+  @shareable
+{
+  url: String
+  width: Float
+  height: Float
+  mimeType: String
+  filesize: Float
+  filename: String
+}
+
+type Media_Sizes_Medium
+  @shareable
+{
+  url: String
+  width: Float
+  height: Float
+  mimeType: String
+  filesize: Float
+  filename: String
+}
+
+type Media_Sizes_Large
+  @shareable
+{
+  url: String
+  width: Float
+  height: Float
+  mimeType: String
+  filesize: Float
+  filename: String
+}
+
+type Media_Sizes_Xlarge
+  @shareable
+{
+  url: String
+  width: Float
+  height: Float
+  mimeType: String
+  filesize: Float
+  filename: String
+}
+
+type Media_Sizes_Og
+  @shareable
+{
+  url: String
+  width: Float
+  height: Float
+  mimeType: String
+  filesize: Float
+  filename: String
+}
+
+type User
+  @key(fields: "id", resolvable: false)
+{
+  id: Int!
+}
+
+enum User_role {
+  admin
+  contentManager
+  consumer
+}
+
+"""
+A field whose value conforms to the standard internet email address format as specified in HTML Spec: https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address.
+"""
+scalar EmailAddress
+  @specifiedBy(url: "https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address")
+
+type User_Sessions
+  @shareable
+{
+  id: String
+  createdAt: DateTime
+  expiresAt: DateTime
+}
+
+"""
+The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSONObject
+  @specifiedBy(url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf")
+
+type Group
+  @key(fields: "id")
+{
+  id: Int!
+  name: String!
+  generateSlug: Boolean
+  slug: String!
+  cover: Media
+  shortDescription: String
+  about(depth: Int): JSON
+  privacy: Group_privacy
+  createdBy: User
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+enum Group_privacy {
+  public
+  private
+}
+
+type Groups
+  @shareable
+{
+  docs: [Group!]!
+  hasNextPage: Boolean!
+  hasPrevPage: Boolean!
+  limit: Int!
+  nextPage: Int
+  offset: Int
+  page: Int!
+  pagingCounter: Int!
+  prevPage: Int
+  totalDocs: Int!
+  totalPages: Int!
+}
+
+input Group_where {
+  name: Group_name_operator
+  generateSlug: Group_generateSlug_operator
+  slug: Group_slug_operator
+  cover: Group_cover_operator
+  shortDescription: Group_shortDescription_operator
+  about: Group_about_operator
+  privacy: Group_privacy_operator
+  createdBy: Group_createdBy_operator
+  updatedAt: Group_updatedAt_operator
+  createdAt: Group_createdAt_operator
+  id: Group_id_operator
+  AND: [Group_where_and]
+  OR: [Group_where_or]
+}
+
+input Group_name_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+}
+
+input Group_generateSlug_operator {
+  equals: Boolean
+  not_equals: Boolean
+  exists: Boolean
+}
+
+input Group_slug_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+}
+
+input Group_cover_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input Group_shortDescription_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  exists: Boolean
+}
+
+input Group_about_operator {
+  equals: JSON
+  not_equals: JSON
+  like: JSON
+  contains: JSON
+  exists: Boolean
+}
+
+input Group_privacy_operator {
+  equals: Group_privacy_Input
+  not_equals: Group_privacy_Input
+  in: [Group_privacy_Input]
+  not_in: [Group_privacy_Input]
+  all: [Group_privacy_Input]
+  exists: Boolean
+}
+
+enum Group_privacy_Input {
+  public
+  private
+}
+
+input Group_createdBy_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input Group_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Group_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Group_id_operator {
+  equals: Int
+  not_equals: Int
+  greater_than_equal: Int
+  greater_than: Int
+  less_than_equal: Int
+  less_than: Int
+  exists: Boolean
+}
+
+input Group_where_and {
+  name: Group_name_operator
+  generateSlug: Group_generateSlug_operator
+  slug: Group_slug_operator
+  cover: Group_cover_operator
+  shortDescription: Group_shortDescription_operator
+  about: Group_about_operator
+  privacy: Group_privacy_operator
+  createdBy: Group_createdBy_operator
+  updatedAt: Group_updatedAt_operator
+  createdAt: Group_createdAt_operator
+  id: Group_id_operator
+  AND: [Group_where_and]
+  OR: [Group_where_or]
+}
+
+input Group_where_or {
+  name: Group_name_operator
+  generateSlug: Group_generateSlug_operator
+  slug: Group_slug_operator
+  cover: Group_cover_operator
+  shortDescription: Group_shortDescription_operator
+  about: Group_about_operator
+  privacy: Group_privacy_operator
+  createdBy: Group_createdBy_operator
+  updatedAt: Group_updatedAt_operator
+  createdAt: Group_createdAt_operator
+  id: Group_id_operator
+  AND: [Group_where_and]
+  OR: [Group_where_or]
+}
+
+type countGroups
+  @shareable
+{
+  totalDocs: Int
+}
+
+type groupsDocAccess
+  @shareable
+{
+  fields: GroupsDocAccessFields
+  create: GroupsCreateDocAccess
+  read: GroupsReadDocAccess
+  update: GroupsUpdateDocAccess
+  delete: GroupsDeleteDocAccess
+}
+
+type GroupsDocAccessFields
+  @shareable
+{
+  name: GroupsDocAccessFields_name
+  generateSlug: GroupsDocAccessFields_generateSlug
+  slug: GroupsDocAccessFields_slug
+  cover: GroupsDocAccessFields_cover
+  shortDescription: GroupsDocAccessFields_shortDescription
+  about: GroupsDocAccessFields_about
+  privacy: GroupsDocAccessFields_privacy
+  createdBy: GroupsDocAccessFields_createdBy
+  updatedAt: GroupsDocAccessFields_updatedAt
+  createdAt: GroupsDocAccessFields_createdAt
+}
+
+type GroupsDocAccessFields_name
+  @shareable
+{
+  create: GroupsDocAccessFields_name_Create
+  read: GroupsDocAccessFields_name_Read
+  update: GroupsDocAccessFields_name_Update
+  delete: GroupsDocAccessFields_name_Delete
+}
+
+type GroupsDocAccessFields_name_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_name_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_name_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_name_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_generateSlug
+  @shareable
+{
+  create: GroupsDocAccessFields_generateSlug_Create
+  read: GroupsDocAccessFields_generateSlug_Read
+  update: GroupsDocAccessFields_generateSlug_Update
+  delete: GroupsDocAccessFields_generateSlug_Delete
+}
+
+type GroupsDocAccessFields_generateSlug_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_generateSlug_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_generateSlug_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_generateSlug_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_slug
+  @shareable
+{
+  create: GroupsDocAccessFields_slug_Create
+  read: GroupsDocAccessFields_slug_Read
+  update: GroupsDocAccessFields_slug_Update
+  delete: GroupsDocAccessFields_slug_Delete
+}
+
+type GroupsDocAccessFields_slug_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_slug_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_slug_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_slug_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_cover
+  @shareable
+{
+  create: GroupsDocAccessFields_cover_Create
+  read: GroupsDocAccessFields_cover_Read
+  update: GroupsDocAccessFields_cover_Update
+  delete: GroupsDocAccessFields_cover_Delete
+}
+
+type GroupsDocAccessFields_cover_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_cover_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_cover_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_cover_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_shortDescription
+  @shareable
+{
+  create: GroupsDocAccessFields_shortDescription_Create
+  read: GroupsDocAccessFields_shortDescription_Read
+  update: GroupsDocAccessFields_shortDescription_Update
+  delete: GroupsDocAccessFields_shortDescription_Delete
+}
+
+type GroupsDocAccessFields_shortDescription_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_shortDescription_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_shortDescription_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_shortDescription_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_about
+  @shareable
+{
+  create: GroupsDocAccessFields_about_Create
+  read: GroupsDocAccessFields_about_Read
+  update: GroupsDocAccessFields_about_Update
+  delete: GroupsDocAccessFields_about_Delete
+}
+
+type GroupsDocAccessFields_about_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_about_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_about_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_about_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_privacy
+  @shareable
+{
+  create: GroupsDocAccessFields_privacy_Create
+  read: GroupsDocAccessFields_privacy_Read
+  update: GroupsDocAccessFields_privacy_Update
+  delete: GroupsDocAccessFields_privacy_Delete
+}
+
+type GroupsDocAccessFields_privacy_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_privacy_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_privacy_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_privacy_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_createdBy
+  @shareable
+{
+  create: GroupsDocAccessFields_createdBy_Create
+  read: GroupsDocAccessFields_createdBy_Read
+  update: GroupsDocAccessFields_createdBy_Update
+  delete: GroupsDocAccessFields_createdBy_Delete
+}
+
+type GroupsDocAccessFields_createdBy_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_createdBy_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_createdBy_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_createdBy_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_updatedAt
+  @shareable
+{
+  create: GroupsDocAccessFields_updatedAt_Create
+  read: GroupsDocAccessFields_updatedAt_Read
+  update: GroupsDocAccessFields_updatedAt_Update
+  delete: GroupsDocAccessFields_updatedAt_Delete
+}
+
+type GroupsDocAccessFields_updatedAt_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_updatedAt_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_updatedAt_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_updatedAt_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_createdAt
+  @shareable
+{
+  create: GroupsDocAccessFields_createdAt_Create
+  read: GroupsDocAccessFields_createdAt_Read
+  update: GroupsDocAccessFields_createdAt_Update
+  delete: GroupsDocAccessFields_createdAt_Delete
+}
+
+type GroupsDocAccessFields_createdAt_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_createdAt_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_createdAt_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_createdAt_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupsCreateDocAccess
+  @shareable
+{
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupsReadDocAccess
+  @shareable
+{
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupsUpdateDocAccess
+  @shareable
+{
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupsDeleteDocAccess
+  @shareable
+{
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupMember
+  @key(fields: "id")
+{
+  id: Int!
+  group: Group
+  user: User
+  role: GroupMember_role!
+  status: GroupMember_status!
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+enum GroupMember_role {
+  admin
+  moderator
+  member
+}
+
+enum GroupMember_status {
+  active
+  invited
+  left
+}
+
+type GroupMembers
+  @shareable
+{
+  docs: [GroupMember!]!
+  hasNextPage: Boolean!
+  hasPrevPage: Boolean!
+  limit: Int!
+  nextPage: Int
+  offset: Int
+  page: Int!
+  pagingCounter: Int!
+  prevPage: Int
+  totalDocs: Int!
+  totalPages: Int!
+}
+
+input GroupMember_where {
+  group: GroupMember_group_operator
+  user: GroupMember_user_operator
+  role: GroupMember_role_operator
+  status: GroupMember_status_operator
+  updatedAt: GroupMember_updatedAt_operator
+  createdAt: GroupMember_createdAt_operator
+  id: GroupMember_id_operator
+  AND: [GroupMember_where_and]
+  OR: [GroupMember_where_or]
+}
+
+input GroupMember_group_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+}
+
+input GroupMember_user_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+}
+
+input GroupMember_role_operator {
+  equals: GroupMember_role_Input
+  not_equals: GroupMember_role_Input
+  in: [GroupMember_role_Input]
+  not_in: [GroupMember_role_Input]
+  all: [GroupMember_role_Input]
+}
+
+enum GroupMember_role_Input {
+  admin
+  moderator
+  member
+}
+
+input GroupMember_status_operator {
+  equals: GroupMember_status_Input
+  not_equals: GroupMember_status_Input
+  in: [GroupMember_status_Input]
+  not_in: [GroupMember_status_Input]
+  all: [GroupMember_status_Input]
+}
+
+enum GroupMember_status_Input {
+  active
+  invited
+  left
+}
+
+input GroupMember_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input GroupMember_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input GroupMember_id_operator {
+  equals: Int
+  not_equals: Int
+  greater_than_equal: Int
+  greater_than: Int
+  less_than_equal: Int
+  less_than: Int
+  exists: Boolean
+}
+
+input GroupMember_where_and {
+  group: GroupMember_group_operator
+  user: GroupMember_user_operator
+  role: GroupMember_role_operator
+  status: GroupMember_status_operator
+  updatedAt: GroupMember_updatedAt_operator
+  createdAt: GroupMember_createdAt_operator
+  id: GroupMember_id_operator
+  AND: [GroupMember_where_and]
+  OR: [GroupMember_where_or]
+}
+
+input GroupMember_where_or {
+  group: GroupMember_group_operator
+  user: GroupMember_user_operator
+  role: GroupMember_role_operator
+  status: GroupMember_status_operator
+  updatedAt: GroupMember_updatedAt_operator
+  createdAt: GroupMember_createdAt_operator
+  id: GroupMember_id_operator
+  AND: [GroupMember_where_and]
+  OR: [GroupMember_where_or]
+}
+
+type countGroupMembers
+  @shareable
+{
+  totalDocs: Int
+}
+
+type groupMembersDocAccess
+  @shareable
+{
+  fields: GroupMembersDocAccessFields
+  create: GroupMembersCreateDocAccess
+  read: GroupMembersReadDocAccess
+  update: GroupMembersUpdateDocAccess
+  delete: GroupMembersDeleteDocAccess
+}
+
+type GroupMembersDocAccessFields
+  @shareable
+{
+  group: GroupMembersDocAccessFields_group
+  user: GroupMembersDocAccessFields_user
+  role: GroupMembersDocAccessFields_role
+  status: GroupMembersDocAccessFields_status
+  updatedAt: GroupMembersDocAccessFields_updatedAt
+  createdAt: GroupMembersDocAccessFields_createdAt
+}
+
+type GroupMembersDocAccessFields_group
+  @shareable
+{
+  create: GroupMembersDocAccessFields_group_Create
+  read: GroupMembersDocAccessFields_group_Read
+  update: GroupMembersDocAccessFields_group_Update
+  delete: GroupMembersDocAccessFields_group_Delete
+}
+
+type GroupMembersDocAccessFields_group_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupMembersDocAccessFields_group_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupMembersDocAccessFields_group_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupMembersDocAccessFields_group_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupMembersDocAccessFields_user
+  @shareable
+{
+  create: GroupMembersDocAccessFields_user_Create
+  read: GroupMembersDocAccessFields_user_Read
+  update: GroupMembersDocAccessFields_user_Update
+  delete: GroupMembersDocAccessFields_user_Delete
+}
+
+type GroupMembersDocAccessFields_user_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupMembersDocAccessFields_user_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupMembersDocAccessFields_user_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupMembersDocAccessFields_user_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupMembersDocAccessFields_role
+  @shareable
+{
+  create: GroupMembersDocAccessFields_role_Create
+  read: GroupMembersDocAccessFields_role_Read
+  update: GroupMembersDocAccessFields_role_Update
+  delete: GroupMembersDocAccessFields_role_Delete
+}
+
+type GroupMembersDocAccessFields_role_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupMembersDocAccessFields_role_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupMembersDocAccessFields_role_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupMembersDocAccessFields_role_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupMembersDocAccessFields_status
+  @shareable
+{
+  create: GroupMembersDocAccessFields_status_Create
+  read: GroupMembersDocAccessFields_status_Read
+  update: GroupMembersDocAccessFields_status_Update
+  delete: GroupMembersDocAccessFields_status_Delete
+}
+
+type GroupMembersDocAccessFields_status_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupMembersDocAccessFields_status_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupMembersDocAccessFields_status_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupMembersDocAccessFields_status_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupMembersDocAccessFields_updatedAt
+  @shareable
+{
+  create: GroupMembersDocAccessFields_updatedAt_Create
+  read: GroupMembersDocAccessFields_updatedAt_Read
+  update: GroupMembersDocAccessFields_updatedAt_Update
+  delete: GroupMembersDocAccessFields_updatedAt_Delete
+}
+
+type GroupMembersDocAccessFields_updatedAt_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupMembersDocAccessFields_updatedAt_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupMembersDocAccessFields_updatedAt_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupMembersDocAccessFields_updatedAt_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupMembersDocAccessFields_createdAt
+  @shareable
+{
+  create: GroupMembersDocAccessFields_createdAt_Create
+  read: GroupMembersDocAccessFields_createdAt_Read
+  update: GroupMembersDocAccessFields_createdAt_Update
+  delete: GroupMembersDocAccessFields_createdAt_Delete
+}
+
+type GroupMembersDocAccessFields_createdAt_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupMembersDocAccessFields_createdAt_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupMembersDocAccessFields_createdAt_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupMembersDocAccessFields_createdAt_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupMembersCreateDocAccess
+  @shareable
+{
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupMembersReadDocAccess
+  @shareable
+{
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupMembersUpdateDocAccess
+  @shareable
+{
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupMembersDeleteDocAccess
+  @shareable
+{
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupPost
+  @key(fields: "id")
+{
+  id: Int!
+  group: Group
+  author: User
+  authorName: String
+  postType: GroupPost_postType!
+  text: String!
+  commentsEnabled: Boolean
+  photos: [Media!]
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+enum GroupPost_postType {
+  discussion
+  question
+  announcement
+}
+
+type GroupPosts
+  @shareable
+{
+  docs: [GroupPost!]!
+  hasNextPage: Boolean!
+  hasPrevPage: Boolean!
+  limit: Int!
+  nextPage: Int
+  offset: Int
+  page: Int!
+  pagingCounter: Int!
+  prevPage: Int
+  totalDocs: Int!
+  totalPages: Int!
+}
+
+input GroupPost_where {
+  group: GroupPost_group_operator
+  author: GroupPost_author_operator
+  authorName: GroupPost_authorName_operator
+  postType: GroupPost_postType_operator
+  text: GroupPost_text_operator
+  commentsEnabled: GroupPost_commentsEnabled_operator
+  photos: GroupPost_photos_operator
+  updatedAt: GroupPost_updatedAt_operator
+  createdAt: GroupPost_createdAt_operator
+  id: GroupPost_id_operator
+  AND: [GroupPost_where_and]
+  OR: [GroupPost_where_or]
+}
+
+input GroupPost_group_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+}
+
+input GroupPost_author_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input GroupPost_authorName_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input GroupPost_postType_operator {
+  equals: GroupPost_postType_Input
+  not_equals: GroupPost_postType_Input
+  in: [GroupPost_postType_Input]
+  not_in: [GroupPost_postType_Input]
+  all: [GroupPost_postType_Input]
+}
+
+enum GroupPost_postType_Input {
+  discussion
+  question
+  announcement
+}
+
+input GroupPost_text_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+}
+
+input GroupPost_commentsEnabled_operator {
+  equals: Boolean
+  not_equals: Boolean
+  exists: Boolean
+}
+
+input GroupPost_photos_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input GroupPost_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input GroupPost_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input GroupPost_id_operator {
+  equals: Int
+  not_equals: Int
+  greater_than_equal: Int
+  greater_than: Int
+  less_than_equal: Int
+  less_than: Int
+  exists: Boolean
+}
+
+input GroupPost_where_and {
+  group: GroupPost_group_operator
+  author: GroupPost_author_operator
+  authorName: GroupPost_authorName_operator
+  postType: GroupPost_postType_operator
+  text: GroupPost_text_operator
+  commentsEnabled: GroupPost_commentsEnabled_operator
+  photos: GroupPost_photos_operator
+  updatedAt: GroupPost_updatedAt_operator
+  createdAt: GroupPost_createdAt_operator
+  id: GroupPost_id_operator
+  AND: [GroupPost_where_and]
+  OR: [GroupPost_where_or]
+}
+
+input GroupPost_where_or {
+  group: GroupPost_group_operator
+  author: GroupPost_author_operator
+  authorName: GroupPost_authorName_operator
+  postType: GroupPost_postType_operator
+  text: GroupPost_text_operator
+  commentsEnabled: GroupPost_commentsEnabled_operator
+  photos: GroupPost_photos_operator
+  updatedAt: GroupPost_updatedAt_operator
+  createdAt: GroupPost_createdAt_operator
+  id: GroupPost_id_operator
+  AND: [GroupPost_where_and]
+  OR: [GroupPost_where_or]
+}
+
+type countGroupPosts
+  @shareable
+{
+  totalDocs: Int
+}
+
+type groupPostsDocAccess
+  @shareable
+{
+  fields: GroupPostsDocAccessFields
+  create: GroupPostsCreateDocAccess
+  read: GroupPostsReadDocAccess
+  update: GroupPostsUpdateDocAccess
+  delete: GroupPostsDeleteDocAccess
+}
+
+type GroupPostsDocAccessFields
+  @shareable
+{
+  group: GroupPostsDocAccessFields_group
+  author: GroupPostsDocAccessFields_author
+  authorName: GroupPostsDocAccessFields_authorName
+  postType: GroupPostsDocAccessFields_postType
+  text: GroupPostsDocAccessFields_text
+  commentsEnabled: GroupPostsDocAccessFields_commentsEnabled
+  photos: GroupPostsDocAccessFields_photos
+  updatedAt: GroupPostsDocAccessFields_updatedAt
+  createdAt: GroupPostsDocAccessFields_createdAt
+}
+
+type GroupPostsDocAccessFields_group
+  @shareable
+{
+  create: GroupPostsDocAccessFields_group_Create
+  read: GroupPostsDocAccessFields_group_Read
+  update: GroupPostsDocAccessFields_group_Update
+  delete: GroupPostsDocAccessFields_group_Delete
+}
+
+type GroupPostsDocAccessFields_group_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_group_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_group_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_group_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_author
+  @shareable
+{
+  create: GroupPostsDocAccessFields_author_Create
+  read: GroupPostsDocAccessFields_author_Read
+  update: GroupPostsDocAccessFields_author_Update
+  delete: GroupPostsDocAccessFields_author_Delete
+}
+
+type GroupPostsDocAccessFields_author_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_author_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_author_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_author_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_authorName
+  @shareable
+{
+  create: GroupPostsDocAccessFields_authorName_Create
+  read: GroupPostsDocAccessFields_authorName_Read
+  update: GroupPostsDocAccessFields_authorName_Update
+  delete: GroupPostsDocAccessFields_authorName_Delete
+}
+
+type GroupPostsDocAccessFields_authorName_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_authorName_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_authorName_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_authorName_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_postType
+  @shareable
+{
+  create: GroupPostsDocAccessFields_postType_Create
+  read: GroupPostsDocAccessFields_postType_Read
+  update: GroupPostsDocAccessFields_postType_Update
+  delete: GroupPostsDocAccessFields_postType_Delete
+}
+
+type GroupPostsDocAccessFields_postType_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_postType_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_postType_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_postType_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_text
+  @shareable
+{
+  create: GroupPostsDocAccessFields_text_Create
+  read: GroupPostsDocAccessFields_text_Read
+  update: GroupPostsDocAccessFields_text_Update
+  delete: GroupPostsDocAccessFields_text_Delete
+}
+
+type GroupPostsDocAccessFields_text_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_text_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_text_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_text_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_commentsEnabled
+  @shareable
+{
+  create: GroupPostsDocAccessFields_commentsEnabled_Create
+  read: GroupPostsDocAccessFields_commentsEnabled_Read
+  update: GroupPostsDocAccessFields_commentsEnabled_Update
+  delete: GroupPostsDocAccessFields_commentsEnabled_Delete
+}
+
+type GroupPostsDocAccessFields_commentsEnabled_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_commentsEnabled_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_commentsEnabled_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_commentsEnabled_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_photos
+  @shareable
+{
+  create: GroupPostsDocAccessFields_photos_Create
+  read: GroupPostsDocAccessFields_photos_Read
+  update: GroupPostsDocAccessFields_photos_Update
+  delete: GroupPostsDocAccessFields_photos_Delete
+}
+
+type GroupPostsDocAccessFields_photos_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_photos_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_photos_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_photos_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_updatedAt
+  @shareable
+{
+  create: GroupPostsDocAccessFields_updatedAt_Create
+  read: GroupPostsDocAccessFields_updatedAt_Read
+  update: GroupPostsDocAccessFields_updatedAt_Update
+  delete: GroupPostsDocAccessFields_updatedAt_Delete
+}
+
+type GroupPostsDocAccessFields_updatedAt_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_updatedAt_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_updatedAt_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_updatedAt_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_createdAt
+  @shareable
+{
+  create: GroupPostsDocAccessFields_createdAt_Create
+  read: GroupPostsDocAccessFields_createdAt_Read
+  update: GroupPostsDocAccessFields_createdAt_Update
+  delete: GroupPostsDocAccessFields_createdAt_Delete
+}
+
+type GroupPostsDocAccessFields_createdAt_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_createdAt_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_createdAt_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_createdAt_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostsCreateDocAccess
+  @shareable
+{
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupPostsReadDocAccess
+  @shareable
+{
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupPostsUpdateDocAccess
+  @shareable
+{
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupPostsDeleteDocAccess
+  @shareable
+{
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupComment
+  @key(fields: "id")
+{
+  id: Int!
+  post: GroupPost
+  author: User
+  authorName: String
+  text: String!
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+type GroupComments
+  @shareable
+{
+  docs: [GroupComment!]!
+  hasNextPage: Boolean!
+  hasPrevPage: Boolean!
+  limit: Int!
+  nextPage: Int
+  offset: Int
+  page: Int!
+  pagingCounter: Int!
+  prevPage: Int
+  totalDocs: Int!
+  totalPages: Int!
+}
+
+input GroupComment_where {
+  post: GroupComment_post_operator
+  author: GroupComment_author_operator
+  authorName: GroupComment_authorName_operator
+  text: GroupComment_text_operator
+  updatedAt: GroupComment_updatedAt_operator
+  createdAt: GroupComment_createdAt_operator
+  id: GroupComment_id_operator
+  AND: [GroupComment_where_and]
+  OR: [GroupComment_where_or]
+}
+
+input GroupComment_post_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+}
+
+input GroupComment_author_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input GroupComment_authorName_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input GroupComment_text_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+}
+
+input GroupComment_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input GroupComment_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input GroupComment_id_operator {
+  equals: Int
+  not_equals: Int
+  greater_than_equal: Int
+  greater_than: Int
+  less_than_equal: Int
+  less_than: Int
+  exists: Boolean
+}
+
+input GroupComment_where_and {
+  post: GroupComment_post_operator
+  author: GroupComment_author_operator
+  authorName: GroupComment_authorName_operator
+  text: GroupComment_text_operator
+  updatedAt: GroupComment_updatedAt_operator
+  createdAt: GroupComment_createdAt_operator
+  id: GroupComment_id_operator
+  AND: [GroupComment_where_and]
+  OR: [GroupComment_where_or]
+}
+
+input GroupComment_where_or {
+  post: GroupComment_post_operator
+  author: GroupComment_author_operator
+  authorName: GroupComment_authorName_operator
+  text: GroupComment_text_operator
+  updatedAt: GroupComment_updatedAt_operator
+  createdAt: GroupComment_createdAt_operator
+  id: GroupComment_id_operator
+  AND: [GroupComment_where_and]
+  OR: [GroupComment_where_or]
+}
+
+type countGroupComments
+  @shareable
+{
+  totalDocs: Int
+}
+
+type groupCommentsDocAccess
+  @shareable
+{
+  fields: GroupCommentsDocAccessFields
+  create: GroupCommentsCreateDocAccess
+  read: GroupCommentsReadDocAccess
+  update: GroupCommentsUpdateDocAccess
+  delete: GroupCommentsDeleteDocAccess
+}
+
+type GroupCommentsDocAccessFields
+  @shareable
+{
+  post: GroupCommentsDocAccessFields_post
+  author: GroupCommentsDocAccessFields_author
+  authorName: GroupCommentsDocAccessFields_authorName
+  text: GroupCommentsDocAccessFields_text
+  updatedAt: GroupCommentsDocAccessFields_updatedAt
+  createdAt: GroupCommentsDocAccessFields_createdAt
+}
+
+type GroupCommentsDocAccessFields_post
+  @shareable
+{
+  create: GroupCommentsDocAccessFields_post_Create
+  read: GroupCommentsDocAccessFields_post_Read
+  update: GroupCommentsDocAccessFields_post_Update
+  delete: GroupCommentsDocAccessFields_post_Delete
+}
+
+type GroupCommentsDocAccessFields_post_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupCommentsDocAccessFields_post_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupCommentsDocAccessFields_post_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupCommentsDocAccessFields_post_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupCommentsDocAccessFields_author
+  @shareable
+{
+  create: GroupCommentsDocAccessFields_author_Create
+  read: GroupCommentsDocAccessFields_author_Read
+  update: GroupCommentsDocAccessFields_author_Update
+  delete: GroupCommentsDocAccessFields_author_Delete
+}
+
+type GroupCommentsDocAccessFields_author_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupCommentsDocAccessFields_author_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupCommentsDocAccessFields_author_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupCommentsDocAccessFields_author_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupCommentsDocAccessFields_authorName
+  @shareable
+{
+  create: GroupCommentsDocAccessFields_authorName_Create
+  read: GroupCommentsDocAccessFields_authorName_Read
+  update: GroupCommentsDocAccessFields_authorName_Update
+  delete: GroupCommentsDocAccessFields_authorName_Delete
+}
+
+type GroupCommentsDocAccessFields_authorName_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupCommentsDocAccessFields_authorName_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupCommentsDocAccessFields_authorName_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupCommentsDocAccessFields_authorName_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupCommentsDocAccessFields_text
+  @shareable
+{
+  create: GroupCommentsDocAccessFields_text_Create
+  read: GroupCommentsDocAccessFields_text_Read
+  update: GroupCommentsDocAccessFields_text_Update
+  delete: GroupCommentsDocAccessFields_text_Delete
+}
+
+type GroupCommentsDocAccessFields_text_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupCommentsDocAccessFields_text_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupCommentsDocAccessFields_text_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupCommentsDocAccessFields_text_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupCommentsDocAccessFields_updatedAt
+  @shareable
+{
+  create: GroupCommentsDocAccessFields_updatedAt_Create
+  read: GroupCommentsDocAccessFields_updatedAt_Read
+  update: GroupCommentsDocAccessFields_updatedAt_Update
+  delete: GroupCommentsDocAccessFields_updatedAt_Delete
+}
+
+type GroupCommentsDocAccessFields_updatedAt_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupCommentsDocAccessFields_updatedAt_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupCommentsDocAccessFields_updatedAt_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupCommentsDocAccessFields_updatedAt_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupCommentsDocAccessFields_createdAt
+  @shareable
+{
+  create: GroupCommentsDocAccessFields_createdAt_Create
+  read: GroupCommentsDocAccessFields_createdAt_Read
+  update: GroupCommentsDocAccessFields_createdAt_Update
+  delete: GroupCommentsDocAccessFields_createdAt_Delete
+}
+
+type GroupCommentsDocAccessFields_createdAt_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupCommentsDocAccessFields_createdAt_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupCommentsDocAccessFields_createdAt_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupCommentsDocAccessFields_createdAt_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupCommentsCreateDocAccess
+  @shareable
+{
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupCommentsReadDocAccess
+  @shareable
+{
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupCommentsUpdateDocAccess
+  @shareable
+{
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupCommentsDeleteDocAccess
+  @shareable
+{
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupPostLike
+  @key(fields: "id")
+{
+  id: Int!
+  post: GroupPost
+  user: User
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+type GroupPostLikes
+  @shareable
+{
+  docs: [GroupPostLike!]!
+  hasNextPage: Boolean!
+  hasPrevPage: Boolean!
+  limit: Int!
+  nextPage: Int
+  offset: Int
+  page: Int!
+  pagingCounter: Int!
+  prevPage: Int
+  totalDocs: Int!
+  totalPages: Int!
+}
+
+input GroupPostLike_where {
+  post: GroupPostLike_post_operator
+  user: GroupPostLike_user_operator
+  updatedAt: GroupPostLike_updatedAt_operator
+  createdAt: GroupPostLike_createdAt_operator
+  id: GroupPostLike_id_operator
+  AND: [GroupPostLike_where_and]
+  OR: [GroupPostLike_where_or]
+}
+
+input GroupPostLike_post_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+}
+
+input GroupPostLike_user_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+}
+
+input GroupPostLike_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input GroupPostLike_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input GroupPostLike_id_operator {
+  equals: Int
+  not_equals: Int
+  greater_than_equal: Int
+  greater_than: Int
+  less_than_equal: Int
+  less_than: Int
+  exists: Boolean
+}
+
+input GroupPostLike_where_and {
+  post: GroupPostLike_post_operator
+  user: GroupPostLike_user_operator
+  updatedAt: GroupPostLike_updatedAt_operator
+  createdAt: GroupPostLike_createdAt_operator
+  id: GroupPostLike_id_operator
+  AND: [GroupPostLike_where_and]
+  OR: [GroupPostLike_where_or]
+}
+
+input GroupPostLike_where_or {
+  post: GroupPostLike_post_operator
+  user: GroupPostLike_user_operator
+  updatedAt: GroupPostLike_updatedAt_operator
+  createdAt: GroupPostLike_createdAt_operator
+  id: GroupPostLike_id_operator
+  AND: [GroupPostLike_where_and]
+  OR: [GroupPostLike_where_or]
+}
+
+type countGroupPostLikes
+  @shareable
+{
+  totalDocs: Int
+}
+
+type groupPostLikesDocAccess
+  @shareable
+{
+  fields: GroupPostLikesDocAccessFields
+  create: GroupPostLikesCreateDocAccess
+  read: GroupPostLikesReadDocAccess
+  update: GroupPostLikesUpdateDocAccess
+  delete: GroupPostLikesDeleteDocAccess
+}
+
+type GroupPostLikesDocAccessFields
+  @shareable
+{
+  post: GroupPostLikesDocAccessFields_post
+  user: GroupPostLikesDocAccessFields_user
+  updatedAt: GroupPostLikesDocAccessFields_updatedAt
+  createdAt: GroupPostLikesDocAccessFields_createdAt
+}
+
+type GroupPostLikesDocAccessFields_post
+  @shareable
+{
+  create: GroupPostLikesDocAccessFields_post_Create
+  read: GroupPostLikesDocAccessFields_post_Read
+  update: GroupPostLikesDocAccessFields_post_Update
+  delete: GroupPostLikesDocAccessFields_post_Delete
+}
+
+type GroupPostLikesDocAccessFields_post_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostLikesDocAccessFields_post_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostLikesDocAccessFields_post_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostLikesDocAccessFields_post_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostLikesDocAccessFields_user
+  @shareable
+{
+  create: GroupPostLikesDocAccessFields_user_Create
+  read: GroupPostLikesDocAccessFields_user_Read
+  update: GroupPostLikesDocAccessFields_user_Update
+  delete: GroupPostLikesDocAccessFields_user_Delete
+}
+
+type GroupPostLikesDocAccessFields_user_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostLikesDocAccessFields_user_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostLikesDocAccessFields_user_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostLikesDocAccessFields_user_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostLikesDocAccessFields_updatedAt
+  @shareable
+{
+  create: GroupPostLikesDocAccessFields_updatedAt_Create
+  read: GroupPostLikesDocAccessFields_updatedAt_Read
+  update: GroupPostLikesDocAccessFields_updatedAt_Update
+  delete: GroupPostLikesDocAccessFields_updatedAt_Delete
+}
+
+type GroupPostLikesDocAccessFields_updatedAt_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostLikesDocAccessFields_updatedAt_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostLikesDocAccessFields_updatedAt_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostLikesDocAccessFields_updatedAt_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostLikesDocAccessFields_createdAt
+  @shareable
+{
+  create: GroupPostLikesDocAccessFields_createdAt_Create
+  read: GroupPostLikesDocAccessFields_createdAt_Read
+  update: GroupPostLikesDocAccessFields_createdAt_Update
+  delete: GroupPostLikesDocAccessFields_createdAt_Delete
+}
+
+type GroupPostLikesDocAccessFields_createdAt_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostLikesDocAccessFields_createdAt_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostLikesDocAccessFields_createdAt_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostLikesDocAccessFields_createdAt_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupPostLikesCreateDocAccess
+  @shareable
+{
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupPostLikesReadDocAccess
+  @shareable
+{
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupPostLikesUpdateDocAccess
+  @shareable
+{
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupPostLikesDeleteDocAccess
+  @shareable
+{
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupCommentLike
+  @key(fields: "id")
+{
+  id: Int!
+  comment: GroupComment
+  user: User
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+type GroupCommentLikes
+  @shareable
+{
+  docs: [GroupCommentLike!]!
+  hasNextPage: Boolean!
+  hasPrevPage: Boolean!
+  limit: Int!
+  nextPage: Int
+  offset: Int
+  page: Int!
+  pagingCounter: Int!
+  prevPage: Int
+  totalDocs: Int!
+  totalPages: Int!
+}
+
+input GroupCommentLike_where {
+  comment: GroupCommentLike_comment_operator
+  user: GroupCommentLike_user_operator
+  updatedAt: GroupCommentLike_updatedAt_operator
+  createdAt: GroupCommentLike_createdAt_operator
+  id: GroupCommentLike_id_operator
+  AND: [GroupCommentLike_where_and]
+  OR: [GroupCommentLike_where_or]
+}
+
+input GroupCommentLike_comment_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+}
+
+input GroupCommentLike_user_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+}
+
+input GroupCommentLike_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input GroupCommentLike_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input GroupCommentLike_id_operator {
+  equals: Int
+  not_equals: Int
+  greater_than_equal: Int
+  greater_than: Int
+  less_than_equal: Int
+  less_than: Int
+  exists: Boolean
+}
+
+input GroupCommentLike_where_and {
+  comment: GroupCommentLike_comment_operator
+  user: GroupCommentLike_user_operator
+  updatedAt: GroupCommentLike_updatedAt_operator
+  createdAt: GroupCommentLike_createdAt_operator
+  id: GroupCommentLike_id_operator
+  AND: [GroupCommentLike_where_and]
+  OR: [GroupCommentLike_where_or]
+}
+
+input GroupCommentLike_where_or {
+  comment: GroupCommentLike_comment_operator
+  user: GroupCommentLike_user_operator
+  updatedAt: GroupCommentLike_updatedAt_operator
+  createdAt: GroupCommentLike_createdAt_operator
+  id: GroupCommentLike_id_operator
+  AND: [GroupCommentLike_where_and]
+  OR: [GroupCommentLike_where_or]
+}
+
+type countGroupCommentLikes
+  @shareable
+{
+  totalDocs: Int
+}
+
+type groupCommentLikesDocAccess
+  @shareable
+{
+  fields: GroupCommentLikesDocAccessFields
+  create: GroupCommentLikesCreateDocAccess
+  read: GroupCommentLikesReadDocAccess
+  update: GroupCommentLikesUpdateDocAccess
+  delete: GroupCommentLikesDeleteDocAccess
+}
+
+type GroupCommentLikesDocAccessFields
+  @shareable
+{
+  comment: GroupCommentLikesDocAccessFields_comment
+  user: GroupCommentLikesDocAccessFields_user
+  updatedAt: GroupCommentLikesDocAccessFields_updatedAt
+  createdAt: GroupCommentLikesDocAccessFields_createdAt
+}
+
+type GroupCommentLikesDocAccessFields_comment
+  @shareable
+{
+  create: GroupCommentLikesDocAccessFields_comment_Create
+  read: GroupCommentLikesDocAccessFields_comment_Read
+  update: GroupCommentLikesDocAccessFields_comment_Update
+  delete: GroupCommentLikesDocAccessFields_comment_Delete
+}
+
+type GroupCommentLikesDocAccessFields_comment_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupCommentLikesDocAccessFields_comment_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupCommentLikesDocAccessFields_comment_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupCommentLikesDocAccessFields_comment_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupCommentLikesDocAccessFields_user
+  @shareable
+{
+  create: GroupCommentLikesDocAccessFields_user_Create
+  read: GroupCommentLikesDocAccessFields_user_Read
+  update: GroupCommentLikesDocAccessFields_user_Update
+  delete: GroupCommentLikesDocAccessFields_user_Delete
+}
+
+type GroupCommentLikesDocAccessFields_user_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupCommentLikesDocAccessFields_user_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupCommentLikesDocAccessFields_user_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupCommentLikesDocAccessFields_user_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupCommentLikesDocAccessFields_updatedAt
+  @shareable
+{
+  create: GroupCommentLikesDocAccessFields_updatedAt_Create
+  read: GroupCommentLikesDocAccessFields_updatedAt_Read
+  update: GroupCommentLikesDocAccessFields_updatedAt_Update
+  delete: GroupCommentLikesDocAccessFields_updatedAt_Delete
+}
+
+type GroupCommentLikesDocAccessFields_updatedAt_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupCommentLikesDocAccessFields_updatedAt_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupCommentLikesDocAccessFields_updatedAt_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupCommentLikesDocAccessFields_updatedAt_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupCommentLikesDocAccessFields_createdAt
+  @shareable
+{
+  create: GroupCommentLikesDocAccessFields_createdAt_Create
+  read: GroupCommentLikesDocAccessFields_createdAt_Read
+  update: GroupCommentLikesDocAccessFields_createdAt_Update
+  delete: GroupCommentLikesDocAccessFields_createdAt_Delete
+}
+
+type GroupCommentLikesDocAccessFields_createdAt_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupCommentLikesDocAccessFields_createdAt_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupCommentLikesDocAccessFields_createdAt_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupCommentLikesDocAccessFields_createdAt_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupCommentLikesCreateDocAccess
+  @shareable
+{
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupCommentLikesReadDocAccess
+  @shareable
+{
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupCommentLikesUpdateDocAccess
+  @shareable
+{
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupCommentLikesDeleteDocAccess
+  @shareable
+{
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupEvent
+  @key(fields: "id")
+{
+  id: Int!
+  group: Group
+  title: String!
+  description: String
+  location: String
+  startsAt: DateTime!
+  endsAt: DateTime
+  cover: Media
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+type GroupEvents
+  @shareable
+{
+  docs: [GroupEvent!]!
+  hasNextPage: Boolean!
+  hasPrevPage: Boolean!
+  limit: Int!
+  nextPage: Int
+  offset: Int
+  page: Int!
+  pagingCounter: Int!
+  prevPage: Int
+  totalDocs: Int!
+  totalPages: Int!
+}
+
+input GroupEvent_where {
+  group: GroupEvent_group_operator
+  title: GroupEvent_title_operator
+  description: GroupEvent_description_operator
+  location: GroupEvent_location_operator
+  startsAt: GroupEvent_startsAt_operator
+  endsAt: GroupEvent_endsAt_operator
+  cover: GroupEvent_cover_operator
+  updatedAt: GroupEvent_updatedAt_operator
+  createdAt: GroupEvent_createdAt_operator
+  id: GroupEvent_id_operator
+  AND: [GroupEvent_where_and]
+  OR: [GroupEvent_where_or]
+}
+
+input GroupEvent_group_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+}
+
+input GroupEvent_title_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+}
+
+input GroupEvent_description_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  exists: Boolean
+}
+
+input GroupEvent_location_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input GroupEvent_startsAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+}
+
+input GroupEvent_endsAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input GroupEvent_cover_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input GroupEvent_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input GroupEvent_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input GroupEvent_id_operator {
+  equals: Int
+  not_equals: Int
+  greater_than_equal: Int
+  greater_than: Int
+  less_than_equal: Int
+  less_than: Int
+  exists: Boolean
+}
+
+input GroupEvent_where_and {
+  group: GroupEvent_group_operator
+  title: GroupEvent_title_operator
+  description: GroupEvent_description_operator
+  location: GroupEvent_location_operator
+  startsAt: GroupEvent_startsAt_operator
+  endsAt: GroupEvent_endsAt_operator
+  cover: GroupEvent_cover_operator
+  updatedAt: GroupEvent_updatedAt_operator
+  createdAt: GroupEvent_createdAt_operator
+  id: GroupEvent_id_operator
+  AND: [GroupEvent_where_and]
+  OR: [GroupEvent_where_or]
+}
+
+input GroupEvent_where_or {
+  group: GroupEvent_group_operator
+  title: GroupEvent_title_operator
+  description: GroupEvent_description_operator
+  location: GroupEvent_location_operator
+  startsAt: GroupEvent_startsAt_operator
+  endsAt: GroupEvent_endsAt_operator
+  cover: GroupEvent_cover_operator
+  updatedAt: GroupEvent_updatedAt_operator
+  createdAt: GroupEvent_createdAt_operator
+  id: GroupEvent_id_operator
+  AND: [GroupEvent_where_and]
+  OR: [GroupEvent_where_or]
+}
+
+type countGroupEvents
+  @shareable
+{
+  totalDocs: Int
+}
+
+type groupEventsDocAccess
+  @shareable
+{
+  fields: GroupEventsDocAccessFields
+  create: GroupEventsCreateDocAccess
+  read: GroupEventsReadDocAccess
+  update: GroupEventsUpdateDocAccess
+  delete: GroupEventsDeleteDocAccess
+}
+
+type GroupEventsDocAccessFields
+  @shareable
+{
+  group: GroupEventsDocAccessFields_group
+  title: GroupEventsDocAccessFields_title
+  description: GroupEventsDocAccessFields_description
+  location: GroupEventsDocAccessFields_location
+  startsAt: GroupEventsDocAccessFields_startsAt
+  endsAt: GroupEventsDocAccessFields_endsAt
+  cover: GroupEventsDocAccessFields_cover
+  updatedAt: GroupEventsDocAccessFields_updatedAt
+  createdAt: GroupEventsDocAccessFields_createdAt
+}
+
+type GroupEventsDocAccessFields_group
+  @shareable
+{
+  create: GroupEventsDocAccessFields_group_Create
+  read: GroupEventsDocAccessFields_group_Read
+  update: GroupEventsDocAccessFields_group_Update
+  delete: GroupEventsDocAccessFields_group_Delete
+}
+
+type GroupEventsDocAccessFields_group_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_group_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_group_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_group_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_title
+  @shareable
+{
+  create: GroupEventsDocAccessFields_title_Create
+  read: GroupEventsDocAccessFields_title_Read
+  update: GroupEventsDocAccessFields_title_Update
+  delete: GroupEventsDocAccessFields_title_Delete
+}
+
+type GroupEventsDocAccessFields_title_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_title_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_title_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_title_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_description
+  @shareable
+{
+  create: GroupEventsDocAccessFields_description_Create
+  read: GroupEventsDocAccessFields_description_Read
+  update: GroupEventsDocAccessFields_description_Update
+  delete: GroupEventsDocAccessFields_description_Delete
+}
+
+type GroupEventsDocAccessFields_description_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_description_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_description_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_description_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_location
+  @shareable
+{
+  create: GroupEventsDocAccessFields_location_Create
+  read: GroupEventsDocAccessFields_location_Read
+  update: GroupEventsDocAccessFields_location_Update
+  delete: GroupEventsDocAccessFields_location_Delete
+}
+
+type GroupEventsDocAccessFields_location_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_location_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_location_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_location_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_startsAt
+  @shareable
+{
+  create: GroupEventsDocAccessFields_startsAt_Create
+  read: GroupEventsDocAccessFields_startsAt_Read
+  update: GroupEventsDocAccessFields_startsAt_Update
+  delete: GroupEventsDocAccessFields_startsAt_Delete
+}
+
+type GroupEventsDocAccessFields_startsAt_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_startsAt_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_startsAt_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_startsAt_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_endsAt
+  @shareable
+{
+  create: GroupEventsDocAccessFields_endsAt_Create
+  read: GroupEventsDocAccessFields_endsAt_Read
+  update: GroupEventsDocAccessFields_endsAt_Update
+  delete: GroupEventsDocAccessFields_endsAt_Delete
+}
+
+type GroupEventsDocAccessFields_endsAt_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_endsAt_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_endsAt_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_endsAt_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_cover
+  @shareable
+{
+  create: GroupEventsDocAccessFields_cover_Create
+  read: GroupEventsDocAccessFields_cover_Read
+  update: GroupEventsDocAccessFields_cover_Update
+  delete: GroupEventsDocAccessFields_cover_Delete
+}
+
+type GroupEventsDocAccessFields_cover_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_cover_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_cover_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_cover_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_updatedAt
+  @shareable
+{
+  create: GroupEventsDocAccessFields_updatedAt_Create
+  read: GroupEventsDocAccessFields_updatedAt_Read
+  update: GroupEventsDocAccessFields_updatedAt_Update
+  delete: GroupEventsDocAccessFields_updatedAt_Delete
+}
+
+type GroupEventsDocAccessFields_updatedAt_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_updatedAt_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_updatedAt_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_updatedAt_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_createdAt
+  @shareable
+{
+  create: GroupEventsDocAccessFields_createdAt_Create
+  read: GroupEventsDocAccessFields_createdAt_Read
+  update: GroupEventsDocAccessFields_createdAt_Update
+  delete: GroupEventsDocAccessFields_createdAt_Delete
+}
+
+type GroupEventsDocAccessFields_createdAt_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_createdAt_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_createdAt_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_createdAt_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupEventsCreateDocAccess
+  @shareable
+{
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupEventsReadDocAccess
+  @shareable
+{
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupEventsUpdateDocAccess
+  @shareable
+{
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupEventsDeleteDocAccess
+  @shareable
+{
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupInvite
+  @key(fields: "id")
+{
+  id: Int!
+  group: Group
+  invitedBy: User
+  email: EmailAddress!
+  message: String
+  status: GroupInvite_status
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+enum GroupInvite_status {
+  pending
+  accepted
+  declined
+}
+
+type GroupInvites
+  @shareable
+{
+  docs: [GroupInvite!]!
+  hasNextPage: Boolean!
+  hasPrevPage: Boolean!
+  limit: Int!
+  nextPage: Int
+  offset: Int
+  page: Int!
+  pagingCounter: Int!
+  prevPage: Int
+  totalDocs: Int!
+  totalPages: Int!
+}
+
+input GroupInvite_where {
+  group: GroupInvite_group_operator
+  invitedBy: GroupInvite_invitedBy_operator
+  email: GroupInvite_email_operator
+  message: GroupInvite_message_operator
+  status: GroupInvite_status_operator
+  updatedAt: GroupInvite_updatedAt_operator
+  createdAt: GroupInvite_createdAt_operator
+  id: GroupInvite_id_operator
+  AND: [GroupInvite_where_and]
+  OR: [GroupInvite_where_or]
+}
+
+input GroupInvite_group_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+}
+
+input GroupInvite_invitedBy_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+}
+
+input GroupInvite_email_operator {
+  equals: EmailAddress
+  not_equals: EmailAddress
+  like: EmailAddress
+  contains: EmailAddress
+  in: [EmailAddress]
+  not_in: [EmailAddress]
+  all: [EmailAddress]
+}
+
+input GroupInvite_message_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  exists: Boolean
+}
+
+input GroupInvite_status_operator {
+  equals: GroupInvite_status_Input
+  not_equals: GroupInvite_status_Input
+  in: [GroupInvite_status_Input]
+  not_in: [GroupInvite_status_Input]
+  all: [GroupInvite_status_Input]
+  exists: Boolean
+}
+
+enum GroupInvite_status_Input {
+  pending
+  accepted
+  declined
+}
+
+input GroupInvite_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input GroupInvite_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input GroupInvite_id_operator {
+  equals: Int
+  not_equals: Int
+  greater_than_equal: Int
+  greater_than: Int
+  less_than_equal: Int
+  less_than: Int
+  exists: Boolean
+}
+
+input GroupInvite_where_and {
+  group: GroupInvite_group_operator
+  invitedBy: GroupInvite_invitedBy_operator
+  email: GroupInvite_email_operator
+  message: GroupInvite_message_operator
+  status: GroupInvite_status_operator
+  updatedAt: GroupInvite_updatedAt_operator
+  createdAt: GroupInvite_createdAt_operator
+  id: GroupInvite_id_operator
+  AND: [GroupInvite_where_and]
+  OR: [GroupInvite_where_or]
+}
+
+input GroupInvite_where_or {
+  group: GroupInvite_group_operator
+  invitedBy: GroupInvite_invitedBy_operator
+  email: GroupInvite_email_operator
+  message: GroupInvite_message_operator
+  status: GroupInvite_status_operator
+  updatedAt: GroupInvite_updatedAt_operator
+  createdAt: GroupInvite_createdAt_operator
+  id: GroupInvite_id_operator
+  AND: [GroupInvite_where_and]
+  OR: [GroupInvite_where_or]
+}
+
+type countGroupInvites
+  @shareable
+{
+  totalDocs: Int
+}
+
+type groupInvitesDocAccess
+  @shareable
+{
+  fields: GroupInvitesDocAccessFields
+  create: GroupInvitesCreateDocAccess
+  read: GroupInvitesReadDocAccess
+  update: GroupInvitesUpdateDocAccess
+  delete: GroupInvitesDeleteDocAccess
+}
+
+type GroupInvitesDocAccessFields
+  @shareable
+{
+  group: GroupInvitesDocAccessFields_group
+  invitedBy: GroupInvitesDocAccessFields_invitedBy
+  email: GroupInvitesDocAccessFields_email
+  message: GroupInvitesDocAccessFields_message
+  status: GroupInvitesDocAccessFields_status
+  updatedAt: GroupInvitesDocAccessFields_updatedAt
+  createdAt: GroupInvitesDocAccessFields_createdAt
+}
+
+type GroupInvitesDocAccessFields_group
+  @shareable
+{
+  create: GroupInvitesDocAccessFields_group_Create
+  read: GroupInvitesDocAccessFields_group_Read
+  update: GroupInvitesDocAccessFields_group_Update
+  delete: GroupInvitesDocAccessFields_group_Delete
+}
+
+type GroupInvitesDocAccessFields_group_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_group_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_group_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_group_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_invitedBy
+  @shareable
+{
+  create: GroupInvitesDocAccessFields_invitedBy_Create
+  read: GroupInvitesDocAccessFields_invitedBy_Read
+  update: GroupInvitesDocAccessFields_invitedBy_Update
+  delete: GroupInvitesDocAccessFields_invitedBy_Delete
+}
+
+type GroupInvitesDocAccessFields_invitedBy_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_invitedBy_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_invitedBy_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_invitedBy_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_email
+  @shareable
+{
+  create: GroupInvitesDocAccessFields_email_Create
+  read: GroupInvitesDocAccessFields_email_Read
+  update: GroupInvitesDocAccessFields_email_Update
+  delete: GroupInvitesDocAccessFields_email_Delete
+}
+
+type GroupInvitesDocAccessFields_email_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_email_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_email_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_email_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_message
+  @shareable
+{
+  create: GroupInvitesDocAccessFields_message_Create
+  read: GroupInvitesDocAccessFields_message_Read
+  update: GroupInvitesDocAccessFields_message_Update
+  delete: GroupInvitesDocAccessFields_message_Delete
+}
+
+type GroupInvitesDocAccessFields_message_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_message_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_message_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_message_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_status
+  @shareable
+{
+  create: GroupInvitesDocAccessFields_status_Create
+  read: GroupInvitesDocAccessFields_status_Read
+  update: GroupInvitesDocAccessFields_status_Update
+  delete: GroupInvitesDocAccessFields_status_Delete
+}
+
+type GroupInvitesDocAccessFields_status_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_status_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_status_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_status_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_updatedAt
+  @shareable
+{
+  create: GroupInvitesDocAccessFields_updatedAt_Create
+  read: GroupInvitesDocAccessFields_updatedAt_Read
+  update: GroupInvitesDocAccessFields_updatedAt_Update
+  delete: GroupInvitesDocAccessFields_updatedAt_Delete
+}
+
+type GroupInvitesDocAccessFields_updatedAt_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_updatedAt_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_updatedAt_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_updatedAt_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_createdAt
+  @shareable
+{
+  create: GroupInvitesDocAccessFields_createdAt_Create
+  read: GroupInvitesDocAccessFields_createdAt_Read
+  update: GroupInvitesDocAccessFields_createdAt_Update
+  delete: GroupInvitesDocAccessFields_createdAt_Delete
+}
+
+type GroupInvitesDocAccessFields_createdAt_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_createdAt_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_createdAt_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_createdAt_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type GroupInvitesCreateDocAccess
+  @shareable
+{
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupInvitesReadDocAccess
+  @shareable
+{
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupInvitesUpdateDocAccess
+  @shareable
+{
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupInvitesDeleteDocAccess
+  @shareable
+{
+  permission: Boolean!
+  where: JSONObject
+}
+
+type Mutation {
+  createGroup(data: mutationGroupInput!, draft: Boolean): Group
+  updateGroup(id: Int!, autosave: Boolean, data: mutationGroupUpdateInput!, draft: Boolean, trash: Boolean): Group
+  deleteGroup(id: Int!, trash: Boolean): Group
+  duplicateGroup(id: Int!, data: mutationGroupInput!): Group
+  createGroupMember(data: mutationGroupMemberInput!, draft: Boolean): GroupMember
+  updateGroupMember(id: Int!, autosave: Boolean, data: mutationGroupMemberUpdateInput!, draft: Boolean, trash: Boolean): GroupMember
+  deleteGroupMember(id: Int!, trash: Boolean): GroupMember
+  duplicateGroupMember(id: Int!, data: mutationGroupMemberInput!): GroupMember
+  createGroupPost(data: mutationGroupPostInput!, draft: Boolean): GroupPost
+  updateGroupPost(id: Int!, autosave: Boolean, data: mutationGroupPostUpdateInput!, draft: Boolean, trash: Boolean): GroupPost
+  deleteGroupPost(id: Int!, trash: Boolean): GroupPost
+  duplicateGroupPost(id: Int!, data: mutationGroupPostInput!): GroupPost
+  createGroupComment(data: mutationGroupCommentInput!, draft: Boolean): GroupComment
+  updateGroupComment(id: Int!, autosave: Boolean, data: mutationGroupCommentUpdateInput!, draft: Boolean, trash: Boolean): GroupComment
+  deleteGroupComment(id: Int!, trash: Boolean): GroupComment
+  duplicateGroupComment(id: Int!, data: mutationGroupCommentInput!): GroupComment
+  createGroupPostLike(data: mutationGroupPostLikeInput!, draft: Boolean): GroupPostLike
+  updateGroupPostLike(id: Int!, autosave: Boolean, data: mutationGroupPostLikeUpdateInput!, draft: Boolean, trash: Boolean): GroupPostLike
+  deleteGroupPostLike(id: Int!, trash: Boolean): GroupPostLike
+  duplicateGroupPostLike(id: Int!, data: mutationGroupPostLikeInput!): GroupPostLike
+  createGroupCommentLike(data: mutationGroupCommentLikeInput!, draft: Boolean): GroupCommentLike
+  updateGroupCommentLike(id: Int!, autosave: Boolean, data: mutationGroupCommentLikeUpdateInput!, draft: Boolean, trash: Boolean): GroupCommentLike
+  deleteGroupCommentLike(id: Int!, trash: Boolean): GroupCommentLike
+  duplicateGroupCommentLike(id: Int!, data: mutationGroupCommentLikeInput!): GroupCommentLike
+  createGroupEvent(data: mutationGroupEventInput!, draft: Boolean): GroupEvent
+  updateGroupEvent(id: Int!, autosave: Boolean, data: mutationGroupEventUpdateInput!, draft: Boolean, trash: Boolean): GroupEvent
+  deleteGroupEvent(id: Int!, trash: Boolean): GroupEvent
+  duplicateGroupEvent(id: Int!, data: mutationGroupEventInput!): GroupEvent
+  createGroupInvite(data: mutationGroupInviteInput!, draft: Boolean): GroupInvite
+  updateGroupInvite(id: Int!, autosave: Boolean, data: mutationGroupInviteUpdateInput!, draft: Boolean, trash: Boolean): GroupInvite
+  deleteGroupInvite(id: Int!, trash: Boolean): GroupInvite
+  duplicateGroupInvite(id: Int!, data: mutationGroupInviteInput!): GroupInvite
+}
+
+input mutationGroupInput {
+  name: String!
+  generateSlug: Boolean
+  slug: String!
+  cover: Int
+  shortDescription: String
+  about: JSON
+  privacy: Group_privacy_MutationInput
+  createdBy: Int
+  updatedAt: String
+  createdAt: String
+}
+
+enum Group_privacy_MutationInput {
+  public
+  private
+}
+
+input mutationGroupUpdateInput {
+  name: String
+  generateSlug: Boolean
+  slug: String
+  cover: Int
+  shortDescription: String
+  about: JSON
+  privacy: GroupUpdate_privacy_MutationInput
+  createdBy: Int
+  updatedAt: String
+  createdAt: String
+}
+
+enum GroupUpdate_privacy_MutationInput {
+  public
+  private
+}
+
+input mutationGroupMemberInput {
+  group: Int
+  user: Int
+  role: GroupMember_role_MutationInput!
+  status: GroupMember_status_MutationInput!
+  updatedAt: String
+  createdAt: String
+}
+
+enum GroupMember_role_MutationInput {
+  admin
+  moderator
+  member
+}
+
+enum GroupMember_status_MutationInput {
+  active
+  invited
+  left
+}
+
+input mutationGroupMemberUpdateInput {
+  group: Int
+  user: Int
+  role: GroupMemberUpdate_role_MutationInput
+  status: GroupMemberUpdate_status_MutationInput
+  updatedAt: String
+  createdAt: String
+}
+
+enum GroupMemberUpdate_role_MutationInput {
+  admin
+  moderator
+  member
+}
+
+enum GroupMemberUpdate_status_MutationInput {
+  active
+  invited
+  left
+}
+
+input mutationGroupPostInput {
+  group: Int
+  author: Int
+  authorName: String
+  postType: GroupPost_postType_MutationInput!
+  text: String!
+  commentsEnabled: Boolean
+  photos: [Int]
+  updatedAt: String
+  createdAt: String
+}
+
+enum GroupPost_postType_MutationInput {
+  discussion
+  question
+  announcement
+}
+
+input mutationGroupPostUpdateInput {
+  group: Int
+  author: Int
+  authorName: String
+  postType: GroupPostUpdate_postType_MutationInput
+  text: String
+  commentsEnabled: Boolean
+  photos: [Int]
+  updatedAt: String
+  createdAt: String
+}
+
+enum GroupPostUpdate_postType_MutationInput {
+  discussion
+  question
+  announcement
+}
+
+input mutationGroupCommentInput {
+  post: Int
+  author: Int
+  authorName: String
+  text: String!
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationGroupCommentUpdateInput {
+  post: Int
+  author: Int
+  authorName: String
+  text: String
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationGroupPostLikeInput {
+  post: Int
+  user: Int
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationGroupPostLikeUpdateInput {
+  post: Int
+  user: Int
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationGroupCommentLikeInput {
+  comment: Int
+  user: Int
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationGroupCommentLikeUpdateInput {
+  comment: Int
+  user: Int
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationGroupEventInput {
+  group: Int
+  title: String!
+  description: String
+  location: String
+  startsAt: String!
+  endsAt: String
+  cover: Int
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationGroupEventUpdateInput {
+  group: Int
+  title: String
+  description: String
+  location: String
+  startsAt: String
+  endsAt: String
+  cover: Int
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationGroupInviteInput {
+  group: Int
+  invitedBy: Int
+  email: String!
+  message: String
+  status: GroupInvite_status_MutationInput
+  updatedAt: String
+  createdAt: String
+}
+
+enum GroupInvite_status_MutationInput {
+  pending
+  accepted
+  declined
+}
+
+input mutationGroupInviteUpdateInput {
+  group: Int
+  invitedBy: Int
+  email: String
+  message: String
+  status: GroupInviteUpdate_status_MutationInput
+  updatedAt: String
+  createdAt: String
+}
+
+enum GroupInviteUpdate_status_MutationInput {
+  pending
+  accepted
+  declined
+}

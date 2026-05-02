@@ -1,0 +1,16 @@
+# Local Docker `router` service. Supergraph is loaded via CLI `--supergraph` (see docker-compose). Not GraphOS Uplink.
+# Optional: run with `--dev` for local UX (introspection, error visibility).
+# https://www.apollographql.com/docs/graphos/routing/configuration
+# Bind to all interfaces inside the container so the host port mapping works
+# (default `127.0.0.1` only accepts connections from container loopback, which
+# is invisible to host curl traffic forwarded through `docker run -p 4000:4000`).
+supergraph:
+  listen: 0.0.0.0:4000
+
+health_check:
+  listen: 0.0.0.0:8088
+
+cors:
+  allow_any_origin: true
+  allow_headers: ["*"]
+  methods: [GET, POST, OPTIONS, PUT, DELETE, HEAD]

@@ -1,0 +1,249 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >-
+  Apollo Router on ECS Fargate (single-task service). Pulls the composed supergraph
+  from Apollo Studio Uplink at boot using APOLLO_KEY + APOLLO_GRAPH_REF and fans
+  out to per-domain Lambda subgraphs (template.yaml). Public IP for now; Phase 3
+  fronts with an ALB.
+
+Parameters:
+  VpcId:
+    Type: AWS::EC2::VPC::Id
+    Description: VPC for the ECS service. Use the account default (vpc-26d2fb42 in this account).
+  SubnetIds:
+    Type: List<AWS::EC2::Subnet::Id>
+    Description: 2+ public subnets for the Fargate task (any 2 default-VPC public subnets in different AZs).
+  ApolloKeySecretArn:
+    Type: String
+    Description: Secrets Manager ARN holding the APOLLO_KEY value (plain string, not JSON).
+    Default: arn:aws:secretsmanager:us-east-1:600823817332:secret:romain-retreat/apollo-key-EMnAE2
+  ApolloGraphRef:
+    Type: String
+    Default: RomainRetreat@current
+    Description: Apollo GraphOS graph ref the Router should follow (e.g. MyGraph@current).
+  RouterImage:
+    Type: String
+    Default: ghcr.io/apollographql/router:v1.59.0
+    Description: Apollo Router image. Pin to a specific tag rather than :latest for repeatable deploys.
+  TaskCpu:
+    Type: String
+    Default: '256'
+    AllowedValues: ['256', '512', '1024']
+    Description: Fargate vCPU units (256=0.25, 512=0.5, 1024=1).
+  TaskMemoryMiB:
+    Type: String
+    Default: '512'
+    AllowedValues: ['512', '1024', '2048']
+    Description: Fargate memory MiB. Router happily runs in 256 MiB but headroom is cheap.
+  AllowIngressCidr:
+    Type: String
+    Default: '0.0.0.0/0'
+    Description: CIDR allowed to hit the ALB on port 80 (open by default; tighten if you put CloudFront/WAF in front).
+
+Resources:
+  Cluster:
+    Type: AWS::ECS::Cluster
+    Properties:
+      ClusterName: !Sub '${AWS::StackName}-cluster'
+      CapacityProviders: [FARGATE]
+
+  LogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub '/ecs/${AWS::StackName}'
+      RetentionInDays: 30
+
+  # Pulls the image (public GHCR; no ECR auth needed), reads the Apollo key
+  # secret, ships logs. NO permissions to call user services.
+  ExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal: { Service: ecs-tasks.amazonaws.com }
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy
+      Policies:
+        - PolicyName: read-apollo-key
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: secretsmanager:GetSecretValue
+                Resource: !Ref ApolloKeySecretArn
+
+  # Empty task role — the router talks to subgraph URLs (public Lambda Function URLs)
+  # and Apollo Uplink (api.apollographql.com / uplink.api.apollographql.com), no AWS APIs.
+  TaskRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal: { Service: ecs-tasks.amazonaws.com }
+            Action: sts:AssumeRole
+
+  TaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: !Sub '${AWS::StackName}-router'
+      Cpu: !Ref TaskCpu
+      Memory: !Ref TaskMemoryMiB
+      NetworkMode: awsvpc
+      RequiresCompatibilities: [FARGATE]
+      RuntimePlatform:
+        CpuArchitecture: ARM64
+        OperatingSystemFamily: LINUX
+      ExecutionRoleArn: !GetAtt ExecutionRole.Arn
+      TaskRoleArn: !GetAtt TaskRole.Arn
+      ContainerDefinitions:
+        - Name: router
+          Image: !Ref RouterImage
+          Essential: true
+          PortMappings:
+            - ContainerPort: 4000
+              Protocol: tcp
+          Environment:
+            - Name: APOLLO_GRAPH_REF
+              Value: !Ref ApolloGraphRef
+            - Name: APOLLO_ROUTER_LISTEN
+              Value: 0.0.0.0:4000
+            # Default router config: introspection off, /health on, supergraph
+            # pulled from Studio Uplink. Override via APOLLO_ROUTER_CONFIG_PATH
+            # (mounted file) when we need custom CORS / cache / propagation rules.
+          Secrets:
+            - Name: APOLLO_KEY
+              ValueFrom: !Ref ApolloKeySecretArn
+          # No container HealthCheck — Apollo Router's /health lives on a separate
+          # port (8088 by default) and the distroless image lacks wget/curl, so a
+          # CMD-SHELL probe always fails. Phase 3's ALB will run a real GET /health
+          # against port 4000 (router auto-routes /health on the GraphQL port too).
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Ref LogGroup
+              awslogs-region: !Ref AWS::Region
+              awslogs-stream-prefix: router
+
+  AlbSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: !Sub '${AWS::StackName} ALB ingress (HTTP 80)'
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: !Ref AllowIngressCidr
+          Description: HTTP from internet (add 443 + ACM cert when you want TLS)
+
+  # Task SG — only the ALB SG is allowed to hit port 4000. Public IP on the
+  # task ENI exists only so the task can pull the router image from GHCR and
+  # call the public Lambda Function URLs; nothing reaches port 4000 from the
+  # outside.
+  SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: !Sub '${AWS::StackName} router task ingress'
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 4000
+          ToPort: 4000
+          SourceSecurityGroupId: !Ref AlbSecurityGroup
+          Description: GraphQL from ALB only
+
+  Alb:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Name: !Sub '${AWS::StackName}-alb'
+      Type: application
+      Scheme: internet-facing
+      IpAddressType: ipv4
+      Subnets: !Ref SubnetIds
+      SecurityGroups:
+        - !Ref AlbSecurityGroup
+
+  TargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Name: !Sub '${AWS::StackName}-tg'
+      VpcId: !Ref VpcId
+      TargetType: ip
+      Protocol: HTTP
+      Port: 4000
+      # Apollo Router's `/health` is on a separate internal port (8088, 127.0.0.1
+      # bound) by default, so probe `/` instead — it returns 400 with a valid
+      # JSON body when there's no GraphQL operation, which is enough liveness
+      # info for the ALB. Matcher accepts 200-499 to cover that 400.
+      HealthCheckPath: /
+      HealthCheckProtocol: HTTP
+      HealthCheckPort: traffic-port
+      HealthCheckIntervalSeconds: 30
+      HealthCheckTimeoutSeconds: 5
+      HealthyThresholdCount: 2
+      UnhealthyThresholdCount: 5
+      Matcher: { HttpCode: '200-499' }
+      TargetGroupAttributes:
+        - { Key: deregistration_delay.timeout_seconds, Value: '15' }
+
+  Listener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      LoadBalancerArn: !Ref Alb
+      Protocol: HTTP
+      Port: 80
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref TargetGroup
+
+  Service:
+    Type: AWS::ECS::Service
+    # ECS rejects service creation if the TargetGroup isn't already bound to a
+    # Listener (validated against the ELB API on the Service create call).
+    DependsOn: [Listener]
+    Properties:
+      Cluster: !Ref Cluster
+      ServiceName: !Sub '${AWS::StackName}-router'
+      TaskDefinition: !Ref TaskDefinition
+      LaunchType: FARGATE
+      DesiredCount: 1
+      HealthCheckGracePeriodSeconds: 60
+      DeploymentConfiguration:
+        MinimumHealthyPercent: 100
+        MaximumPercent: 200
+        DeploymentCircuitBreaker:
+          Enable: true
+          Rollback: true
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: ENABLED
+          Subnets: !Ref SubnetIds
+          SecurityGroups:
+            - !Ref SecurityGroup
+      LoadBalancers:
+        - ContainerName: router
+          ContainerPort: 4000
+          TargetGroupArn: !Ref TargetGroup
+
+Outputs:
+  ClusterName:
+    Value: !Ref Cluster
+  ServiceName:
+    Value: !GetAtt Service.Name
+  TaskFamily:
+    Value: !Ref TaskDefinition
+  LogGroup:
+    Value: !Ref LogGroup
+  RouterPort:
+    Value: 4000
+    Description: Container port the Router listens on.
+  AlbDnsName:
+    Value: !GetAtt Alb.DNSName
+    Description: Public ALB DNS name (point browsers and Apollo Client at this).
+  AlbUrl:
+    Value: !Sub 'http://${Alb.DNSName}/'
+    Description: Full GraphQL URL (HTTP only until ACM cert + 443 listener is added).

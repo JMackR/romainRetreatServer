@@ -1,0 +1,1662 @@
+# Split SDL (yarn export:subgraph-sdl) | bucket: scalars, directives, and unclassified
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON @specifiedBy(url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf")
+
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar DateTime
+
+"""
+A field whose value conforms to the standard internet email address format as specified in HTML Spec: https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address.
+"""
+scalar EmailAddress @specifiedBy(url: "https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address")
+
+type CallToActionBlock {
+  richText(depth: Int): JSON
+  links: [CallToActionBlock_Links!]
+  id: String
+  blockName: String
+  blockType: String
+}
+
+type CallToActionBlock_Links {
+  link: CallToActionBlock_Links_Link
+  id: String
+}
+
+type CallToActionBlock_Links_Link {
+  type: CallToActionBlock_Links_Link_type
+  newTab: Boolean
+  reference(draft: Boolean): CallToActionBlock_Links_Link_Reference_Relationship
+  url: String
+  label: String
+  appearance: CallToActionBlock_Links_Link_appearance
+}
+
+enum CallToActionBlock_Links_Link_type {
+  reference
+  custom
+}
+
+type CallToActionBlock_Links_Link_Reference_Relationship {
+  relationTo: CallToActionBlock_Links_Link_Reference_RelationTo
+  value: CallToActionBlock_Links_Link_Reference
+}
+
+enum CallToActionBlock_Links_Link_Reference_RelationTo {
+  pages
+  posts
+}
+
+union CallToActionBlock_Links_Link_Reference = Page | Post
+
+enum CallToActionBlock_Links_Link_appearance {
+  default
+  outline
+}
+
+type ContentBlock {
+  columns: [ContentBlock_Columns!]
+  id: String
+  blockName: String
+  blockType: String
+}
+
+type ContentBlock_Columns {
+  size: ContentBlock_Columns_size
+  richText(depth: Int): JSON
+  enableLink: Boolean
+  link: ContentBlock_Columns_Link
+  id: String
+}
+
+enum ContentBlock_Columns_size {
+  oneThird
+  half
+  twoThirds
+  full
+}
+
+type ContentBlock_Columns_Link {
+  type: ContentBlock_Columns_Link_type
+  newTab: Boolean
+  reference(draft: Boolean): ContentBlock_Columns_Link_Reference_Relationship
+  url: String
+  label: String
+  appearance: ContentBlock_Columns_Link_appearance
+}
+
+enum ContentBlock_Columns_Link_type {
+  reference
+  custom
+}
+
+type ContentBlock_Columns_Link_Reference_Relationship {
+  relationTo: ContentBlock_Columns_Link_Reference_RelationTo
+  value: ContentBlock_Columns_Link_Reference
+}
+
+enum ContentBlock_Columns_Link_Reference_RelationTo {
+  pages
+  posts
+}
+
+union ContentBlock_Columns_Link_Reference = Page | Post
+
+enum ContentBlock_Columns_Link_appearance {
+  default
+  outline
+}
+
+type ArchiveBlock {
+  introContent(depth: Int): JSON
+  populateBy: ArchiveBlock_populateBy
+  relationTo: ArchiveBlock_relationTo
+  categories: [Category!]
+  limit: Float
+  selectedDocs(draft: Boolean): [ArchiveBlock_SelectedDocs_Relationship!]
+  id: String
+  blockName: String
+  blockType: String
+}
+
+enum ArchiveBlock_populateBy {
+  collection
+  selection
+}
+
+enum ArchiveBlock_relationTo {
+  posts
+}
+
+type ArchiveBlock_SelectedDocs_Relationship {
+  relationTo: ArchiveBlock_SelectedDocs_RelationTo
+  value: ArchiveBlock_SelectedDocs
+}
+
+enum ArchiveBlock_SelectedDocs_RelationTo {
+  posts
+}
+
+union ArchiveBlock_SelectedDocs = Post
+
+type Checkbox {
+  name: String!
+  label: String
+  width: Float
+  required: Boolean
+  defaultValue: Boolean
+  id: String
+  blockName: String
+  blockType: String
+}
+
+type Country {
+  name: String!
+  label: String
+  width: Float
+  required: Boolean
+  id: String
+  blockName: String
+  blockType: String
+}
+
+type Email {
+  name: String!
+  label: String
+  width: Float
+  required: Boolean
+  id: String
+  blockName: String
+  blockType: String
+}
+
+type Message {
+  message(depth: Int): JSON
+  id: String
+  blockName: String
+  blockType: String
+}
+
+type Number {
+  name: String!
+  label: String
+  width: Float
+  defaultValue: Float
+  required: Boolean
+  id: String
+  blockName: String
+  blockType: String
+}
+
+type Select {
+  name: String!
+  label: String
+  width: Float
+  defaultValue: String
+  placeholder: String
+  options: [Select_Options!]
+  required: Boolean
+  id: String
+  blockName: String
+  blockType: String
+}
+
+type Select_Options {
+  label: String
+  value: String
+  id: String
+}
+
+type State {
+  name: String!
+  label: String
+  width: Float
+  required: Boolean
+  id: String
+  blockName: String
+  blockType: String
+}
+
+type Text {
+  name: String!
+  label: String
+  width: Float
+  defaultValue: String
+  required: Boolean
+  id: String
+  blockName: String
+  blockType: String
+}
+
+type Textarea {
+  name: String!
+  label: String
+  width: Float
+  defaultValue: String
+  required: Boolean
+  id: String
+  blockName: String
+  blockType: String
+}
+
+type countPages {
+  totalDocs: Int
+}
+
+"""
+The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSONObject @specifiedBy(url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf")
+
+type countPosts {
+  totalDocs: Int
+}
+
+type countallMedia {
+  totalDocs: Int
+}
+
+type Categories {
+  docs: [Category!]!
+  hasNextPage: Boolean!
+  hasPrevPage: Boolean!
+  limit: Int!
+  nextPage: Int
+  offset: Int
+  page: Int!
+  pagingCounter: Int!
+  prevPage: Int
+  totalDocs: Int!
+  totalPages: Int!
+}
+
+type countCategories {
+  totalDocs: Int
+}
+
+type categoriesDocAccess {
+  fields: CategoriesDocAccessFields
+  create: CategoriesCreateDocAccess
+  read: CategoriesReadDocAccess
+  update: CategoriesUpdateDocAccess
+  delete: CategoriesDeleteDocAccess
+}
+
+type CategoriesDocAccessFields {
+  title: CategoriesDocAccessFields_title
+  generateSlug: CategoriesDocAccessFields_generateSlug
+  slug: CategoriesDocAccessFields_slug
+  parent: CategoriesDocAccessFields_parent
+  breadcrumbs: CategoriesDocAccessFields_breadcrumbs
+  updatedAt: CategoriesDocAccessFields_updatedAt
+  createdAt: CategoriesDocAccessFields_createdAt
+}
+
+type CategoriesDocAccessFields_title {
+  create: CategoriesDocAccessFields_title_Create
+  read: CategoriesDocAccessFields_title_Read
+  update: CategoriesDocAccessFields_title_Update
+  delete: CategoriesDocAccessFields_title_Delete
+}
+
+type CategoriesDocAccessFields_title_Create {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_title_Read {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_title_Update {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_title_Delete {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_generateSlug {
+  create: CategoriesDocAccessFields_generateSlug_Create
+  read: CategoriesDocAccessFields_generateSlug_Read
+  update: CategoriesDocAccessFields_generateSlug_Update
+  delete: CategoriesDocAccessFields_generateSlug_Delete
+}
+
+type CategoriesDocAccessFields_generateSlug_Create {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_generateSlug_Read {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_generateSlug_Update {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_generateSlug_Delete {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_slug {
+  create: CategoriesDocAccessFields_slug_Create
+  read: CategoriesDocAccessFields_slug_Read
+  update: CategoriesDocAccessFields_slug_Update
+  delete: CategoriesDocAccessFields_slug_Delete
+}
+
+type CategoriesDocAccessFields_slug_Create {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_slug_Read {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_slug_Update {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_slug_Delete {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_parent {
+  create: CategoriesDocAccessFields_parent_Create
+  read: CategoriesDocAccessFields_parent_Read
+  update: CategoriesDocAccessFields_parent_Update
+  delete: CategoriesDocAccessFields_parent_Delete
+}
+
+type CategoriesDocAccessFields_parent_Create {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_parent_Read {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_parent_Update {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_parent_Delete {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_breadcrumbs {
+  create: CategoriesDocAccessFields_breadcrumbs_Create
+  read: CategoriesDocAccessFields_breadcrumbs_Read
+  update: CategoriesDocAccessFields_breadcrumbs_Update
+  delete: CategoriesDocAccessFields_breadcrumbs_Delete
+  fields: CategoriesDocAccessFields_breadcrumbs_Fields
+}
+
+type CategoriesDocAccessFields_breadcrumbs_Create {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_breadcrumbs_Read {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_breadcrumbs_Update {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_breadcrumbs_Delete {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_breadcrumbs_Fields {
+  doc: CategoriesDocAccessFields_breadcrumbs_doc
+  url: CategoriesDocAccessFields_breadcrumbs_url
+  label: CategoriesDocAccessFields_breadcrumbs_label
+  id: CategoriesDocAccessFields_breadcrumbs_id
+}
+
+type CategoriesDocAccessFields_breadcrumbs_doc {
+  create: CategoriesDocAccessFields_breadcrumbs_doc_Create
+  read: CategoriesDocAccessFields_breadcrumbs_doc_Read
+  update: CategoriesDocAccessFields_breadcrumbs_doc_Update
+  delete: CategoriesDocAccessFields_breadcrumbs_doc_Delete
+}
+
+type CategoriesDocAccessFields_breadcrumbs_doc_Create {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_breadcrumbs_doc_Read {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_breadcrumbs_doc_Update {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_breadcrumbs_doc_Delete {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_breadcrumbs_url {
+  create: CategoriesDocAccessFields_breadcrumbs_url_Create
+  read: CategoriesDocAccessFields_breadcrumbs_url_Read
+  update: CategoriesDocAccessFields_breadcrumbs_url_Update
+  delete: CategoriesDocAccessFields_breadcrumbs_url_Delete
+}
+
+type CategoriesDocAccessFields_breadcrumbs_url_Create {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_breadcrumbs_url_Read {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_breadcrumbs_url_Update {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_breadcrumbs_url_Delete {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_breadcrumbs_label {
+  create: CategoriesDocAccessFields_breadcrumbs_label_Create
+  read: CategoriesDocAccessFields_breadcrumbs_label_Read
+  update: CategoriesDocAccessFields_breadcrumbs_label_Update
+  delete: CategoriesDocAccessFields_breadcrumbs_label_Delete
+}
+
+type CategoriesDocAccessFields_breadcrumbs_label_Create {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_breadcrumbs_label_Read {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_breadcrumbs_label_Update {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_breadcrumbs_label_Delete {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_breadcrumbs_id {
+  create: CategoriesDocAccessFields_breadcrumbs_id_Create
+  read: CategoriesDocAccessFields_breadcrumbs_id_Read
+  update: CategoriesDocAccessFields_breadcrumbs_id_Update
+  delete: CategoriesDocAccessFields_breadcrumbs_id_Delete
+}
+
+type CategoriesDocAccessFields_breadcrumbs_id_Create {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_breadcrumbs_id_Read {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_breadcrumbs_id_Update {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_breadcrumbs_id_Delete {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_updatedAt {
+  create: CategoriesDocAccessFields_updatedAt_Create
+  read: CategoriesDocAccessFields_updatedAt_Read
+  update: CategoriesDocAccessFields_updatedAt_Update
+  delete: CategoriesDocAccessFields_updatedAt_Delete
+}
+
+type CategoriesDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_createdAt {
+  create: CategoriesDocAccessFields_createdAt_Create
+  read: CategoriesDocAccessFields_createdAt_Read
+  update: CategoriesDocAccessFields_createdAt_Update
+  delete: CategoriesDocAccessFields_createdAt_Delete
+}
+
+type CategoriesDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type CategoriesDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type CategoriesCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type CategoriesReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type CategoriesUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type CategoriesDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type groupsDocAccess {
+  fields: GroupsDocAccessFields
+  create: GroupsCreateDocAccess
+  read: GroupsReadDocAccess
+  update: GroupsUpdateDocAccess
+  delete: GroupsDeleteDocAccess
+}
+
+type groupMembersDocAccess {
+  fields: GroupMembersDocAccessFields
+  create: GroupMembersCreateDocAccess
+  read: GroupMembersReadDocAccess
+  update: GroupMembersUpdateDocAccess
+  delete: GroupMembersDeleteDocAccess
+}
+
+type groupPostsDocAccess {
+  fields: GroupPostsDocAccessFields
+  create: GroupPostsCreateDocAccess
+  read: GroupPostsReadDocAccess
+  update: GroupPostsUpdateDocAccess
+  delete: GroupPostsDeleteDocAccess
+}
+
+type groupCommentsDocAccess {
+  fields: GroupCommentsDocAccessFields
+  create: GroupCommentsCreateDocAccess
+  read: GroupCommentsReadDocAccess
+  update: GroupCommentsUpdateDocAccess
+  delete: GroupCommentsDeleteDocAccess
+}
+
+type groupPostLikesDocAccess {
+  fields: GroupPostLikesDocAccessFields
+  create: GroupPostLikesCreateDocAccess
+  read: GroupPostLikesReadDocAccess
+  update: GroupPostLikesUpdateDocAccess
+  delete: GroupPostLikesDeleteDocAccess
+}
+
+type groupCommentLikesDocAccess {
+  fields: GroupCommentLikesDocAccessFields
+  create: GroupCommentLikesCreateDocAccess
+  read: GroupCommentLikesReadDocAccess
+  update: GroupCommentLikesUpdateDocAccess
+  delete: GroupCommentLikesDeleteDocAccess
+}
+
+type groupEventsDocAccess {
+  fields: GroupEventsDocAccessFields
+  create: GroupEventsCreateDocAccess
+  read: GroupEventsReadDocAccess
+  update: GroupEventsUpdateDocAccess
+  delete: GroupEventsDeleteDocAccess
+}
+
+type groupInvitesDocAccess {
+  fields: GroupInvitesDocAccessFields
+  create: GroupInvitesCreateDocAccess
+  read: GroupInvitesReadDocAccess
+  update: GroupInvitesUpdateDocAccess
+  delete: GroupInvitesDeleteDocAccess
+}
+
+type countRedirects {
+  totalDocs: Int
+}
+
+type countForms {
+  totalDocs: Int
+}
+
+type countFormSubmissions {
+  totalDocs: Int
+}
+
+type searchDocAccess {
+  fields: SearchDocAccessFields
+  create: SearchCreateDocAccess
+  read: SearchReadDocAccess
+  update: SearchUpdateDocAccess
+  delete: SearchDeleteDocAccess
+}
+
+type payload_kvDocAccess {
+  fields: PayloadKvDocAccessFields
+  create: PayloadKvCreateDocAccess
+  read: PayloadKvReadDocAccess
+  update: PayloadKvUpdateDocAccess
+  delete: PayloadKvDeleteDocAccess
+}
+
+type payload_jobsDocAccess {
+  fields: PayloadJobsDocAccessFields
+  create: PayloadJobsCreateDocAccess
+  read: PayloadJobsReadDocAccess
+  update: PayloadJobsUpdateDocAccess
+  delete: PayloadJobsDeleteDocAccess
+}
+
+type payload_foldersDocAccess {
+  fields: PayloadFoldersDocAccessFields
+  create: PayloadFoldersCreateDocAccess
+  read: PayloadFoldersReadDocAccess
+  update: PayloadFoldersUpdateDocAccess
+  delete: PayloadFoldersDeleteDocAccess
+}
+
+type payload_locked_documentsDocAccess {
+  fields: PayloadLockedDocumentsDocAccessFields
+  create: PayloadLockedDocumentsCreateDocAccess
+  read: PayloadLockedDocumentsReadDocAccess
+  update: PayloadLockedDocumentsUpdateDocAccess
+  delete: PayloadLockedDocumentsDeleteDocAccess
+}
+
+type payload_preferencesDocAccess {
+  fields: PayloadPreferencesDocAccessFields
+  create: PayloadPreferencesCreateDocAccess
+  read: PayloadPreferencesReadDocAccess
+  update: PayloadPreferencesUpdateDocAccess
+  delete: PayloadPreferencesDeleteDocAccess
+}
+
+type headerDocAccess {
+  fields: HeaderDocAccessFields
+  read: HeaderReadDocAccess
+  update: HeaderUpdateDocAccess
+}
+
+type footerDocAccess {
+  fields: FooterDocAccessFields
+  read: FooterReadDocAccess
+  update: FooterUpdateDocAccess
+}
+
+type Access {
+  canAccessAdmin: Boolean!
+  pages: pagesAccess
+  posts: postsAccess
+  media: mediaAccess
+  categories: categoriesAccess
+  users: usersAccess
+  groups: groupsAccess
+  groupMembers: groupMembersAccess
+  groupPosts: groupPostsAccess
+  groupComments: groupCommentsAccess
+  groupPostLikes: groupPostLikesAccess
+  groupCommentLikes: groupCommentLikesAccess
+  groupEvents: groupEventsAccess
+  groupInvites: groupInvitesAccess
+  redirects: redirectsAccess
+  forms: formsAccess
+  form_submissions: form_submissionsAccess
+  search: searchAccess
+  payload_kv: payload_kvAccess
+  payload_jobs: payload_jobsAccess
+  payload_folders: payload_foldersAccess
+  payload_locked_documents: payload_locked_documentsAccess
+  payload_preferences: payload_preferencesAccess
+  header: headerAccess
+  footer: footerAccess
+}
+
+type categoriesAccess {
+  fields: CategoriesFields
+  create: CategoriesCreateAccess
+  read: CategoriesReadAccess
+  update: CategoriesUpdateAccess
+  delete: CategoriesDeleteAccess
+}
+
+type CategoriesFields {
+  title: CategoriesFields_title
+  generateSlug: CategoriesFields_generateSlug
+  slug: CategoriesFields_slug
+  parent: CategoriesFields_parent
+  breadcrumbs: CategoriesFields_breadcrumbs
+  updatedAt: CategoriesFields_updatedAt
+  createdAt: CategoriesFields_createdAt
+}
+
+type CategoriesFields_title {
+  create: CategoriesFields_title_Create
+  read: CategoriesFields_title_Read
+  update: CategoriesFields_title_Update
+  delete: CategoriesFields_title_Delete
+}
+
+type CategoriesFields_title_Create {
+  permission: Boolean!
+}
+
+type CategoriesFields_title_Read {
+  permission: Boolean!
+}
+
+type CategoriesFields_title_Update {
+  permission: Boolean!
+}
+
+type CategoriesFields_title_Delete {
+  permission: Boolean!
+}
+
+type CategoriesFields_generateSlug {
+  create: CategoriesFields_generateSlug_Create
+  read: CategoriesFields_generateSlug_Read
+  update: CategoriesFields_generateSlug_Update
+  delete: CategoriesFields_generateSlug_Delete
+}
+
+type CategoriesFields_generateSlug_Create {
+  permission: Boolean!
+}
+
+type CategoriesFields_generateSlug_Read {
+  permission: Boolean!
+}
+
+type CategoriesFields_generateSlug_Update {
+  permission: Boolean!
+}
+
+type CategoriesFields_generateSlug_Delete {
+  permission: Boolean!
+}
+
+type CategoriesFields_slug {
+  create: CategoriesFields_slug_Create
+  read: CategoriesFields_slug_Read
+  update: CategoriesFields_slug_Update
+  delete: CategoriesFields_slug_Delete
+}
+
+type CategoriesFields_slug_Create {
+  permission: Boolean!
+}
+
+type CategoriesFields_slug_Read {
+  permission: Boolean!
+}
+
+type CategoriesFields_slug_Update {
+  permission: Boolean!
+}
+
+type CategoriesFields_slug_Delete {
+  permission: Boolean!
+}
+
+type CategoriesFields_parent {
+  create: CategoriesFields_parent_Create
+  read: CategoriesFields_parent_Read
+  update: CategoriesFields_parent_Update
+  delete: CategoriesFields_parent_Delete
+}
+
+type CategoriesFields_parent_Create {
+  permission: Boolean!
+}
+
+type CategoriesFields_parent_Read {
+  permission: Boolean!
+}
+
+type CategoriesFields_parent_Update {
+  permission: Boolean!
+}
+
+type CategoriesFields_parent_Delete {
+  permission: Boolean!
+}
+
+type CategoriesFields_breadcrumbs {
+  create: CategoriesFields_breadcrumbs_Create
+  read: CategoriesFields_breadcrumbs_Read
+  update: CategoriesFields_breadcrumbs_Update
+  delete: CategoriesFields_breadcrumbs_Delete
+  fields: CategoriesFields_breadcrumbs_Fields
+}
+
+type CategoriesFields_breadcrumbs_Create {
+  permission: Boolean!
+}
+
+type CategoriesFields_breadcrumbs_Read {
+  permission: Boolean!
+}
+
+type CategoriesFields_breadcrumbs_Update {
+  permission: Boolean!
+}
+
+type CategoriesFields_breadcrumbs_Delete {
+  permission: Boolean!
+}
+
+type CategoriesFields_breadcrumbs_Fields {
+  doc: CategoriesFields_breadcrumbs_doc
+  url: CategoriesFields_breadcrumbs_url
+  label: CategoriesFields_breadcrumbs_label
+  id: CategoriesFields_breadcrumbs_id
+}
+
+type CategoriesFields_breadcrumbs_doc {
+  create: CategoriesFields_breadcrumbs_doc_Create
+  read: CategoriesFields_breadcrumbs_doc_Read
+  update: CategoriesFields_breadcrumbs_doc_Update
+  delete: CategoriesFields_breadcrumbs_doc_Delete
+}
+
+type CategoriesFields_breadcrumbs_doc_Create {
+  permission: Boolean!
+}
+
+type CategoriesFields_breadcrumbs_doc_Read {
+  permission: Boolean!
+}
+
+type CategoriesFields_breadcrumbs_doc_Update {
+  permission: Boolean!
+}
+
+type CategoriesFields_breadcrumbs_doc_Delete {
+  permission: Boolean!
+}
+
+type CategoriesFields_breadcrumbs_url {
+  create: CategoriesFields_breadcrumbs_url_Create
+  read: CategoriesFields_breadcrumbs_url_Read
+  update: CategoriesFields_breadcrumbs_url_Update
+  delete: CategoriesFields_breadcrumbs_url_Delete
+}
+
+type CategoriesFields_breadcrumbs_url_Create {
+  permission: Boolean!
+}
+
+type CategoriesFields_breadcrumbs_url_Read {
+  permission: Boolean!
+}
+
+type CategoriesFields_breadcrumbs_url_Update {
+  permission: Boolean!
+}
+
+type CategoriesFields_breadcrumbs_url_Delete {
+  permission: Boolean!
+}
+
+type CategoriesFields_breadcrumbs_label {
+  create: CategoriesFields_breadcrumbs_label_Create
+  read: CategoriesFields_breadcrumbs_label_Read
+  update: CategoriesFields_breadcrumbs_label_Update
+  delete: CategoriesFields_breadcrumbs_label_Delete
+}
+
+type CategoriesFields_breadcrumbs_label_Create {
+  permission: Boolean!
+}
+
+type CategoriesFields_breadcrumbs_label_Read {
+  permission: Boolean!
+}
+
+type CategoriesFields_breadcrumbs_label_Update {
+  permission: Boolean!
+}
+
+type CategoriesFields_breadcrumbs_label_Delete {
+  permission: Boolean!
+}
+
+type CategoriesFields_breadcrumbs_id {
+  create: CategoriesFields_breadcrumbs_id_Create
+  read: CategoriesFields_breadcrumbs_id_Read
+  update: CategoriesFields_breadcrumbs_id_Update
+  delete: CategoriesFields_breadcrumbs_id_Delete
+}
+
+type CategoriesFields_breadcrumbs_id_Create {
+  permission: Boolean!
+}
+
+type CategoriesFields_breadcrumbs_id_Read {
+  permission: Boolean!
+}
+
+type CategoriesFields_breadcrumbs_id_Update {
+  permission: Boolean!
+}
+
+type CategoriesFields_breadcrumbs_id_Delete {
+  permission: Boolean!
+}
+
+type CategoriesFields_updatedAt {
+  create: CategoriesFields_updatedAt_Create
+  read: CategoriesFields_updatedAt_Read
+  update: CategoriesFields_updatedAt_Update
+  delete: CategoriesFields_updatedAt_Delete
+}
+
+type CategoriesFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type CategoriesFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type CategoriesFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type CategoriesFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type CategoriesFields_createdAt {
+  create: CategoriesFields_createdAt_Create
+  read: CategoriesFields_createdAt_Read
+  update: CategoriesFields_createdAt_Update
+  delete: CategoriesFields_createdAt_Delete
+}
+
+type CategoriesFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type CategoriesFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type CategoriesFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type CategoriesFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type CategoriesCreateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type CategoriesReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type CategoriesUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type CategoriesDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type groupsAccess {
+  fields: GroupsFields
+  create: GroupsCreateAccess
+  read: GroupsReadAccess
+  update: GroupsUpdateAccess
+  delete: GroupsDeleteAccess
+}
+
+type groupMembersAccess {
+  fields: GroupMembersFields
+  create: GroupMembersCreateAccess
+  read: GroupMembersReadAccess
+  update: GroupMembersUpdateAccess
+  delete: GroupMembersDeleteAccess
+}
+
+type groupPostsAccess {
+  fields: GroupPostsFields
+  create: GroupPostsCreateAccess
+  read: GroupPostsReadAccess
+  update: GroupPostsUpdateAccess
+  delete: GroupPostsDeleteAccess
+}
+
+type groupCommentsAccess {
+  fields: GroupCommentsFields
+  create: GroupCommentsCreateAccess
+  read: GroupCommentsReadAccess
+  update: GroupCommentsUpdateAccess
+  delete: GroupCommentsDeleteAccess
+}
+
+type groupPostLikesAccess {
+  fields: GroupPostLikesFields
+  create: GroupPostLikesCreateAccess
+  read: GroupPostLikesReadAccess
+  update: GroupPostLikesUpdateAccess
+  delete: GroupPostLikesDeleteAccess
+}
+
+type groupCommentLikesAccess {
+  fields: GroupCommentLikesFields
+  create: GroupCommentLikesCreateAccess
+  read: GroupCommentLikesReadAccess
+  update: GroupCommentLikesUpdateAccess
+  delete: GroupCommentLikesDeleteAccess
+}
+
+type groupEventsAccess {
+  fields: GroupEventsFields
+  create: GroupEventsCreateAccess
+  read: GroupEventsReadAccess
+  update: GroupEventsUpdateAccess
+  delete: GroupEventsDeleteAccess
+}
+
+type groupInvitesAccess {
+  fields: GroupInvitesFields
+  create: GroupInvitesCreateAccess
+  read: GroupInvitesReadAccess
+  update: GroupInvitesUpdateAccess
+  delete: GroupInvitesDeleteAccess
+}
+
+type searchAccess {
+  fields: SearchFields
+  create: SearchCreateAccess
+  read: SearchReadAccess
+  update: SearchUpdateAccess
+  delete: SearchDeleteAccess
+}
+
+type payload_kvAccess {
+  fields: PayloadKvFields
+  create: PayloadKvCreateAccess
+  read: PayloadKvReadAccess
+  update: PayloadKvUpdateAccess
+  delete: PayloadKvDeleteAccess
+}
+
+type payload_jobsAccess {
+  fields: PayloadJobsFields
+  create: PayloadJobsCreateAccess
+  read: PayloadJobsReadAccess
+  update: PayloadJobsUpdateAccess
+  delete: PayloadJobsDeleteAccess
+}
+
+type payload_foldersAccess {
+  fields: PayloadFoldersFields
+  create: PayloadFoldersCreateAccess
+  read: PayloadFoldersReadAccess
+  update: PayloadFoldersUpdateAccess
+  delete: PayloadFoldersDeleteAccess
+}
+
+type payload_locked_documentsAccess {
+  fields: PayloadLockedDocumentsFields
+  create: PayloadLockedDocumentsCreateAccess
+  read: PayloadLockedDocumentsReadAccess
+  update: PayloadLockedDocumentsUpdateAccess
+  delete: PayloadLockedDocumentsDeleteAccess
+}
+
+type payload_preferencesAccess {
+  fields: PayloadPreferencesFields
+  create: PayloadPreferencesCreateAccess
+  read: PayloadPreferencesReadAccess
+  update: PayloadPreferencesUpdateAccess
+  delete: PayloadPreferencesDeleteAccess
+}
+
+type headerAccess {
+  fields: HeaderFields
+  read: HeaderReadAccess
+  update: HeaderUpdateAccess
+}
+
+type footerAccess {
+  fields: FooterFields
+  read: FooterReadAccess
+  update: FooterUpdateAccess
+}
+
+input mutationPageInput {
+  title: String!
+  hero: mutationPage_HeroInput!
+  layout: JSON
+  meta: mutationPage_MetaInput
+  publishedAt: String
+  generateSlug: Boolean
+  slug: String!
+  updatedAt: String
+  createdAt: String
+  _status: Page__status_MutationInput
+}
+
+input mutationPage_HeroInput {
+  type: Page_Hero_type_MutationInput!
+  richText: JSON
+  links: [mutationPage_Hero_LinksInput]
+  media: Int
+}
+
+input mutationPage_Hero_LinksInput {
+  link: mutationPage_Hero_Links_LinkInput
+  id: String
+}
+
+input mutationPage_Hero_Links_LinkInput {
+  type: String
+  newTab: Boolean
+  reference: Page_Hero_Links_Link_ReferenceRelationshipInput
+  url: String
+  label: String!
+  appearance: Page_Hero_Links_Link_appearance_MutationInput
+}
+
+input mutationPage_MetaInput {
+  title: String
+  image: Int
+  description: String
+}
+
+input mutationPageUpdateInput {
+  title: String
+  hero: mutationPageUpdate_HeroInput!
+  layout: JSON
+  meta: mutationPageUpdate_MetaInput
+  publishedAt: String
+  generateSlug: Boolean
+  slug: String
+  updatedAt: String
+  createdAt: String
+  _status: PageUpdate__status_MutationInput
+}
+
+input mutationPageUpdate_HeroInput {
+  type: PageUpdate_Hero_type_MutationInput!
+  richText: JSON
+  links: [mutationPageUpdate_Hero_LinksInput]
+  media: Int
+}
+
+input mutationPageUpdate_Hero_LinksInput {
+  link: mutationPageUpdate_Hero_Links_LinkInput
+  id: String
+}
+
+input mutationPageUpdate_Hero_Links_LinkInput {
+  type: String
+  newTab: Boolean
+  reference: PageUpdate_Hero_Links_Link_ReferenceRelationshipInput
+  url: String
+  label: String!
+  appearance: PageUpdate_Hero_Links_Link_appearance_MutationInput
+}
+
+input mutationPageUpdate_MetaInput {
+  title: String
+  image: Int
+  description: String
+}
+
+input mutationPostInput {
+  title: String!
+  heroImage: Int
+  content: JSON!
+  relatedPosts: [Int]
+  categories: [Int]
+  meta: mutationPost_MetaInput
+  publishedAt: String
+  authors: [Int]
+  populatedAuthors: [mutationPost_PopulatedAuthorsInput]
+  generateSlug: Boolean
+  slug: String!
+  updatedAt: String
+  createdAt: String
+  _status: Post__status_MutationInput
+}
+
+input mutationPost_MetaInput {
+  title: String
+  image: Int
+  description: String
+}
+
+input mutationPost_PopulatedAuthorsInput {
+  id: String
+  name: String
+}
+
+input mutationPostUpdateInput {
+  title: String
+  heroImage: Int
+  content: JSON
+  relatedPosts: [Int]
+  categories: [Int]
+  meta: mutationPostUpdate_MetaInput
+  publishedAt: String
+  authors: [Int]
+  populatedAuthors: [mutationPostUpdate_PopulatedAuthorsInput]
+  generateSlug: Boolean
+  slug: String
+  updatedAt: String
+  createdAt: String
+  _status: PostUpdate__status_MutationInput
+}
+
+input mutationPostUpdate_MetaInput {
+  title: String
+  image: Int
+  description: String
+}
+
+input mutationPostUpdate_PopulatedAuthorsInput {
+  id: String
+  name: String
+}
+
+input mutationMediaInput {
+  alt: String
+  caption: JSON
+  folder: Int
+  updatedAt: String
+  createdAt: String
+  url: String
+  thumbnailURL: String
+  filename: String
+  mimeType: String
+  filesize: Float
+  width: Float
+  height: Float
+  focalX: Float
+  focalY: Float
+  sizes: mutationMedia_SizesInput
+}
+
+input mutationMedia_SizesInput {
+  thumbnail: mutationMedia_Sizes_ThumbnailInput
+  square: mutationMedia_Sizes_SquareInput
+  small: mutationMedia_Sizes_SmallInput
+  medium: mutationMedia_Sizes_MediumInput
+  large: mutationMedia_Sizes_LargeInput
+  xlarge: mutationMedia_Sizes_XlargeInput
+  og: mutationMedia_Sizes_OgInput
+}
+
+input mutationMedia_Sizes_ThumbnailInput {
+  url: String
+  width: Float
+  height: Float
+  mimeType: String
+  filesize: Float
+  filename: String
+}
+
+input mutationMedia_Sizes_SquareInput {
+  url: String
+  width: Float
+  height: Float
+  mimeType: String
+  filesize: Float
+  filename: String
+}
+
+input mutationMedia_Sizes_SmallInput {
+  url: String
+  width: Float
+  height: Float
+  mimeType: String
+  filesize: Float
+  filename: String
+}
+
+input mutationMedia_Sizes_MediumInput {
+  url: String
+  width: Float
+  height: Float
+  mimeType: String
+  filesize: Float
+  filename: String
+}
+
+input mutationMedia_Sizes_LargeInput {
+  url: String
+  width: Float
+  height: Float
+  mimeType: String
+  filesize: Float
+  filename: String
+}
+
+input mutationMedia_Sizes_XlargeInput {
+  url: String
+  width: Float
+  height: Float
+  mimeType: String
+  filesize: Float
+  filename: String
+}
+
+input mutationMedia_Sizes_OgInput {
+  url: String
+  width: Float
+  height: Float
+  mimeType: String
+  filesize: Float
+  filename: String
+}
+
+input mutationMediaUpdateInput {
+  alt: String
+  caption: JSON
+  folder: Int
+  updatedAt: String
+  createdAt: String
+  url: String
+  thumbnailURL: String
+  filename: String
+  mimeType: String
+  filesize: Float
+  width: Float
+  height: Float
+  focalX: Float
+  focalY: Float
+  sizes: mutationMediaUpdate_SizesInput
+}
+
+input mutationMediaUpdate_SizesInput {
+  thumbnail: mutationMediaUpdate_Sizes_ThumbnailInput
+  square: mutationMediaUpdate_Sizes_SquareInput
+  small: mutationMediaUpdate_Sizes_SmallInput
+  medium: mutationMediaUpdate_Sizes_MediumInput
+  large: mutationMediaUpdate_Sizes_LargeInput
+  xlarge: mutationMediaUpdate_Sizes_XlargeInput
+  og: mutationMediaUpdate_Sizes_OgInput
+}
+
+input mutationMediaUpdate_Sizes_ThumbnailInput {
+  url: String
+  width: Float
+  height: Float
+  mimeType: String
+  filesize: Float
+  filename: String
+}
+
+input mutationMediaUpdate_Sizes_SquareInput {
+  url: String
+  width: Float
+  height: Float
+  mimeType: String
+  filesize: Float
+  filename: String
+}
+
+input mutationMediaUpdate_Sizes_SmallInput {
+  url: String
+  width: Float
+  height: Float
+  mimeType: String
+  filesize: Float
+  filename: String
+}
+
+input mutationMediaUpdate_Sizes_MediumInput {
+  url: String
+  width: Float
+  height: Float
+  mimeType: String
+  filesize: Float
+  filename: String
+}
+
+input mutationMediaUpdate_Sizes_LargeInput {
+  url: String
+  width: Float
+  height: Float
+  mimeType: String
+  filesize: Float
+  filename: String
+}
+
+input mutationMediaUpdate_Sizes_XlargeInput {
+  url: String
+  width: Float
+  height: Float
+  mimeType: String
+  filesize: Float
+  filename: String
+}
+
+input mutationMediaUpdate_Sizes_OgInput {
+  url: String
+  width: Float
+  height: Float
+  mimeType: String
+  filesize: Float
+  filename: String
+}
+
+input mutationCategoryInput {
+  title: String!
+  generateSlug: Boolean
+  slug: String!
+  parent: Int
+  breadcrumbs: [mutationCategory_BreadcrumbsInput]
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationCategory_BreadcrumbsInput {
+  doc: Int
+  url: String
+  label: String
+  id: String
+}
+
+input mutationCategoryUpdateInput {
+  title: String
+  generateSlug: Boolean
+  slug: String
+  parent: Int
+  breadcrumbs: [mutationCategoryUpdate_BreadcrumbsInput]
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationCategoryUpdate_BreadcrumbsInput {
+  doc: Int
+  url: String
+  label: String
+  id: String
+}
+
+input mutationRedirectInput {
+  from: String!
+  to: mutationRedirect_ToInput!
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationRedirect_ToInput {
+  type: String
+  reference: Redirect_To_ReferenceRelationshipInput
+  url: String
+}
+
+input mutationRedirectUpdateInput {
+  from: String
+  to: mutationRedirectUpdate_ToInput!
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationRedirectUpdate_ToInput {
+  type: String
+  reference: RedirectUpdate_To_ReferenceRelationshipInput
+  url: String
+}
+
+input mutationFormInput {
+  title: String!
+  fields: JSON
+  submitButtonLabel: String
+  confirmationType: String
+  confirmationMessage: JSON
+  redirect: mutationForm_RedirectInput!
+  emails: [mutationForm_EmailsInput]
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationForm_RedirectInput {
+  url: String!
+}
+
+input mutationForm_EmailsInput {
+  emailTo: String
+  cc: String
+  bcc: String
+  replyTo: String
+  emailFrom: String
+  subject: String!
+  message: JSON
+  id: String
+}
+
+input mutationFormUpdateInput {
+  title: String
+  fields: JSON
+  submitButtonLabel: String
+  confirmationType: String
+  confirmationMessage: JSON
+  redirect: mutationFormUpdate_RedirectInput!
+  emails: [mutationFormUpdate_EmailsInput]
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationFormUpdate_RedirectInput {
+  url: String!
+}
+
+input mutationFormUpdate_EmailsInput {
+  emailTo: String
+  cc: String
+  bcc: String
+  replyTo: String
+  emailFrom: String
+  subject: String!
+  message: JSON
+  id: String
+}
+
+input mutationFormSubmissionInput {
+  form: Int
+  submissionData: [mutationFormSubmission_SubmissionDataInput]
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationFormSubmission_SubmissionDataInput {
+  field: String!
+  value: String!
+  id: String
+}
+
+input mutationFormSubmissionUpdateInput {
+  form: Int
+  submissionData: [mutationFormSubmissionUpdate_SubmissionDataInput]
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationFormSubmissionUpdate_SubmissionDataInput {
+  field: String!
+  value: String!
+  id: String
+}
+
+input mutationHeaderInput {
+  navItems: [mutationHeader_NavItemsInput]
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationHeader_NavItemsInput {
+  link: mutationHeader_NavItems_LinkInput
+  id: String
+}
+
+input mutationHeader_NavItems_LinkInput {
+  type: String
+  newTab: Boolean
+  reference: Header_NavItems_Link_ReferenceRelationshipInput
+  url: String
+  label: String!
+}
+
+input mutationFooterInput {
+  navItems: [mutationFooter_NavItemsInput]
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationFooter_NavItemsInput {
+  link: mutationFooter_NavItems_LinkInput
+  id: String
+}
+
+input mutationFooter_NavItems_LinkInput {
+  type: String
+  newTab: Boolean
+  reference: Footer_NavItems_Link_ReferenceRelationshipInput
+  url: String
+  label: String!
+}

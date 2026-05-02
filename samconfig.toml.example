@@ -22,10 +22,19 @@ resolve_s3 = true
 region = "us-east-1"
 # Required: DatabaseUrl and PayloadSecret have no template defaults. Empty overrides cause:
 #   ValidationError: Parameters: [DatabaseUrl, PayloadSecret] must have values
-# Edit the placeholders below (single line; space-separated Key=value). Use single quotes around values.
-parameter_overrides = "DatabaseUrl='postgresql://postgres@YOUR_RDS_HOST.us-east-1.rds.amazonaws.com:5432/postgres?sslmode=require' PayloadSecret='REPLACE_WITH_LONG_RANDOM_SECRET'"
-# IAM example (see docs/aws-federation-deploy.md). Attach VPC in Lambda console if RDS is private.
-# parameter_overrides = "DatabaseUrl='postgresql://postgres@YOUR_RDS_HOST.us-east-1.rds.amazonaws.com:5432/postgres?sslmode=require' PayloadSecret='REPLACE_ME' UseRdsIamAuth=true RdsDbiResourceId=db-XXXXXXXX PayloadDatabasePush=1"
+# One-line, space-separated Key=value pairs (escape inner double quotes with \").
+#
+# RECOMMENDED — Aurora cluster + IAM DB auth + Secrets Manager (matches docs/aws-federation-deploy.md):
+#   1. Create the Payload secret: aws secretsmanager create-secret \
+#        --name romain-retreat/payload-secret --secret-string "$(openssl rand -hex 48)"
+#   2. Find the cluster's Resource ID in RDS console → cluster (NOT instance) →
+#        Configuration → Resource ID (looks like cluster-XXXXXXXXXXXXXXX).
+#   3. Confirm IAM auth is enabled on the cluster (Modify → Database authentication).
+#   4. Make sure the DB user has been granted: GRANT rds_iam TO postgres;
+parameter_overrides = "DatabaseUrl=\"postgresql://postgres@YOUR_CLUSTER.cluster-XXXXX.us-east-1.rds.amazonaws.com:5432/postgres?sslmode=require\" PayloadSecret=\"{{resolve:secretsmanager:romain-retreat/payload-secret:SecretString}}\" UseRdsIamAuth=\"true\" RdsDbiResourceId=\"cluster-XXXXXXXXXXXXXXX\" RdsIamDbUser=\"postgres\" PayloadDatabasePush=\"0\""
+# Legacy — password in URL, no IAM (works but discouraged for production):
+#   parameter_overrides = "DatabaseUrl=\"postgresql://postgres:PASSWORD@HOST:5432/postgres?sslmode=require\" PayloadSecret=\"REPLACE_ME\" UseRdsIamAuth=\"false\" RdsDbiResourceId=\"\" PayloadDatabasePush=\"0\""
+# Optional: SubgraphMode=unified (default in template) for one Lambda with all routes; or users|groups|search|content|system for a per-domain function only.
 
 [default.package.parameters]
 resolve_s3 = true

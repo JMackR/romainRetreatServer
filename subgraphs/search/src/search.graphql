@@ -1,0 +1,1115 @@
+extend schema
+  @link(url: "https://specs.apollo.dev/federation/v2.8", import: ["@key", "@shareable", "@inaccessible", "@tag", "@override", "@extends", "@external", "@requires", "@provides"])
+
+type Query {
+  Search(id: Int!, draft: Boolean, select: Boolean, trash: Boolean): Search
+  Searches(draft: Boolean, where: Search_where, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean): Searches
+  countSearches(draft: Boolean, trash: Boolean, where: Search_where): countSearches
+  docAccessSearch(id: Int!): searchDocAccess
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+  @specifiedBy(url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf")
+
+type Post
+  @key(fields: "id", resolvable: false)
+{
+  id: Int!
+}
+
+type Media
+  @key(fields: "id", resolvable: false)
+{
+  id: Int!
+}
+
+type PayloadFolder
+  @key(fields: "id", resolvable: false)
+{
+  id: Int!
+}
+
+type PayloadFolder_DocumentsAndFolders
+  @shareable
+{
+  docs: JSON!
+  hasNextPage: Boolean!
+  totalDocs: Int
+}
+
+enum PayloadFolder_folderType {
+  media
+}
+
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar DateTime
+
+type Media_Sizes
+  @shareable
+{
+  thumbnail: Media_Sizes_Thumbnail
+  square: Media_Sizes_Square
+  small: Media_Sizes_Small
+  medium: Media_Sizes_Medium
+  large: Media_Sizes_Large
+  xlarge: Media_Sizes_Xlarge
+  og: Media_Sizes_Og
+}
+
+type Media_Sizes_Thumbnail
+  @shareable
+{
+  url: String
+  width: Float
+  height: Float
+  mimeType: String
+  filesize: Float
+  filename: String
+}
+
+type Media_Sizes_Square
+  @shareable
+{
+  url: String
+  width: Float
+  height: Float
+  mimeType: String
+  filesize: Float
+  filename: String
+}
+
+type Media_Sizes_Small
+  @shareable
+{
+  url: String
+  width: Float
+  height: Float
+  mimeType: String
+  filesize: Float
+  filename: String
+}
+
+type Media_Sizes_Medium
+  @shareable
+{
+  url: String
+  width: Float
+  height: Float
+  mimeType: String
+  filesize: Float
+  filename: String
+}
+
+type Media_Sizes_Large
+  @shareable
+{
+  url: String
+  width: Float
+  height: Float
+  mimeType: String
+  filesize: Float
+  filename: String
+}
+
+type Media_Sizes_Xlarge
+  @shareable
+{
+  url: String
+  width: Float
+  height: Float
+  mimeType: String
+  filesize: Float
+  filename: String
+}
+
+type Media_Sizes_Og
+  @shareable
+{
+  url: String
+  width: Float
+  height: Float
+  mimeType: String
+  filesize: Float
+  filename: String
+}
+
+type Category
+  @key(fields: "id", resolvable: false)
+{
+  id: Int!
+}
+
+type Category_Breadcrumbs
+  @shareable
+{
+  doc: Category
+  url: String
+  label: String
+  id: String
+}
+
+type Post_Meta
+  @shareable
+{
+  title: String
+  image: Media
+  description: String
+}
+
+type User
+  @key(fields: "id", resolvable: false)
+{
+  id: Int!
+}
+
+enum User_role {
+  admin
+  contentManager
+  consumer
+}
+
+"""
+A field whose value conforms to the standard internet email address format as specified in HTML Spec: https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address.
+"""
+scalar EmailAddress
+  @specifiedBy(url: "https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address")
+
+type User_Sessions
+  @shareable
+{
+  id: String
+  createdAt: DateTime
+  expiresAt: DateTime
+}
+
+type Post_PopulatedAuthors
+  @shareable
+{
+  id: String
+  name: String
+}
+
+enum Post__status {
+  draft
+  published
+}
+
+"""
+The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSONObject
+  @specifiedBy(url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf")
+
+type Search
+  @key(fields: "id")
+{
+  id: Int!
+  title: String
+  priority: Float
+  doc(draft: Boolean): Search_Doc_Relationship
+  slug: String
+  meta: Search_Meta
+  categories: [Search_Categories!]
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+type Search_Doc_Relationship
+  @shareable
+{
+  relationTo: Search_Doc_RelationTo
+  value: Search_Doc
+}
+
+enum Search_Doc_RelationTo {
+  posts
+}
+
+union Search_Doc = Post
+
+type Search_Meta
+  @shareable
+{
+  title: String
+  description: String
+  image: Media
+}
+
+type Search_Categories
+  @shareable
+{
+  relationTo: String
+  categoryID: String
+  title: String
+  id: String
+}
+
+type Searches
+  @shareable
+{
+  docs: [Search!]!
+  hasNextPage: Boolean!
+  hasPrevPage: Boolean!
+  limit: Int!
+  nextPage: Int
+  offset: Int
+  page: Int!
+  pagingCounter: Int!
+  prevPage: Int
+  totalDocs: Int!
+  totalPages: Int!
+}
+
+input Search_where {
+  title: Search_title_operator
+  priority: Search_priority_operator
+  doc: Search_doc_Relation
+  slug: Search_slug_operator
+  meta__title: Search_meta__title_operator
+  meta__description: Search_meta__description_operator
+  meta__image: Search_meta__image_operator
+  categories__relationTo: Search_categories__relationTo_operator
+  categories__categoryID: Search_categories__categoryID_operator
+  categories__title: Search_categories__title_operator
+  categories__id: Search_categories__id_operator
+  updatedAt: Search_updatedAt_operator
+  createdAt: Search_createdAt_operator
+  id: Search_id_operator
+  AND: [Search_where_and]
+  OR: [Search_where_or]
+}
+
+input Search_title_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Search_priority_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input Search_doc_Relation {
+  relationTo: Search_doc_Relation_RelationTo
+  value: JSON
+}
+
+enum Search_doc_Relation_RelationTo {
+  posts
+}
+
+input Search_slug_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Search_meta__title_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Search_meta__description_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Search_meta__image_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input Search_categories__relationTo_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Search_categories__categoryID_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Search_categories__title_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Search_categories__id_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Search_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Search_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Search_id_operator {
+  equals: Int
+  not_equals: Int
+  greater_than_equal: Int
+  greater_than: Int
+  less_than_equal: Int
+  less_than: Int
+  exists: Boolean
+}
+
+input Search_where_and {
+  title: Search_title_operator
+  priority: Search_priority_operator
+  doc: Search_doc_Relation
+  slug: Search_slug_operator
+  meta__title: Search_meta__title_operator
+  meta__description: Search_meta__description_operator
+  meta__image: Search_meta__image_operator
+  categories__relationTo: Search_categories__relationTo_operator
+  categories__categoryID: Search_categories__categoryID_operator
+  categories__title: Search_categories__title_operator
+  categories__id: Search_categories__id_operator
+  updatedAt: Search_updatedAt_operator
+  createdAt: Search_createdAt_operator
+  id: Search_id_operator
+  AND: [Search_where_and]
+  OR: [Search_where_or]
+}
+
+input Search_where_or {
+  title: Search_title_operator
+  priority: Search_priority_operator
+  doc: Search_doc_Relation
+  slug: Search_slug_operator
+  meta__title: Search_meta__title_operator
+  meta__description: Search_meta__description_operator
+  meta__image: Search_meta__image_operator
+  categories__relationTo: Search_categories__relationTo_operator
+  categories__categoryID: Search_categories__categoryID_operator
+  categories__title: Search_categories__title_operator
+  categories__id: Search_categories__id_operator
+  updatedAt: Search_updatedAt_operator
+  createdAt: Search_createdAt_operator
+  id: Search_id_operator
+  AND: [Search_where_and]
+  OR: [Search_where_or]
+}
+
+type countSearches
+  @shareable
+{
+  totalDocs: Int
+}
+
+type searchDocAccess
+  @shareable
+{
+  fields: SearchDocAccessFields
+  create: SearchCreateDocAccess
+  read: SearchReadDocAccess
+  update: SearchUpdateDocAccess
+  delete: SearchDeleteDocAccess
+}
+
+type SearchDocAccessFields
+  @shareable
+{
+  title: SearchDocAccessFields_title
+  priority: SearchDocAccessFields_priority
+  doc: SearchDocAccessFields_doc
+  slug: SearchDocAccessFields_slug
+  meta: SearchDocAccessFields_meta
+  categories: SearchDocAccessFields_categories
+  updatedAt: SearchDocAccessFields_updatedAt
+  createdAt: SearchDocAccessFields_createdAt
+}
+
+type SearchDocAccessFields_title
+  @shareable
+{
+  create: SearchDocAccessFields_title_Create
+  read: SearchDocAccessFields_title_Read
+  update: SearchDocAccessFields_title_Update
+  delete: SearchDocAccessFields_title_Delete
+}
+
+type SearchDocAccessFields_title_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_title_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_title_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_title_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_priority
+  @shareable
+{
+  create: SearchDocAccessFields_priority_Create
+  read: SearchDocAccessFields_priority_Read
+  update: SearchDocAccessFields_priority_Update
+  delete: SearchDocAccessFields_priority_Delete
+}
+
+type SearchDocAccessFields_priority_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_priority_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_priority_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_priority_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_doc
+  @shareable
+{
+  create: SearchDocAccessFields_doc_Create
+  read: SearchDocAccessFields_doc_Read
+  update: SearchDocAccessFields_doc_Update
+  delete: SearchDocAccessFields_doc_Delete
+}
+
+type SearchDocAccessFields_doc_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_doc_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_doc_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_doc_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_slug
+  @shareable
+{
+  create: SearchDocAccessFields_slug_Create
+  read: SearchDocAccessFields_slug_Read
+  update: SearchDocAccessFields_slug_Update
+  delete: SearchDocAccessFields_slug_Delete
+}
+
+type SearchDocAccessFields_slug_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_slug_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_slug_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_slug_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_meta
+  @shareable
+{
+  create: SearchDocAccessFields_meta_Create
+  read: SearchDocAccessFields_meta_Read
+  update: SearchDocAccessFields_meta_Update
+  delete: SearchDocAccessFields_meta_Delete
+  fields: SearchDocAccessFields_meta_Fields
+}
+
+type SearchDocAccessFields_meta_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_meta_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_meta_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_meta_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_meta_Fields
+  @shareable
+{
+  title: SearchDocAccessFields_meta_title
+  description: SearchDocAccessFields_meta_description
+  image: SearchDocAccessFields_meta_image
+}
+
+type SearchDocAccessFields_meta_title
+  @shareable
+{
+  create: SearchDocAccessFields_meta_title_Create
+  read: SearchDocAccessFields_meta_title_Read
+  update: SearchDocAccessFields_meta_title_Update
+  delete: SearchDocAccessFields_meta_title_Delete
+}
+
+type SearchDocAccessFields_meta_title_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_meta_title_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_meta_title_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_meta_title_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_meta_description
+  @shareable
+{
+  create: SearchDocAccessFields_meta_description_Create
+  read: SearchDocAccessFields_meta_description_Read
+  update: SearchDocAccessFields_meta_description_Update
+  delete: SearchDocAccessFields_meta_description_Delete
+}
+
+type SearchDocAccessFields_meta_description_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_meta_description_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_meta_description_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_meta_description_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_meta_image
+  @shareable
+{
+  create: SearchDocAccessFields_meta_image_Create
+  read: SearchDocAccessFields_meta_image_Read
+  update: SearchDocAccessFields_meta_image_Update
+  delete: SearchDocAccessFields_meta_image_Delete
+}
+
+type SearchDocAccessFields_meta_image_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_meta_image_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_meta_image_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_meta_image_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_categories
+  @shareable
+{
+  create: SearchDocAccessFields_categories_Create
+  read: SearchDocAccessFields_categories_Read
+  update: SearchDocAccessFields_categories_Update
+  delete: SearchDocAccessFields_categories_Delete
+  fields: SearchDocAccessFields_categories_Fields
+}
+
+type SearchDocAccessFields_categories_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_categories_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_categories_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_categories_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_categories_Fields
+  @shareable
+{
+  relationTo: SearchDocAccessFields_categories_relationTo
+  categoryID: SearchDocAccessFields_categories_categoryID
+  title: SearchDocAccessFields_categories_title
+  id: SearchDocAccessFields_categories_id
+}
+
+type SearchDocAccessFields_categories_relationTo
+  @shareable
+{
+  create: SearchDocAccessFields_categories_relationTo_Create
+  read: SearchDocAccessFields_categories_relationTo_Read
+  update: SearchDocAccessFields_categories_relationTo_Update
+  delete: SearchDocAccessFields_categories_relationTo_Delete
+}
+
+type SearchDocAccessFields_categories_relationTo_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_categories_relationTo_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_categories_relationTo_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_categories_relationTo_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_categories_categoryID
+  @shareable
+{
+  create: SearchDocAccessFields_categories_categoryID_Create
+  read: SearchDocAccessFields_categories_categoryID_Read
+  update: SearchDocAccessFields_categories_categoryID_Update
+  delete: SearchDocAccessFields_categories_categoryID_Delete
+}
+
+type SearchDocAccessFields_categories_categoryID_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_categories_categoryID_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_categories_categoryID_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_categories_categoryID_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_categories_title
+  @shareable
+{
+  create: SearchDocAccessFields_categories_title_Create
+  read: SearchDocAccessFields_categories_title_Read
+  update: SearchDocAccessFields_categories_title_Update
+  delete: SearchDocAccessFields_categories_title_Delete
+}
+
+type SearchDocAccessFields_categories_title_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_categories_title_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_categories_title_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_categories_title_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_categories_id
+  @shareable
+{
+  create: SearchDocAccessFields_categories_id_Create
+  read: SearchDocAccessFields_categories_id_Read
+  update: SearchDocAccessFields_categories_id_Update
+  delete: SearchDocAccessFields_categories_id_Delete
+}
+
+type SearchDocAccessFields_categories_id_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_categories_id_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_categories_id_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_categories_id_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_updatedAt
+  @shareable
+{
+  create: SearchDocAccessFields_updatedAt_Create
+  read: SearchDocAccessFields_updatedAt_Read
+  update: SearchDocAccessFields_updatedAt_Update
+  delete: SearchDocAccessFields_updatedAt_Delete
+}
+
+type SearchDocAccessFields_updatedAt_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_updatedAt_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_updatedAt_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_updatedAt_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_createdAt
+  @shareable
+{
+  create: SearchDocAccessFields_createdAt_Create
+  read: SearchDocAccessFields_createdAt_Read
+  update: SearchDocAccessFields_createdAt_Update
+  delete: SearchDocAccessFields_createdAt_Delete
+}
+
+type SearchDocAccessFields_createdAt_Create
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_createdAt_Read
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_createdAt_Update
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchDocAccessFields_createdAt_Delete
+  @shareable
+{
+  permission: Boolean!
+}
+
+type SearchCreateDocAccess
+  @shareable
+{
+  permission: Boolean!
+  where: JSONObject
+}
+
+type SearchReadDocAccess
+  @shareable
+{
+  permission: Boolean!
+  where: JSONObject
+}
+
+type SearchUpdateDocAccess
+  @shareable
+{
+  permission: Boolean!
+  where: JSONObject
+}
+
+type SearchDeleteDocAccess
+  @shareable
+{
+  permission: Boolean!
+  where: JSONObject
+}
+
+type Mutation {
+  createSearch(data: mutationSearchInput!, draft: Boolean): Search
+  updateSearch(id: Int!, autosave: Boolean, data: mutationSearchUpdateInput!, draft: Boolean, trash: Boolean): Search
+  deleteSearch(id: Int!, trash: Boolean): Search
+  duplicateSearch(id: Int!, data: mutationSearchInput!): Search
+}
+
+input mutationSearchInput {
+  title: String
+  priority: Float
+  doc: Search_DocRelationshipInput
+  slug: String
+  meta: mutationSearch_MetaInput
+  categories: [mutationSearch_CategoriesInput]
+  updatedAt: String
+  createdAt: String
+}
+
+input Search_DocRelationshipInput {
+  relationTo: Search_DocRelationshipInputRelationTo
+  value: JSON
+}
+
+enum Search_DocRelationshipInputRelationTo {
+  posts
+}
+
+input mutationSearch_MetaInput {
+  title: String
+  description: String
+  image: Int
+}
+
+input mutationSearch_CategoriesInput {
+  relationTo: String
+  categoryID: String
+  title: String
+  id: String
+}
+
+input mutationSearchUpdateInput {
+  title: String
+  priority: Float
+  doc: SearchUpdate_DocRelationshipInput
+  slug: String
+  meta: mutationSearchUpdate_MetaInput
+  categories: [mutationSearchUpdate_CategoriesInput]
+  updatedAt: String
+  createdAt: String
+}
+
+input SearchUpdate_DocRelationshipInput {
+  relationTo: SearchUpdate_DocRelationshipInputRelationTo
+  value: JSON
+}
+
+enum SearchUpdate_DocRelationshipInputRelationTo {
+  posts
+}
+
+input mutationSearchUpdate_MetaInput {
+  title: String
+  description: String
+  image: Int
+}
+
+input mutationSearchUpdate_CategoriesInput {
+  relationTo: String
+  categoryID: String
+  title: String
+  id: String
+}

@@ -1,40 +1,29 @@
-# Build from repository root:
-#   docker build -f romainRetreatServer/Dockerfile -t romain-retreat-graphql .
-#
-# Expects romainRetreatCMS/src alongside romainRetreatServer (same layout as the repo).
+# Monorepo build: run from the directory that contains `romainRetreatServer` and `romainRetreatCMS` as siblings:
+#   docker build -f romainRetreatServer/Dockerfile -t romain-graphql .
+FROM node:22-bookworm-slim
 
-FROM node:22-bookworm-slim AS deps
-WORKDIR /app/romainRetreatServer
-
-RUN corepack enable
-
-COPY romainRetreatServer/package.json romainRetreatServer/yarn.lock ./
-RUN yarn install --frozen-lockfile
-
-FROM node:22-bookworm-slim AS runner
-WORKDIR /app/romainRetreatServer
-
-ENV NODE_ENV=production
-ENV HOST=0.0.0.0
-ENV PORT=3002
-
-RUN apt-get update \
-  && apt-get install -y --no-install-recommends ca-certificates \
+RUN apt-get update -y && apt-get install -y --no-install-recommends curl \
   && rm -rf /var/lib/apt/lists/*
 
-RUN groupadd --system --gid 1001 nodejs \
-  && useradd --system --uid 1001 --gid nodejs nextjs
-
+WORKDIR /app
+COPY romainRetreatCMS /app/romainRetreatCMS
+COPY romainRetreatServer /app/romainRetreatServer
 RUN corepack enable
+# Install BOTH packages' deps. The runtime imports `romainRetreatCMS/src/payload.config.ts`,
+# whose bare `import 'payload'` resolves against the *importing file's* node_modules tree
+# (Node ESM rule), so the CMS folder must have its own node_modules. The db-init one-shot
+# also runs `romainRetreatCMS/scripts/seed-all.mts` which depends on @payloadcms/* plugins
+# only declared in the CMS package.json.
+RUN cd /app/romainRetreatCMS && yarn install --frozen-lockfile
+RUN cd /app/romainRetreatServer && yarn install --frozen-lockfile
+WORKDIR /app/romainRetreatServer
 
-COPY --from=deps --chown=nextjs:nodejs /app/romainRetreatServer/node_modules ./node_modules
-COPY --chown=nextjs:nodejs romainRetreatServer/package.json romainRetreatServer/yarn.lock ./
-COPY --chown=nextjs:nodejs romainRetreatServer/tsconfig.json ./
-COPY --chown=nextjs:nodejs romainRetreatServer/src ./src
-COPY --chown=nextjs:nodejs romainRetreatCMS/src ../romainRetreatCMS/src
-
-USER nextjs
-
+ENV NODE_ENV=development
+ENV HOST=0.0.0.0
+ENV PORT=3002
 EXPOSE 3002
+
+HEALTHCHECK --interval=5s --timeout=5s --retries=5 \
+  CMD curl -fsS "http://127.0.0.1:3002/health" | grep -q "ok" || exit 1
 
 CMD ["yarn", "start"]

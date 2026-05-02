@@ -1,0 +1,10 @@
+# AWS — one unified subgraph, SDL from repo (no live introspection). For GraphOS / `publish:subgraph` routing_url.
+# Keep `payload-sdl/_merged.graphql` current: `yarn export:subgraph-sdl`
+# Output: `yarn compose:supergraph:aws:file` → `supergraph/supergraph.aws.graphql`
+# `scripts/publish-subgraph.mts` reads `routing_url` for `payload` from this file when `SUBGRAPH_ROUTING_URL` is auto/empty.
+federation_version: '=2.8.0'
+subgraphs:
+  payload:
+    routing_url: https://oigifvv5kzxep4bm76ndq5b5qq0dgmia.lambda-url.us-east-1.on.aws/graphql
+    schema:
+      file: payload-sdl/_merged.graphql

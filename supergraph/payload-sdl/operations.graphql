@@ -1,0 +1,204 @@
+# Split SDL (yarn export:subgraph-sdl) | bucket: operations (Query, Mutation, Subscription)
+
+type Query {
+  Page(id: Int!, draft: Boolean, select: Boolean, trash: Boolean): Page
+  Pages(draft: Boolean, where: Page_where, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean): Pages
+  countPages(draft: Boolean, trash: Boolean, where: Page_where): countPages
+  docAccessPage(id: Int!): pagesDocAccess
+  versionPage(id: Int, trash: Boolean): PageVersion
+  versionsPages(where: versionsPage_where, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean): versionsPages
+  Post(id: Int!, draft: Boolean, select: Boolean, trash: Boolean): Post
+  Posts(draft: Boolean, where: Post_where, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean): Posts
+  countPosts(draft: Boolean, trash: Boolean, where: Post_where): countPosts
+  docAccessPost(id: Int!): postsDocAccess
+  versionPost(id: Int, trash: Boolean): PostVersion
+  versionsPosts(where: versionsPost_where, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean): versionsPosts
+  Media(id: Int!, draft: Boolean, select: Boolean, trash: Boolean): Media
+  allMedia(draft: Boolean, where: Media_where, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean): allMedia
+  countallMedia(draft: Boolean, trash: Boolean, where: Media_where): countallMedia
+  docAccessMedia(id: Int!): mediaDocAccess
+  Category(id: Int!, draft: Boolean, select: Boolean, trash: Boolean): Category
+  Categories(draft: Boolean, where: Category_where, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean): Categories
+  countCategories(draft: Boolean, trash: Boolean, where: Category_where): countCategories
+  docAccessCategory(id: Int!): categoriesDocAccess
+  User(id: Int!, draft: Boolean, select: Boolean, trash: Boolean): User
+  Users(draft: Boolean, where: User_where, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean): Users
+  countUsers(draft: Boolean, trash: Boolean, where: User_where): countUsers
+  docAccessUser(id: Int!): usersDocAccess
+  meUser: usersMe
+  initializedUser: Boolean
+  Group(id: Int!, draft: Boolean, select: Boolean, trash: Boolean): Group
+  Groups(draft: Boolean, where: Group_where, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean): Groups
+  countGroups(draft: Boolean, trash: Boolean, where: Group_where): countGroups
+  docAccessGroup(id: Int!): groupsDocAccess
+  GroupMember(id: Int!, draft: Boolean, select: Boolean, trash: Boolean): GroupMember
+  GroupMembers(draft: Boolean, where: GroupMember_where, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean): GroupMembers
+  countGroupMembers(draft: Boolean, trash: Boolean, where: GroupMember_where): countGroupMembers
+  docAccessGroupMember(id: Int!): groupMembersDocAccess
+  GroupPost(id: Int!, draft: Boolean, select: Boolean, trash: Boolean): GroupPost
+  GroupPosts(draft: Boolean, where: GroupPost_where, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean): GroupPosts
+  countGroupPosts(draft: Boolean, trash: Boolean, where: GroupPost_where): countGroupPosts
+  docAccessGroupPost(id: Int!): groupPostsDocAccess
+  GroupComment(id: Int!, draft: Boolean, select: Boolean, trash: Boolean): GroupComment
+  GroupComments(draft: Boolean, where: GroupComment_where, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean): GroupComments
+  countGroupComments(draft: Boolean, trash: Boolean, where: GroupComment_where): countGroupComments
+  docAccessGroupComment(id: Int!): groupCommentsDocAccess
+  GroupPostLike(id: Int!, draft: Boolean, select: Boolean, trash: Boolean): GroupPostLike
+  GroupPostLikes(draft: Boolean, where: GroupPostLike_where, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean): GroupPostLikes
+  countGroupPostLikes(draft: Boolean, trash: Boolean, where: GroupPostLike_where): countGroupPostLikes
+  docAccessGroupPostLike(id: Int!): groupPostLikesDocAccess
+  GroupCommentLike(id: Int!, draft: Boolean, select: Boolean, trash: Boolean): GroupCommentLike
+  GroupCommentLikes(draft: Boolean, where: GroupCommentLike_where, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean): GroupCommentLikes
+  countGroupCommentLikes(draft: Boolean, trash: Boolean, where: GroupCommentLike_where): countGroupCommentLikes
+  docAccessGroupCommentLike(id: Int!): groupCommentLikesDocAccess
+  GroupEvent(id: Int!, draft: Boolean, select: Boolean, trash: Boolean): GroupEvent
+  GroupEvents(draft: Boolean, where: GroupEvent_where, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean): GroupEvents
+  countGroupEvents(draft: Boolean, trash: Boolean, where: GroupEvent_where): countGroupEvents
+  docAccessGroupEvent(id: Int!): groupEventsDocAccess
+  GroupInvite(id: Int!, draft: Boolean, select: Boolean, trash: Boolean): GroupInvite
+  GroupInvites(draft: Boolean, where: GroupInvite_where, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean): GroupInvites
+  countGroupInvites(draft: Boolean, trash: Boolean, where: GroupInvite_where): countGroupInvites
+  docAccessGroupInvite(id: Int!): groupInvitesDocAccess
+  Redirect(id: Int!, draft: Boolean, select: Boolean, trash: Boolean): Redirect
+  Redirects(draft: Boolean, where: Redirect_where, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean): Redirects
+  countRedirects(draft: Boolean, trash: Boolean, where: Redirect_where): countRedirects
+  docAccessRedirect(id: Int!): redirectsDocAccess
+  Form(id: Int!, draft: Boolean, select: Boolean, trash: Boolean): Form
+  Forms(draft: Boolean, where: Form_where, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean): Forms
+  countForms(draft: Boolean, trash: Boolean, where: Form_where): countForms
+  docAccessForm(id: Int!): formsDocAccess
+  FormSubmission(id: Int!, draft: Boolean, select: Boolean, trash: Boolean): FormSubmission
+  FormSubmissions(draft: Boolean, where: FormSubmission_where, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean): FormSubmissions
+  countFormSubmissions(draft: Boolean, trash: Boolean, where: FormSubmission_where): countFormSubmissions
+  docAccessFormSubmission(id: Int!): form_submissionsDocAccess
+  Search(id: Int!, draft: Boolean, select: Boolean, trash: Boolean): Search
+  Searches(draft: Boolean, where: Search_where, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean): Searches
+  countSearches(draft: Boolean, trash: Boolean, where: Search_where): countSearches
+  docAccessSearch(id: Int!): searchDocAccess
+  PayloadKv(id: Int!, draft: Boolean, select: Boolean, trash: Boolean): PayloadKv
+  PayloadKvs(draft: Boolean, where: PayloadKv_where, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean): PayloadKvs
+  countPayloadKvs(draft: Boolean, trash: Boolean, where: PayloadKv_where): countPayloadKvs
+  docAccessPayloadKv(id: Int!): payload_kvDocAccess
+  PayloadJob(id: Int!, draft: Boolean, select: Boolean, trash: Boolean): PayloadJob
+  PayloadJobs(draft: Boolean, where: PayloadJob_where, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean): PayloadJobs
+  countPayloadJobs(draft: Boolean, trash: Boolean, where: PayloadJob_where): countPayloadJobs
+  docAccessPayloadJob(id: Int!): payload_jobsDocAccess
+  PayloadFolder(id: Int!, draft: Boolean, select: Boolean, trash: Boolean): PayloadFolder
+  PayloadFolders(draft: Boolean, where: PayloadFolder_where, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean): PayloadFolders
+  countPayloadFolders(draft: Boolean, trash: Boolean, where: PayloadFolder_where): countPayloadFolders
+  docAccessPayloadFolder(id: Int!): payload_foldersDocAccess
+  PayloadLockedDocument(id: Int!, draft: Boolean, select: Boolean, trash: Boolean): PayloadLockedDocument
+  PayloadLockedDocuments(draft: Boolean, where: PayloadLockedDocument_where, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean): PayloadLockedDocuments
+  countPayloadLockedDocuments(draft: Boolean, trash: Boolean, where: PayloadLockedDocument_where): countPayloadLockedDocuments
+  docAccessPayloadLockedDocument(id: Int!): payload_locked_documentsDocAccess
+  PayloadPreference(id: Int!, draft: Boolean, select: Boolean, trash: Boolean): PayloadPreference
+  PayloadPreferences(draft: Boolean, where: PayloadPreference_where, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean): PayloadPreferences
+  countPayloadPreferences(draft: Boolean, trash: Boolean, where: PayloadPreference_where): countPayloadPreferences
+  docAccessPayloadPreference(id: Int!): payload_preferencesDocAccess
+  Header(draft: Boolean, select: Boolean): Header
+  docAccessHeader: headerDocAccess
+  Footer(draft: Boolean, select: Boolean): Footer
+  docAccessFooter: footerDocAccess
+  Access: Access
+}
+
+type Mutation {
+  createPage(data: mutationPageInput!, draft: Boolean): Page
+  updatePage(id: Int!, autosave: Boolean, data: mutationPageUpdateInput!, draft: Boolean, trash: Boolean): Page
+  deletePage(id: Int!, trash: Boolean): Page
+  duplicatePage(id: Int!, data: mutationPageInput!): Page
+  restoreVersionPage(id: Int, draft: Boolean): Page
+  createPost(data: mutationPostInput!, draft: Boolean): Post
+  updatePost(id: Int!, autosave: Boolean, data: mutationPostUpdateInput!, draft: Boolean, trash: Boolean): Post
+  deletePost(id: Int!, trash: Boolean): Post
+  duplicatePost(id: Int!, data: mutationPostInput!): Post
+  restoreVersionPost(id: Int, draft: Boolean): Post
+  createMedia(data: mutationMediaInput!, draft: Boolean): Media
+  updateMedia(id: Int!, autosave: Boolean, data: mutationMediaUpdateInput!, draft: Boolean, trash: Boolean): Media
+  deleteMedia(id: Int!, trash: Boolean): Media
+  duplicateMedia(id: Int!, data: mutationMediaInput!): Media
+  createCategory(data: mutationCategoryInput!, draft: Boolean): Category
+  updateCategory(id: Int!, autosave: Boolean, data: mutationCategoryUpdateInput!, draft: Boolean, trash: Boolean): Category
+  deleteCategory(id: Int!, trash: Boolean): Category
+  duplicateCategory(id: Int!, data: mutationCategoryInput!): Category
+  createUser(data: mutationUserInput!, draft: Boolean): User
+  updateUser(id: Int!, autosave: Boolean, data: mutationUserUpdateInput!, draft: Boolean, trash: Boolean): User
+  deleteUser(id: Int!, trash: Boolean): User
+  refreshTokenUser: usersRefreshedUser
+  logoutUser(allSessions: Boolean): String
+  unlockUser(email: String!): Boolean!
+  loginUser(email: String!, password: String): usersLoginResult
+  forgotPasswordUser(email: String!): Boolean!
+  resetPasswordUser(password: String, token: String): usersResetPassword
+  verifyEmailUser(token: String): Boolean
+  createGroup(data: mutationGroupInput!, draft: Boolean): Group
+  updateGroup(id: Int!, autosave: Boolean, data: mutationGroupUpdateInput!, draft: Boolean, trash: Boolean): Group
+  deleteGroup(id: Int!, trash: Boolean): Group
+  duplicateGroup(id: Int!, data: mutationGroupInput!): Group
+  createGroupMember(data: mutationGroupMemberInput!, draft: Boolean): GroupMember
+  updateGroupMember(id: Int!, autosave: Boolean, data: mutationGroupMemberUpdateInput!, draft: Boolean, trash: Boolean): GroupMember
+  deleteGroupMember(id: Int!, trash: Boolean): GroupMember
+  duplicateGroupMember(id: Int!, data: mutationGroupMemberInput!): GroupMember
+  createGroupPost(data: mutationGroupPostInput!, draft: Boolean): GroupPost
+  updateGroupPost(id: Int!, autosave: Boolean, data: mutationGroupPostUpdateInput!, draft: Boolean, trash: Boolean): GroupPost
+  deleteGroupPost(id: Int!, trash: Boolean): GroupPost
+  duplicateGroupPost(id: Int!, data: mutationGroupPostInput!): GroupPost
+  createGroupComment(data: mutationGroupCommentInput!, draft: Boolean): GroupComment
+  updateGroupComment(id: Int!, autosave: Boolean, data: mutationGroupCommentUpdateInput!, draft: Boolean, trash: Boolean): GroupComment
+  deleteGroupComment(id: Int!, trash: Boolean): GroupComment
+  duplicateGroupComment(id: Int!, data: mutationGroupCommentInput!): GroupComment
+  createGroupPostLike(data: mutationGroupPostLikeInput!, draft: Boolean): GroupPostLike
+  updateGroupPostLike(id: Int!, autosave: Boolean, data: mutationGroupPostLikeUpdateInput!, draft: Boolean, trash: Boolean): GroupPostLike
+  deleteGroupPostLike(id: Int!, trash: Boolean): GroupPostLike
+  duplicateGroupPostLike(id: Int!, data: mutationGroupPostLikeInput!): GroupPostLike
+  createGroupCommentLike(data: mutationGroupCommentLikeInput!, draft: Boolean): GroupCommentLike
+  updateGroupCommentLike(id: Int!, autosave: Boolean, data: mutationGroupCommentLikeUpdateInput!, draft: Boolean, trash: Boolean): GroupCommentLike
+  deleteGroupCommentLike(id: Int!, trash: Boolean): GroupCommentLike
+  duplicateGroupCommentLike(id: Int!, data: mutationGroupCommentLikeInput!): GroupCommentLike
+  createGroupEvent(data: mutationGroupEventInput!, draft: Boolean): GroupEvent
+  updateGroupEvent(id: Int!, autosave: Boolean, data: mutationGroupEventUpdateInput!, draft: Boolean, trash: Boolean): GroupEvent
+  deleteGroupEvent(id: Int!, trash: Boolean): GroupEvent
+  duplicateGroupEvent(id: Int!, data: mutationGroupEventInput!): GroupEvent
+  createGroupInvite(data: mutationGroupInviteInput!, draft: Boolean): GroupInvite
+  updateGroupInvite(id: Int!, autosave: Boolean, data: mutationGroupInviteUpdateInput!, draft: Boolean, trash: Boolean): GroupInvite
+  deleteGroupInvite(id: Int!, trash: Boolean): GroupInvite
+  duplicateGroupInvite(id: Int!, data: mutationGroupInviteInput!): GroupInvite
+  createRedirect(data: mutationRedirectInput!, draft: Boolean): Redirect
+  updateRedirect(id: Int!, autosave: Boolean, data: mutationRedirectUpdateInput!, draft: Boolean, trash: Boolean): Redirect
+  deleteRedirect(id: Int!, trash: Boolean): Redirect
+  duplicateRedirect(id: Int!, data: mutationRedirectInput!): Redirect
+  createForm(data: mutationFormInput!, draft: Boolean): Form
+  updateForm(id: Int!, autosave: Boolean, data: mutationFormUpdateInput!, draft: Boolean, trash: Boolean): Form
+  deleteForm(id: Int!, trash: Boolean): Form
+  duplicateForm(id: Int!, data: mutationFormInput!): Form
+  createFormSubmission(data: mutationFormSubmissionInput!, draft: Boolean): FormSubmission
+  updateFormSubmission(id: Int!, autosave: Boolean, data: mutationFormSubmissionUpdateInput!, draft: Boolean, trash: Boolean): FormSubmission
+  deleteFormSubmission(id: Int!, trash: Boolean): FormSubmission
+  duplicateFormSubmission(id: Int!, data: mutationFormSubmissionInput!): FormSubmission
+  createSearch(data: mutationSearchInput!, draft: Boolean): Search
+  updateSearch(id: Int!, autosave: Boolean, data: mutationSearchUpdateInput!, draft: Boolean, trash: Boolean): Search
+  deleteSearch(id: Int!, trash: Boolean): Search
+  duplicateSearch(id: Int!, data: mutationSearchInput!): Search
+  createPayloadKv(data: mutationPayloadKvInput!, draft: Boolean): PayloadKv
+  updatePayloadKv(id: Int!, autosave: Boolean, data: mutationPayloadKvUpdateInput!, draft: Boolean, trash: Boolean): PayloadKv
+  deletePayloadKv(id: Int!, trash: Boolean): PayloadKv
+  duplicatePayloadKv(id: Int!, data: mutationPayloadKvInput!): PayloadKv
+  createPayloadJob(data: mutationPayloadJobInput!, draft: Boolean): PayloadJob
+  updatePayloadJob(id: Int!, autosave: Boolean, data: mutationPayloadJobUpdateInput!, draft: Boolean, trash: Boolean): PayloadJob
+  deletePayloadJob(id: Int!, trash: Boolean): PayloadJob
+  duplicatePayloadJob(id: Int!, data: mutationPayloadJobInput!): PayloadJob
+  createPayloadFolder(data: mutationPayloadFolderInput!, draft: Boolean): PayloadFolder
+  updatePayloadFolder(id: Int!, autosave: Boolean, data: mutationPayloadFolderUpdateInput!, draft: Boolean, trash: Boolean): PayloadFolder
+  deletePayloadFolder(id: Int!, trash: Boolean): PayloadFolder
+  duplicatePayloadFolder(id: Int!, data: mutationPayloadFolderInput!): PayloadFolder
+  createPayloadLockedDocument(data: mutationPayloadLockedDocumentInput!, draft: Boolean): PayloadLockedDocument
+  updatePayloadLockedDocument(id: Int!, autosave: Boolean, data: mutationPayloadLockedDocumentUpdateInput!, draft: Boolean, trash: Boolean): PayloadLockedDocument
+  deletePayloadLockedDocument(id: Int!, trash: Boolean): PayloadLockedDocument
+  duplicatePayloadLockedDocument(id: Int!, data: mutationPayloadLockedDocumentInput!): PayloadLockedDocument
+  createPayloadPreference(data: mutationPayloadPreferenceInput!, draft: Boolean): PayloadPreference
+  updatePayloadPreference(id: Int!, autosave: Boolean, data: mutationPayloadPreferenceUpdateInput!, draft: Boolean, trash: Boolean): PayloadPreference
+  deletePayloadPreference(id: Int!, trash: Boolean): PayloadPreference
+  duplicatePayloadPreference(id: Int!, data: mutationPayloadPreferenceInput!): PayloadPreference
+  updateHeader(data: mutationHeaderInput!, draft: Boolean): Header
+  updateFooter(data: mutationFooterInput!, draft: Boolean): Footer
+}

@@ -1,9 +1,27 @@
-# Apollo Router — same role as in https://github.com/apollographql/supergraph-demo-fed2
-# Run with: `docker compose -f docker-compose.yml -f docker-compose.supergraph.yml up router`
-# Requires `supergraph/supergraph.graphql` (generate via `yarn --cwd romainRetreatServer compose:supergraph`).
+# Apollo Router — same role as cft-federation-server/supergraph/router.yaml.
+# Run as the prebuilt binary (`make run-router`), through Docker (`make up-supergraph` / `up-supergraph-local`),
+# or against a Studio-managed graph (with APOLLO_KEY/APOLLO_GRAPH_REF). For local composition, point
+# `--supergraph` at `supergraph/supergraph.local.graphql` or `supergraph/supergraph.docker.graphql`.
 
 supergraph:
   listen: 0.0.0.0:4000
+  introspection: true
 
 cors:
   allow_any_origin: true
+
+sandbox:
+  enabled: true
+homepage:
+  enabled: true
+include_subgraph_errors:
+  all: true
+telemetry:
+  apollo:
+    field_level_instrumentation_sampler: 1
+  exporters:
+    tracing:
+      common:
+        sampler: 1
+        service_name: 'romain-router'
+        service_namespace: 'apollo'

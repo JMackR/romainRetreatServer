@@ -20,9 +20,27 @@ capabilities = "CAPABILITY_IAM"
 confirm_changeset = true
 resolve_s3 = true
 region = "us-east-1"
-# Required stack parameters (see template.yaml). Replace PayloadSecret before deploy.
-# Include PayloadSecret (required). No Vpc* keys — attach VPC in Lambda console if needed.
-parameter_overrides = "DatabaseUrl=\"postgresql://postgres@database-1-instance-1.cq5m8kimg8gg.us-east-1.rds.amazonaws.com:5432/postgres?sslmode=require\" PayloadSecret=\"YOUR_PAYLOAD_SECRET_HERE\" UseRdsIamAuth=\"false\" RdsDbiResourceId=\"\" RdsIamDbUser=\"postgres\" PayloadDatabasePush=\"0\""
+# Required stack parameters (see template.yaml).
+#
+# DatabaseUrl: Aurora cluster endpoint (writer) — passwordless when UseRdsIamAuth=true.
+#   The Lambda (subgraphs/_shared/rds-iam-auth.ts) calls Signer.getAuthToken() at boot
+#   and rewrites this URL with a fresh 15-minute IAM token before payload.config loads.
+#
+# PayloadSecret: CloudFormation dynamic reference into AWS Secrets Manager (resolved
+#   at deploy time, not runtime — no VPC endpoint needed). Create the secret first:
+#     aws secretsmanager create-secret --name romain-retreat/payload-secret \
+#       --secret-string "<64+ random bytes>"
+#   Then keep the {{resolve:…}} string below. The literal placeholder
+#   "{{resolve:secretsmanager:<secret-name-or-arn>:SecretString}}" will have its value
+#   substituted in by CFN; if the secret is JSON, append :<json-key>:<version> per
+#   https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/dynamic-references-secretsmanager.html
+#
+# UseRdsIamAuth=true → SubgraphFunctionRdsIamPolicy is attached and grants
+#   rds-db:connect on arn:aws:rds-db:…:dbuser:${RdsDbiResourceId}/${RdsIamDbUser}.
+#   For an Aurora cluster the resource id starts with "cluster-" (RDS console →
+#   the cluster (NOT instance) → Configuration → Resource ID). For a single-instance
+#   RDS use "db-XXXX" instead.
+parameter_overrides = "DatabaseUrl=\"postgresql://postgres@database-1.cluster-cq5m8kimg8gg.us-east-1.rds.amazonaws.com:5432/postgres?sslmode=require\" PayloadSecret=\"{{resolve:secretsmanager:romain-retreat/payload-secret:SecretString}}\" UseRdsIamAuth=\"true\" RdsDbiResourceId=\"cluster-3OJZW24Q2S5F27DDMTGIOQMBJY\" RdsIamDbUser=\"postgres\" PayloadDatabasePush=\"0\""
 s3_prefix = "romain-retreat-subgraph"
 image_repositories = []
 

@@ -1,0 +1,4415 @@
+# Split SDL (yarn export:subgraph-sdl) | bucket: groups
+
+type Group {
+  id: Int!
+  name: String!
+  generateSlug: Boolean
+  slug: String!
+  cover: Media
+  shortDescription: String
+  about(depth: Int): JSON
+  privacy: Group_privacy
+  createdBy: User
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+enum Group_privacy {
+  public
+  private
+}
+
+type Groups {
+  docs: [Group!]!
+  hasNextPage: Boolean!
+  hasPrevPage: Boolean!
+  limit: Int!
+  nextPage: Int
+  offset: Int
+  page: Int!
+  pagingCounter: Int!
+  prevPage: Int
+  totalDocs: Int!
+  totalPages: Int!
+}
+
+input Group_where {
+  name: Group_name_operator
+  generateSlug: Group_generateSlug_operator
+  slug: Group_slug_operator
+  cover: Group_cover_operator
+  shortDescription: Group_shortDescription_operator
+  about: Group_about_operator
+  privacy: Group_privacy_operator
+  createdBy: Group_createdBy_operator
+  updatedAt: Group_updatedAt_operator
+  createdAt: Group_createdAt_operator
+  id: Group_id_operator
+  AND: [Group_where_and]
+  OR: [Group_where_or]
+}
+
+input Group_name_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+}
+
+input Group_generateSlug_operator {
+  equals: Boolean
+  not_equals: Boolean
+  exists: Boolean
+}
+
+input Group_slug_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+}
+
+input Group_cover_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input Group_shortDescription_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  exists: Boolean
+}
+
+input Group_about_operator {
+  equals: JSON
+  not_equals: JSON
+  like: JSON
+  contains: JSON
+  exists: Boolean
+}
+
+input Group_privacy_operator {
+  equals: Group_privacy_Input
+  not_equals: Group_privacy_Input
+  in: [Group_privacy_Input]
+  not_in: [Group_privacy_Input]
+  all: [Group_privacy_Input]
+  exists: Boolean
+}
+
+enum Group_privacy_Input {
+  public
+  private
+}
+
+input Group_createdBy_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input Group_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Group_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Group_id_operator {
+  equals: Int
+  not_equals: Int
+  greater_than_equal: Int
+  greater_than: Int
+  less_than_equal: Int
+  less_than: Int
+  exists: Boolean
+}
+
+input Group_where_and {
+  name: Group_name_operator
+  generateSlug: Group_generateSlug_operator
+  slug: Group_slug_operator
+  cover: Group_cover_operator
+  shortDescription: Group_shortDescription_operator
+  about: Group_about_operator
+  privacy: Group_privacy_operator
+  createdBy: Group_createdBy_operator
+  updatedAt: Group_updatedAt_operator
+  createdAt: Group_createdAt_operator
+  id: Group_id_operator
+  AND: [Group_where_and]
+  OR: [Group_where_or]
+}
+
+input Group_where_or {
+  name: Group_name_operator
+  generateSlug: Group_generateSlug_operator
+  slug: Group_slug_operator
+  cover: Group_cover_operator
+  shortDescription: Group_shortDescription_operator
+  about: Group_about_operator
+  privacy: Group_privacy_operator
+  createdBy: Group_createdBy_operator
+  updatedAt: Group_updatedAt_operator
+  createdAt: Group_createdAt_operator
+  id: Group_id_operator
+  AND: [Group_where_and]
+  OR: [Group_where_or]
+}
+
+type countGroups {
+  totalDocs: Int
+}
+
+type GroupsDocAccessFields {
+  name: GroupsDocAccessFields_name
+  generateSlug: GroupsDocAccessFields_generateSlug
+  slug: GroupsDocAccessFields_slug
+  cover: GroupsDocAccessFields_cover
+  shortDescription: GroupsDocAccessFields_shortDescription
+  about: GroupsDocAccessFields_about
+  privacy: GroupsDocAccessFields_privacy
+  createdBy: GroupsDocAccessFields_createdBy
+  updatedAt: GroupsDocAccessFields_updatedAt
+  createdAt: GroupsDocAccessFields_createdAt
+}
+
+type GroupsDocAccessFields_name {
+  create: GroupsDocAccessFields_name_Create
+  read: GroupsDocAccessFields_name_Read
+  update: GroupsDocAccessFields_name_Update
+  delete: GroupsDocAccessFields_name_Delete
+}
+
+type GroupsDocAccessFields_name_Create {
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_name_Read {
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_name_Update {
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_name_Delete {
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_generateSlug {
+  create: GroupsDocAccessFields_generateSlug_Create
+  read: GroupsDocAccessFields_generateSlug_Read
+  update: GroupsDocAccessFields_generateSlug_Update
+  delete: GroupsDocAccessFields_generateSlug_Delete
+}
+
+type GroupsDocAccessFields_generateSlug_Create {
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_generateSlug_Read {
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_generateSlug_Update {
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_generateSlug_Delete {
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_slug {
+  create: GroupsDocAccessFields_slug_Create
+  read: GroupsDocAccessFields_slug_Read
+  update: GroupsDocAccessFields_slug_Update
+  delete: GroupsDocAccessFields_slug_Delete
+}
+
+type GroupsDocAccessFields_slug_Create {
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_slug_Read {
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_slug_Update {
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_slug_Delete {
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_cover {
+  create: GroupsDocAccessFields_cover_Create
+  read: GroupsDocAccessFields_cover_Read
+  update: GroupsDocAccessFields_cover_Update
+  delete: GroupsDocAccessFields_cover_Delete
+}
+
+type GroupsDocAccessFields_cover_Create {
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_cover_Read {
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_cover_Update {
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_cover_Delete {
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_shortDescription {
+  create: GroupsDocAccessFields_shortDescription_Create
+  read: GroupsDocAccessFields_shortDescription_Read
+  update: GroupsDocAccessFields_shortDescription_Update
+  delete: GroupsDocAccessFields_shortDescription_Delete
+}
+
+type GroupsDocAccessFields_shortDescription_Create {
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_shortDescription_Read {
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_shortDescription_Update {
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_shortDescription_Delete {
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_about {
+  create: GroupsDocAccessFields_about_Create
+  read: GroupsDocAccessFields_about_Read
+  update: GroupsDocAccessFields_about_Update
+  delete: GroupsDocAccessFields_about_Delete
+}
+
+type GroupsDocAccessFields_about_Create {
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_about_Read {
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_about_Update {
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_about_Delete {
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_privacy {
+  create: GroupsDocAccessFields_privacy_Create
+  read: GroupsDocAccessFields_privacy_Read
+  update: GroupsDocAccessFields_privacy_Update
+  delete: GroupsDocAccessFields_privacy_Delete
+}
+
+type GroupsDocAccessFields_privacy_Create {
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_privacy_Read {
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_privacy_Update {
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_privacy_Delete {
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_createdBy {
+  create: GroupsDocAccessFields_createdBy_Create
+  read: GroupsDocAccessFields_createdBy_Read
+  update: GroupsDocAccessFields_createdBy_Update
+  delete: GroupsDocAccessFields_createdBy_Delete
+}
+
+type GroupsDocAccessFields_createdBy_Create {
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_createdBy_Read {
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_createdBy_Update {
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_createdBy_Delete {
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_updatedAt {
+  create: GroupsDocAccessFields_updatedAt_Create
+  read: GroupsDocAccessFields_updatedAt_Read
+  update: GroupsDocAccessFields_updatedAt_Update
+  delete: GroupsDocAccessFields_updatedAt_Delete
+}
+
+type GroupsDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_createdAt {
+  create: GroupsDocAccessFields_createdAt_Create
+  read: GroupsDocAccessFields_createdAt_Read
+  update: GroupsDocAccessFields_createdAt_Update
+  delete: GroupsDocAccessFields_createdAt_Delete
+}
+
+type GroupsDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type GroupsDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type GroupsCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupsReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupsUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupsDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupMember {
+  id: Int!
+  group: Group
+  user: User
+  role: GroupMember_role!
+  status: GroupMember_status!
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+enum GroupMember_role {
+  admin
+  moderator
+  member
+}
+
+enum GroupMember_status {
+  active
+  invited
+  left
+}
+
+type GroupMembers {
+  docs: [GroupMember!]!
+  hasNextPage: Boolean!
+  hasPrevPage: Boolean!
+  limit: Int!
+  nextPage: Int
+  offset: Int
+  page: Int!
+  pagingCounter: Int!
+  prevPage: Int
+  totalDocs: Int!
+  totalPages: Int!
+}
+
+input GroupMember_where {
+  group: GroupMember_group_operator
+  user: GroupMember_user_operator
+  role: GroupMember_role_operator
+  status: GroupMember_status_operator
+  updatedAt: GroupMember_updatedAt_operator
+  createdAt: GroupMember_createdAt_operator
+  id: GroupMember_id_operator
+  AND: [GroupMember_where_and]
+  OR: [GroupMember_where_or]
+}
+
+input GroupMember_group_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+}
+
+input GroupMember_user_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+}
+
+input GroupMember_role_operator {
+  equals: GroupMember_role_Input
+  not_equals: GroupMember_role_Input
+  in: [GroupMember_role_Input]
+  not_in: [GroupMember_role_Input]
+  all: [GroupMember_role_Input]
+}
+
+enum GroupMember_role_Input {
+  admin
+  moderator
+  member
+}
+
+input GroupMember_status_operator {
+  equals: GroupMember_status_Input
+  not_equals: GroupMember_status_Input
+  in: [GroupMember_status_Input]
+  not_in: [GroupMember_status_Input]
+  all: [GroupMember_status_Input]
+}
+
+enum GroupMember_status_Input {
+  active
+  invited
+  left
+}
+
+input GroupMember_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input GroupMember_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input GroupMember_id_operator {
+  equals: Int
+  not_equals: Int
+  greater_than_equal: Int
+  greater_than: Int
+  less_than_equal: Int
+  less_than: Int
+  exists: Boolean
+}
+
+input GroupMember_where_and {
+  group: GroupMember_group_operator
+  user: GroupMember_user_operator
+  role: GroupMember_role_operator
+  status: GroupMember_status_operator
+  updatedAt: GroupMember_updatedAt_operator
+  createdAt: GroupMember_createdAt_operator
+  id: GroupMember_id_operator
+  AND: [GroupMember_where_and]
+  OR: [GroupMember_where_or]
+}
+
+input GroupMember_where_or {
+  group: GroupMember_group_operator
+  user: GroupMember_user_operator
+  role: GroupMember_role_operator
+  status: GroupMember_status_operator
+  updatedAt: GroupMember_updatedAt_operator
+  createdAt: GroupMember_createdAt_operator
+  id: GroupMember_id_operator
+  AND: [GroupMember_where_and]
+  OR: [GroupMember_where_or]
+}
+
+type countGroupMembers {
+  totalDocs: Int
+}
+
+type GroupMembersDocAccessFields {
+  group: GroupMembersDocAccessFields_group
+  user: GroupMembersDocAccessFields_user
+  role: GroupMembersDocAccessFields_role
+  status: GroupMembersDocAccessFields_status
+  updatedAt: GroupMembersDocAccessFields_updatedAt
+  createdAt: GroupMembersDocAccessFields_createdAt
+}
+
+type GroupMembersDocAccessFields_group {
+  create: GroupMembersDocAccessFields_group_Create
+  read: GroupMembersDocAccessFields_group_Read
+  update: GroupMembersDocAccessFields_group_Update
+  delete: GroupMembersDocAccessFields_group_Delete
+}
+
+type GroupMembersDocAccessFields_group_Create {
+  permission: Boolean!
+}
+
+type GroupMembersDocAccessFields_group_Read {
+  permission: Boolean!
+}
+
+type GroupMembersDocAccessFields_group_Update {
+  permission: Boolean!
+}
+
+type GroupMembersDocAccessFields_group_Delete {
+  permission: Boolean!
+}
+
+type GroupMembersDocAccessFields_user {
+  create: GroupMembersDocAccessFields_user_Create
+  read: GroupMembersDocAccessFields_user_Read
+  update: GroupMembersDocAccessFields_user_Update
+  delete: GroupMembersDocAccessFields_user_Delete
+}
+
+type GroupMembersDocAccessFields_user_Create {
+  permission: Boolean!
+}
+
+type GroupMembersDocAccessFields_user_Read {
+  permission: Boolean!
+}
+
+type GroupMembersDocAccessFields_user_Update {
+  permission: Boolean!
+}
+
+type GroupMembersDocAccessFields_user_Delete {
+  permission: Boolean!
+}
+
+type GroupMembersDocAccessFields_role {
+  create: GroupMembersDocAccessFields_role_Create
+  read: GroupMembersDocAccessFields_role_Read
+  update: GroupMembersDocAccessFields_role_Update
+  delete: GroupMembersDocAccessFields_role_Delete
+}
+
+type GroupMembersDocAccessFields_role_Create {
+  permission: Boolean!
+}
+
+type GroupMembersDocAccessFields_role_Read {
+  permission: Boolean!
+}
+
+type GroupMembersDocAccessFields_role_Update {
+  permission: Boolean!
+}
+
+type GroupMembersDocAccessFields_role_Delete {
+  permission: Boolean!
+}
+
+type GroupMembersDocAccessFields_status {
+  create: GroupMembersDocAccessFields_status_Create
+  read: GroupMembersDocAccessFields_status_Read
+  update: GroupMembersDocAccessFields_status_Update
+  delete: GroupMembersDocAccessFields_status_Delete
+}
+
+type GroupMembersDocAccessFields_status_Create {
+  permission: Boolean!
+}
+
+type GroupMembersDocAccessFields_status_Read {
+  permission: Boolean!
+}
+
+type GroupMembersDocAccessFields_status_Update {
+  permission: Boolean!
+}
+
+type GroupMembersDocAccessFields_status_Delete {
+  permission: Boolean!
+}
+
+type GroupMembersDocAccessFields_updatedAt {
+  create: GroupMembersDocAccessFields_updatedAt_Create
+  read: GroupMembersDocAccessFields_updatedAt_Read
+  update: GroupMembersDocAccessFields_updatedAt_Update
+  delete: GroupMembersDocAccessFields_updatedAt_Delete
+}
+
+type GroupMembersDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type GroupMembersDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type GroupMembersDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type GroupMembersDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type GroupMembersDocAccessFields_createdAt {
+  create: GroupMembersDocAccessFields_createdAt_Create
+  read: GroupMembersDocAccessFields_createdAt_Read
+  update: GroupMembersDocAccessFields_createdAt_Update
+  delete: GroupMembersDocAccessFields_createdAt_Delete
+}
+
+type GroupMembersDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type GroupMembersDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type GroupMembersDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type GroupMembersDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type GroupMembersCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupMembersReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupMembersUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupMembersDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupPost {
+  id: Int!
+  group: Group
+  author: User
+  authorName: String
+  postType: GroupPost_postType!
+  text: String!
+  commentsEnabled: Boolean
+  photos: [Media!]
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+enum GroupPost_postType {
+  discussion
+  question
+  announcement
+}
+
+type GroupPosts {
+  docs: [GroupPost!]!
+  hasNextPage: Boolean!
+  hasPrevPage: Boolean!
+  limit: Int!
+  nextPage: Int
+  offset: Int
+  page: Int!
+  pagingCounter: Int!
+  prevPage: Int
+  totalDocs: Int!
+  totalPages: Int!
+}
+
+input GroupPost_where {
+  group: GroupPost_group_operator
+  author: GroupPost_author_operator
+  authorName: GroupPost_authorName_operator
+  postType: GroupPost_postType_operator
+  text: GroupPost_text_operator
+  commentsEnabled: GroupPost_commentsEnabled_operator
+  photos: GroupPost_photos_operator
+  updatedAt: GroupPost_updatedAt_operator
+  createdAt: GroupPost_createdAt_operator
+  id: GroupPost_id_operator
+  AND: [GroupPost_where_and]
+  OR: [GroupPost_where_or]
+}
+
+input GroupPost_group_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+}
+
+input GroupPost_author_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input GroupPost_authorName_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input GroupPost_postType_operator {
+  equals: GroupPost_postType_Input
+  not_equals: GroupPost_postType_Input
+  in: [GroupPost_postType_Input]
+  not_in: [GroupPost_postType_Input]
+  all: [GroupPost_postType_Input]
+}
+
+enum GroupPost_postType_Input {
+  discussion
+  question
+  announcement
+}
+
+input GroupPost_text_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+}
+
+input GroupPost_commentsEnabled_operator {
+  equals: Boolean
+  not_equals: Boolean
+  exists: Boolean
+}
+
+input GroupPost_photos_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input GroupPost_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input GroupPost_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input GroupPost_id_operator {
+  equals: Int
+  not_equals: Int
+  greater_than_equal: Int
+  greater_than: Int
+  less_than_equal: Int
+  less_than: Int
+  exists: Boolean
+}
+
+input GroupPost_where_and {
+  group: GroupPost_group_operator
+  author: GroupPost_author_operator
+  authorName: GroupPost_authorName_operator
+  postType: GroupPost_postType_operator
+  text: GroupPost_text_operator
+  commentsEnabled: GroupPost_commentsEnabled_operator
+  photos: GroupPost_photos_operator
+  updatedAt: GroupPost_updatedAt_operator
+  createdAt: GroupPost_createdAt_operator
+  id: GroupPost_id_operator
+  AND: [GroupPost_where_and]
+  OR: [GroupPost_where_or]
+}
+
+input GroupPost_where_or {
+  group: GroupPost_group_operator
+  author: GroupPost_author_operator
+  authorName: GroupPost_authorName_operator
+  postType: GroupPost_postType_operator
+  text: GroupPost_text_operator
+  commentsEnabled: GroupPost_commentsEnabled_operator
+  photos: GroupPost_photos_operator
+  updatedAt: GroupPost_updatedAt_operator
+  createdAt: GroupPost_createdAt_operator
+  id: GroupPost_id_operator
+  AND: [GroupPost_where_and]
+  OR: [GroupPost_where_or]
+}
+
+type countGroupPosts {
+  totalDocs: Int
+}
+
+type GroupPostsDocAccessFields {
+  group: GroupPostsDocAccessFields_group
+  author: GroupPostsDocAccessFields_author
+  authorName: GroupPostsDocAccessFields_authorName
+  postType: GroupPostsDocAccessFields_postType
+  text: GroupPostsDocAccessFields_text
+  commentsEnabled: GroupPostsDocAccessFields_commentsEnabled
+  photos: GroupPostsDocAccessFields_photos
+  updatedAt: GroupPostsDocAccessFields_updatedAt
+  createdAt: GroupPostsDocAccessFields_createdAt
+}
+
+type GroupPostsDocAccessFields_group {
+  create: GroupPostsDocAccessFields_group_Create
+  read: GroupPostsDocAccessFields_group_Read
+  update: GroupPostsDocAccessFields_group_Update
+  delete: GroupPostsDocAccessFields_group_Delete
+}
+
+type GroupPostsDocAccessFields_group_Create {
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_group_Read {
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_group_Update {
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_group_Delete {
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_author {
+  create: GroupPostsDocAccessFields_author_Create
+  read: GroupPostsDocAccessFields_author_Read
+  update: GroupPostsDocAccessFields_author_Update
+  delete: GroupPostsDocAccessFields_author_Delete
+}
+
+type GroupPostsDocAccessFields_author_Create {
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_author_Read {
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_author_Update {
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_author_Delete {
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_authorName {
+  create: GroupPostsDocAccessFields_authorName_Create
+  read: GroupPostsDocAccessFields_authorName_Read
+  update: GroupPostsDocAccessFields_authorName_Update
+  delete: GroupPostsDocAccessFields_authorName_Delete
+}
+
+type GroupPostsDocAccessFields_authorName_Create {
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_authorName_Read {
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_authorName_Update {
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_authorName_Delete {
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_postType {
+  create: GroupPostsDocAccessFields_postType_Create
+  read: GroupPostsDocAccessFields_postType_Read
+  update: GroupPostsDocAccessFields_postType_Update
+  delete: GroupPostsDocAccessFields_postType_Delete
+}
+
+type GroupPostsDocAccessFields_postType_Create {
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_postType_Read {
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_postType_Update {
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_postType_Delete {
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_text {
+  create: GroupPostsDocAccessFields_text_Create
+  read: GroupPostsDocAccessFields_text_Read
+  update: GroupPostsDocAccessFields_text_Update
+  delete: GroupPostsDocAccessFields_text_Delete
+}
+
+type GroupPostsDocAccessFields_text_Create {
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_text_Read {
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_text_Update {
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_text_Delete {
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_commentsEnabled {
+  create: GroupPostsDocAccessFields_commentsEnabled_Create
+  read: GroupPostsDocAccessFields_commentsEnabled_Read
+  update: GroupPostsDocAccessFields_commentsEnabled_Update
+  delete: GroupPostsDocAccessFields_commentsEnabled_Delete
+}
+
+type GroupPostsDocAccessFields_commentsEnabled_Create {
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_commentsEnabled_Read {
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_commentsEnabled_Update {
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_commentsEnabled_Delete {
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_photos {
+  create: GroupPostsDocAccessFields_photos_Create
+  read: GroupPostsDocAccessFields_photos_Read
+  update: GroupPostsDocAccessFields_photos_Update
+  delete: GroupPostsDocAccessFields_photos_Delete
+}
+
+type GroupPostsDocAccessFields_photos_Create {
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_photos_Read {
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_photos_Update {
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_photos_Delete {
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_updatedAt {
+  create: GroupPostsDocAccessFields_updatedAt_Create
+  read: GroupPostsDocAccessFields_updatedAt_Read
+  update: GroupPostsDocAccessFields_updatedAt_Update
+  delete: GroupPostsDocAccessFields_updatedAt_Delete
+}
+
+type GroupPostsDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_createdAt {
+  create: GroupPostsDocAccessFields_createdAt_Create
+  read: GroupPostsDocAccessFields_createdAt_Read
+  update: GroupPostsDocAccessFields_createdAt_Update
+  delete: GroupPostsDocAccessFields_createdAt_Delete
+}
+
+type GroupPostsDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type GroupPostsDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type GroupPostsCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupPostsReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupPostsUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupPostsDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupComment {
+  id: Int!
+  post: GroupPost
+  author: User
+  authorName: String
+  text: String!
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+type GroupComments {
+  docs: [GroupComment!]!
+  hasNextPage: Boolean!
+  hasPrevPage: Boolean!
+  limit: Int!
+  nextPage: Int
+  offset: Int
+  page: Int!
+  pagingCounter: Int!
+  prevPage: Int
+  totalDocs: Int!
+  totalPages: Int!
+}
+
+input GroupComment_where {
+  post: GroupComment_post_operator
+  author: GroupComment_author_operator
+  authorName: GroupComment_authorName_operator
+  text: GroupComment_text_operator
+  updatedAt: GroupComment_updatedAt_operator
+  createdAt: GroupComment_createdAt_operator
+  id: GroupComment_id_operator
+  AND: [GroupComment_where_and]
+  OR: [GroupComment_where_or]
+}
+
+input GroupComment_post_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+}
+
+input GroupComment_author_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input GroupComment_authorName_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input GroupComment_text_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+}
+
+input GroupComment_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input GroupComment_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input GroupComment_id_operator {
+  equals: Int
+  not_equals: Int
+  greater_than_equal: Int
+  greater_than: Int
+  less_than_equal: Int
+  less_than: Int
+  exists: Boolean
+}
+
+input GroupComment_where_and {
+  post: GroupComment_post_operator
+  author: GroupComment_author_operator
+  authorName: GroupComment_authorName_operator
+  text: GroupComment_text_operator
+  updatedAt: GroupComment_updatedAt_operator
+  createdAt: GroupComment_createdAt_operator
+  id: GroupComment_id_operator
+  AND: [GroupComment_where_and]
+  OR: [GroupComment_where_or]
+}
+
+input GroupComment_where_or {
+  post: GroupComment_post_operator
+  author: GroupComment_author_operator
+  authorName: GroupComment_authorName_operator
+  text: GroupComment_text_operator
+  updatedAt: GroupComment_updatedAt_operator
+  createdAt: GroupComment_createdAt_operator
+  id: GroupComment_id_operator
+  AND: [GroupComment_where_and]
+  OR: [GroupComment_where_or]
+}
+
+type countGroupComments {
+  totalDocs: Int
+}
+
+type GroupCommentsDocAccessFields {
+  post: GroupCommentsDocAccessFields_post
+  author: GroupCommentsDocAccessFields_author
+  authorName: GroupCommentsDocAccessFields_authorName
+  text: GroupCommentsDocAccessFields_text
+  updatedAt: GroupCommentsDocAccessFields_updatedAt
+  createdAt: GroupCommentsDocAccessFields_createdAt
+}
+
+type GroupCommentsDocAccessFields_post {
+  create: GroupCommentsDocAccessFields_post_Create
+  read: GroupCommentsDocAccessFields_post_Read
+  update: GroupCommentsDocAccessFields_post_Update
+  delete: GroupCommentsDocAccessFields_post_Delete
+}
+
+type GroupCommentsDocAccessFields_post_Create {
+  permission: Boolean!
+}
+
+type GroupCommentsDocAccessFields_post_Read {
+  permission: Boolean!
+}
+
+type GroupCommentsDocAccessFields_post_Update {
+  permission: Boolean!
+}
+
+type GroupCommentsDocAccessFields_post_Delete {
+  permission: Boolean!
+}
+
+type GroupCommentsDocAccessFields_author {
+  create: GroupCommentsDocAccessFields_author_Create
+  read: GroupCommentsDocAccessFields_author_Read
+  update: GroupCommentsDocAccessFields_author_Update
+  delete: GroupCommentsDocAccessFields_author_Delete
+}
+
+type GroupCommentsDocAccessFields_author_Create {
+  permission: Boolean!
+}
+
+type GroupCommentsDocAccessFields_author_Read {
+  permission: Boolean!
+}
+
+type GroupCommentsDocAccessFields_author_Update {
+  permission: Boolean!
+}
+
+type GroupCommentsDocAccessFields_author_Delete {
+  permission: Boolean!
+}
+
+type GroupCommentsDocAccessFields_authorName {
+  create: GroupCommentsDocAccessFields_authorName_Create
+  read: GroupCommentsDocAccessFields_authorName_Read
+  update: GroupCommentsDocAccessFields_authorName_Update
+  delete: GroupCommentsDocAccessFields_authorName_Delete
+}
+
+type GroupCommentsDocAccessFields_authorName_Create {
+  permission: Boolean!
+}
+
+type GroupCommentsDocAccessFields_authorName_Read {
+  permission: Boolean!
+}
+
+type GroupCommentsDocAccessFields_authorName_Update {
+  permission: Boolean!
+}
+
+type GroupCommentsDocAccessFields_authorName_Delete {
+  permission: Boolean!
+}
+
+type GroupCommentsDocAccessFields_text {
+  create: GroupCommentsDocAccessFields_text_Create
+  read: GroupCommentsDocAccessFields_text_Read
+  update: GroupCommentsDocAccessFields_text_Update
+  delete: GroupCommentsDocAccessFields_text_Delete
+}
+
+type GroupCommentsDocAccessFields_text_Create {
+  permission: Boolean!
+}
+
+type GroupCommentsDocAccessFields_text_Read {
+  permission: Boolean!
+}
+
+type GroupCommentsDocAccessFields_text_Update {
+  permission: Boolean!
+}
+
+type GroupCommentsDocAccessFields_text_Delete {
+  permission: Boolean!
+}
+
+type GroupCommentsDocAccessFields_updatedAt {
+  create: GroupCommentsDocAccessFields_updatedAt_Create
+  read: GroupCommentsDocAccessFields_updatedAt_Read
+  update: GroupCommentsDocAccessFields_updatedAt_Update
+  delete: GroupCommentsDocAccessFields_updatedAt_Delete
+}
+
+type GroupCommentsDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type GroupCommentsDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type GroupCommentsDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type GroupCommentsDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type GroupCommentsDocAccessFields_createdAt {
+  create: GroupCommentsDocAccessFields_createdAt_Create
+  read: GroupCommentsDocAccessFields_createdAt_Read
+  update: GroupCommentsDocAccessFields_createdAt_Update
+  delete: GroupCommentsDocAccessFields_createdAt_Delete
+}
+
+type GroupCommentsDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type GroupCommentsDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type GroupCommentsDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type GroupCommentsDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type GroupCommentsCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupCommentsReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupCommentsUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupCommentsDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupPostLike {
+  id: Int!
+  post: GroupPost
+  user: User
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+type GroupPostLikes {
+  docs: [GroupPostLike!]!
+  hasNextPage: Boolean!
+  hasPrevPage: Boolean!
+  limit: Int!
+  nextPage: Int
+  offset: Int
+  page: Int!
+  pagingCounter: Int!
+  prevPage: Int
+  totalDocs: Int!
+  totalPages: Int!
+}
+
+input GroupPostLike_where {
+  post: GroupPostLike_post_operator
+  user: GroupPostLike_user_operator
+  updatedAt: GroupPostLike_updatedAt_operator
+  createdAt: GroupPostLike_createdAt_operator
+  id: GroupPostLike_id_operator
+  AND: [GroupPostLike_where_and]
+  OR: [GroupPostLike_where_or]
+}
+
+input GroupPostLike_post_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+}
+
+input GroupPostLike_user_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+}
+
+input GroupPostLike_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input GroupPostLike_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input GroupPostLike_id_operator {
+  equals: Int
+  not_equals: Int
+  greater_than_equal: Int
+  greater_than: Int
+  less_than_equal: Int
+  less_than: Int
+  exists: Boolean
+}
+
+input GroupPostLike_where_and {
+  post: GroupPostLike_post_operator
+  user: GroupPostLike_user_operator
+  updatedAt: GroupPostLike_updatedAt_operator
+  createdAt: GroupPostLike_createdAt_operator
+  id: GroupPostLike_id_operator
+  AND: [GroupPostLike_where_and]
+  OR: [GroupPostLike_where_or]
+}
+
+input GroupPostLike_where_or {
+  post: GroupPostLike_post_operator
+  user: GroupPostLike_user_operator
+  updatedAt: GroupPostLike_updatedAt_operator
+  createdAt: GroupPostLike_createdAt_operator
+  id: GroupPostLike_id_operator
+  AND: [GroupPostLike_where_and]
+  OR: [GroupPostLike_where_or]
+}
+
+type countGroupPostLikes {
+  totalDocs: Int
+}
+
+type GroupPostLikesDocAccessFields {
+  post: GroupPostLikesDocAccessFields_post
+  user: GroupPostLikesDocAccessFields_user
+  updatedAt: GroupPostLikesDocAccessFields_updatedAt
+  createdAt: GroupPostLikesDocAccessFields_createdAt
+}
+
+type GroupPostLikesDocAccessFields_post {
+  create: GroupPostLikesDocAccessFields_post_Create
+  read: GroupPostLikesDocAccessFields_post_Read
+  update: GroupPostLikesDocAccessFields_post_Update
+  delete: GroupPostLikesDocAccessFields_post_Delete
+}
+
+type GroupPostLikesDocAccessFields_post_Create {
+  permission: Boolean!
+}
+
+type GroupPostLikesDocAccessFields_post_Read {
+  permission: Boolean!
+}
+
+type GroupPostLikesDocAccessFields_post_Update {
+  permission: Boolean!
+}
+
+type GroupPostLikesDocAccessFields_post_Delete {
+  permission: Boolean!
+}
+
+type GroupPostLikesDocAccessFields_user {
+  create: GroupPostLikesDocAccessFields_user_Create
+  read: GroupPostLikesDocAccessFields_user_Read
+  update: GroupPostLikesDocAccessFields_user_Update
+  delete: GroupPostLikesDocAccessFields_user_Delete
+}
+
+type GroupPostLikesDocAccessFields_user_Create {
+  permission: Boolean!
+}
+
+type GroupPostLikesDocAccessFields_user_Read {
+  permission: Boolean!
+}
+
+type GroupPostLikesDocAccessFields_user_Update {
+  permission: Boolean!
+}
+
+type GroupPostLikesDocAccessFields_user_Delete {
+  permission: Boolean!
+}
+
+type GroupPostLikesDocAccessFields_updatedAt {
+  create: GroupPostLikesDocAccessFields_updatedAt_Create
+  read: GroupPostLikesDocAccessFields_updatedAt_Read
+  update: GroupPostLikesDocAccessFields_updatedAt_Update
+  delete: GroupPostLikesDocAccessFields_updatedAt_Delete
+}
+
+type GroupPostLikesDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type GroupPostLikesDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type GroupPostLikesDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type GroupPostLikesDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type GroupPostLikesDocAccessFields_createdAt {
+  create: GroupPostLikesDocAccessFields_createdAt_Create
+  read: GroupPostLikesDocAccessFields_createdAt_Read
+  update: GroupPostLikesDocAccessFields_createdAt_Update
+  delete: GroupPostLikesDocAccessFields_createdAt_Delete
+}
+
+type GroupPostLikesDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type GroupPostLikesDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type GroupPostLikesDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type GroupPostLikesDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type GroupPostLikesCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupPostLikesReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupPostLikesUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupPostLikesDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupCommentLike {
+  id: Int!
+  comment: GroupComment
+  user: User
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+type GroupCommentLikes {
+  docs: [GroupCommentLike!]!
+  hasNextPage: Boolean!
+  hasPrevPage: Boolean!
+  limit: Int!
+  nextPage: Int
+  offset: Int
+  page: Int!
+  pagingCounter: Int!
+  prevPage: Int
+  totalDocs: Int!
+  totalPages: Int!
+}
+
+input GroupCommentLike_where {
+  comment: GroupCommentLike_comment_operator
+  user: GroupCommentLike_user_operator
+  updatedAt: GroupCommentLike_updatedAt_operator
+  createdAt: GroupCommentLike_createdAt_operator
+  id: GroupCommentLike_id_operator
+  AND: [GroupCommentLike_where_and]
+  OR: [GroupCommentLike_where_or]
+}
+
+input GroupCommentLike_comment_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+}
+
+input GroupCommentLike_user_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+}
+
+input GroupCommentLike_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input GroupCommentLike_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input GroupCommentLike_id_operator {
+  equals: Int
+  not_equals: Int
+  greater_than_equal: Int
+  greater_than: Int
+  less_than_equal: Int
+  less_than: Int
+  exists: Boolean
+}
+
+input GroupCommentLike_where_and {
+  comment: GroupCommentLike_comment_operator
+  user: GroupCommentLike_user_operator
+  updatedAt: GroupCommentLike_updatedAt_operator
+  createdAt: GroupCommentLike_createdAt_operator
+  id: GroupCommentLike_id_operator
+  AND: [GroupCommentLike_where_and]
+  OR: [GroupCommentLike_where_or]
+}
+
+input GroupCommentLike_where_or {
+  comment: GroupCommentLike_comment_operator
+  user: GroupCommentLike_user_operator
+  updatedAt: GroupCommentLike_updatedAt_operator
+  createdAt: GroupCommentLike_createdAt_operator
+  id: GroupCommentLike_id_operator
+  AND: [GroupCommentLike_where_and]
+  OR: [GroupCommentLike_where_or]
+}
+
+type countGroupCommentLikes {
+  totalDocs: Int
+}
+
+type GroupCommentLikesDocAccessFields {
+  comment: GroupCommentLikesDocAccessFields_comment
+  user: GroupCommentLikesDocAccessFields_user
+  updatedAt: GroupCommentLikesDocAccessFields_updatedAt
+  createdAt: GroupCommentLikesDocAccessFields_createdAt
+}
+
+type GroupCommentLikesDocAccessFields_comment {
+  create: GroupCommentLikesDocAccessFields_comment_Create
+  read: GroupCommentLikesDocAccessFields_comment_Read
+  update: GroupCommentLikesDocAccessFields_comment_Update
+  delete: GroupCommentLikesDocAccessFields_comment_Delete
+}
+
+type GroupCommentLikesDocAccessFields_comment_Create {
+  permission: Boolean!
+}
+
+type GroupCommentLikesDocAccessFields_comment_Read {
+  permission: Boolean!
+}
+
+type GroupCommentLikesDocAccessFields_comment_Update {
+  permission: Boolean!
+}
+
+type GroupCommentLikesDocAccessFields_comment_Delete {
+  permission: Boolean!
+}
+
+type GroupCommentLikesDocAccessFields_user {
+  create: GroupCommentLikesDocAccessFields_user_Create
+  read: GroupCommentLikesDocAccessFields_user_Read
+  update: GroupCommentLikesDocAccessFields_user_Update
+  delete: GroupCommentLikesDocAccessFields_user_Delete
+}
+
+type GroupCommentLikesDocAccessFields_user_Create {
+  permission: Boolean!
+}
+
+type GroupCommentLikesDocAccessFields_user_Read {
+  permission: Boolean!
+}
+
+type GroupCommentLikesDocAccessFields_user_Update {
+  permission: Boolean!
+}
+
+type GroupCommentLikesDocAccessFields_user_Delete {
+  permission: Boolean!
+}
+
+type GroupCommentLikesDocAccessFields_updatedAt {
+  create: GroupCommentLikesDocAccessFields_updatedAt_Create
+  read: GroupCommentLikesDocAccessFields_updatedAt_Read
+  update: GroupCommentLikesDocAccessFields_updatedAt_Update
+  delete: GroupCommentLikesDocAccessFields_updatedAt_Delete
+}
+
+type GroupCommentLikesDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type GroupCommentLikesDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type GroupCommentLikesDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type GroupCommentLikesDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type GroupCommentLikesDocAccessFields_createdAt {
+  create: GroupCommentLikesDocAccessFields_createdAt_Create
+  read: GroupCommentLikesDocAccessFields_createdAt_Read
+  update: GroupCommentLikesDocAccessFields_createdAt_Update
+  delete: GroupCommentLikesDocAccessFields_createdAt_Delete
+}
+
+type GroupCommentLikesDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type GroupCommentLikesDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type GroupCommentLikesDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type GroupCommentLikesDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type GroupCommentLikesCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupCommentLikesReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupCommentLikesUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupCommentLikesDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupEvent {
+  id: Int!
+  group: Group
+  title: String!
+  description: String
+  location: String
+  startsAt: DateTime!
+  endsAt: DateTime
+  cover: Media
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+type GroupEvents {
+  docs: [GroupEvent!]!
+  hasNextPage: Boolean!
+  hasPrevPage: Boolean!
+  limit: Int!
+  nextPage: Int
+  offset: Int
+  page: Int!
+  pagingCounter: Int!
+  prevPage: Int
+  totalDocs: Int!
+  totalPages: Int!
+}
+
+input GroupEvent_where {
+  group: GroupEvent_group_operator
+  title: GroupEvent_title_operator
+  description: GroupEvent_description_operator
+  location: GroupEvent_location_operator
+  startsAt: GroupEvent_startsAt_operator
+  endsAt: GroupEvent_endsAt_operator
+  cover: GroupEvent_cover_operator
+  updatedAt: GroupEvent_updatedAt_operator
+  createdAt: GroupEvent_createdAt_operator
+  id: GroupEvent_id_operator
+  AND: [GroupEvent_where_and]
+  OR: [GroupEvent_where_or]
+}
+
+input GroupEvent_group_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+}
+
+input GroupEvent_title_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+}
+
+input GroupEvent_description_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  exists: Boolean
+}
+
+input GroupEvent_location_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input GroupEvent_startsAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+}
+
+input GroupEvent_endsAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input GroupEvent_cover_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input GroupEvent_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input GroupEvent_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input GroupEvent_id_operator {
+  equals: Int
+  not_equals: Int
+  greater_than_equal: Int
+  greater_than: Int
+  less_than_equal: Int
+  less_than: Int
+  exists: Boolean
+}
+
+input GroupEvent_where_and {
+  group: GroupEvent_group_operator
+  title: GroupEvent_title_operator
+  description: GroupEvent_description_operator
+  location: GroupEvent_location_operator
+  startsAt: GroupEvent_startsAt_operator
+  endsAt: GroupEvent_endsAt_operator
+  cover: GroupEvent_cover_operator
+  updatedAt: GroupEvent_updatedAt_operator
+  createdAt: GroupEvent_createdAt_operator
+  id: GroupEvent_id_operator
+  AND: [GroupEvent_where_and]
+  OR: [GroupEvent_where_or]
+}
+
+input GroupEvent_where_or {
+  group: GroupEvent_group_operator
+  title: GroupEvent_title_operator
+  description: GroupEvent_description_operator
+  location: GroupEvent_location_operator
+  startsAt: GroupEvent_startsAt_operator
+  endsAt: GroupEvent_endsAt_operator
+  cover: GroupEvent_cover_operator
+  updatedAt: GroupEvent_updatedAt_operator
+  createdAt: GroupEvent_createdAt_operator
+  id: GroupEvent_id_operator
+  AND: [GroupEvent_where_and]
+  OR: [GroupEvent_where_or]
+}
+
+type countGroupEvents {
+  totalDocs: Int
+}
+
+type GroupEventsDocAccessFields {
+  group: GroupEventsDocAccessFields_group
+  title: GroupEventsDocAccessFields_title
+  description: GroupEventsDocAccessFields_description
+  location: GroupEventsDocAccessFields_location
+  startsAt: GroupEventsDocAccessFields_startsAt
+  endsAt: GroupEventsDocAccessFields_endsAt
+  cover: GroupEventsDocAccessFields_cover
+  updatedAt: GroupEventsDocAccessFields_updatedAt
+  createdAt: GroupEventsDocAccessFields_createdAt
+}
+
+type GroupEventsDocAccessFields_group {
+  create: GroupEventsDocAccessFields_group_Create
+  read: GroupEventsDocAccessFields_group_Read
+  update: GroupEventsDocAccessFields_group_Update
+  delete: GroupEventsDocAccessFields_group_Delete
+}
+
+type GroupEventsDocAccessFields_group_Create {
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_group_Read {
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_group_Update {
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_group_Delete {
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_title {
+  create: GroupEventsDocAccessFields_title_Create
+  read: GroupEventsDocAccessFields_title_Read
+  update: GroupEventsDocAccessFields_title_Update
+  delete: GroupEventsDocAccessFields_title_Delete
+}
+
+type GroupEventsDocAccessFields_title_Create {
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_title_Read {
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_title_Update {
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_title_Delete {
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_description {
+  create: GroupEventsDocAccessFields_description_Create
+  read: GroupEventsDocAccessFields_description_Read
+  update: GroupEventsDocAccessFields_description_Update
+  delete: GroupEventsDocAccessFields_description_Delete
+}
+
+type GroupEventsDocAccessFields_description_Create {
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_description_Read {
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_description_Update {
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_description_Delete {
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_location {
+  create: GroupEventsDocAccessFields_location_Create
+  read: GroupEventsDocAccessFields_location_Read
+  update: GroupEventsDocAccessFields_location_Update
+  delete: GroupEventsDocAccessFields_location_Delete
+}
+
+type GroupEventsDocAccessFields_location_Create {
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_location_Read {
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_location_Update {
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_location_Delete {
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_startsAt {
+  create: GroupEventsDocAccessFields_startsAt_Create
+  read: GroupEventsDocAccessFields_startsAt_Read
+  update: GroupEventsDocAccessFields_startsAt_Update
+  delete: GroupEventsDocAccessFields_startsAt_Delete
+}
+
+type GroupEventsDocAccessFields_startsAt_Create {
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_startsAt_Read {
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_startsAt_Update {
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_startsAt_Delete {
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_endsAt {
+  create: GroupEventsDocAccessFields_endsAt_Create
+  read: GroupEventsDocAccessFields_endsAt_Read
+  update: GroupEventsDocAccessFields_endsAt_Update
+  delete: GroupEventsDocAccessFields_endsAt_Delete
+}
+
+type GroupEventsDocAccessFields_endsAt_Create {
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_endsAt_Read {
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_endsAt_Update {
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_endsAt_Delete {
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_cover {
+  create: GroupEventsDocAccessFields_cover_Create
+  read: GroupEventsDocAccessFields_cover_Read
+  update: GroupEventsDocAccessFields_cover_Update
+  delete: GroupEventsDocAccessFields_cover_Delete
+}
+
+type GroupEventsDocAccessFields_cover_Create {
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_cover_Read {
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_cover_Update {
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_cover_Delete {
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_updatedAt {
+  create: GroupEventsDocAccessFields_updatedAt_Create
+  read: GroupEventsDocAccessFields_updatedAt_Read
+  update: GroupEventsDocAccessFields_updatedAt_Update
+  delete: GroupEventsDocAccessFields_updatedAt_Delete
+}
+
+type GroupEventsDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_createdAt {
+  create: GroupEventsDocAccessFields_createdAt_Create
+  read: GroupEventsDocAccessFields_createdAt_Read
+  update: GroupEventsDocAccessFields_createdAt_Update
+  delete: GroupEventsDocAccessFields_createdAt_Delete
+}
+
+type GroupEventsDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type GroupEventsDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type GroupEventsCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupEventsReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupEventsUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupEventsDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupInvite {
+  id: Int!
+  group: Group
+  invitedBy: User
+  email: EmailAddress!
+  message: String
+  status: GroupInvite_status
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+enum GroupInvite_status {
+  pending
+  accepted
+  declined
+}
+
+type GroupInvites {
+  docs: [GroupInvite!]!
+  hasNextPage: Boolean!
+  hasPrevPage: Boolean!
+  limit: Int!
+  nextPage: Int
+  offset: Int
+  page: Int!
+  pagingCounter: Int!
+  prevPage: Int
+  totalDocs: Int!
+  totalPages: Int!
+}
+
+input GroupInvite_where {
+  group: GroupInvite_group_operator
+  invitedBy: GroupInvite_invitedBy_operator
+  email: GroupInvite_email_operator
+  message: GroupInvite_message_operator
+  status: GroupInvite_status_operator
+  updatedAt: GroupInvite_updatedAt_operator
+  createdAt: GroupInvite_createdAt_operator
+  id: GroupInvite_id_operator
+  AND: [GroupInvite_where_and]
+  OR: [GroupInvite_where_or]
+}
+
+input GroupInvite_group_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+}
+
+input GroupInvite_invitedBy_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+}
+
+input GroupInvite_email_operator {
+  equals: EmailAddress
+  not_equals: EmailAddress
+  like: EmailAddress
+  contains: EmailAddress
+  in: [EmailAddress]
+  not_in: [EmailAddress]
+  all: [EmailAddress]
+}
+
+input GroupInvite_message_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  exists: Boolean
+}
+
+input GroupInvite_status_operator {
+  equals: GroupInvite_status_Input
+  not_equals: GroupInvite_status_Input
+  in: [GroupInvite_status_Input]
+  not_in: [GroupInvite_status_Input]
+  all: [GroupInvite_status_Input]
+  exists: Boolean
+}
+
+enum GroupInvite_status_Input {
+  pending
+  accepted
+  declined
+}
+
+input GroupInvite_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input GroupInvite_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input GroupInvite_id_operator {
+  equals: Int
+  not_equals: Int
+  greater_than_equal: Int
+  greater_than: Int
+  less_than_equal: Int
+  less_than: Int
+  exists: Boolean
+}
+
+input GroupInvite_where_and {
+  group: GroupInvite_group_operator
+  invitedBy: GroupInvite_invitedBy_operator
+  email: GroupInvite_email_operator
+  message: GroupInvite_message_operator
+  status: GroupInvite_status_operator
+  updatedAt: GroupInvite_updatedAt_operator
+  createdAt: GroupInvite_createdAt_operator
+  id: GroupInvite_id_operator
+  AND: [GroupInvite_where_and]
+  OR: [GroupInvite_where_or]
+}
+
+input GroupInvite_where_or {
+  group: GroupInvite_group_operator
+  invitedBy: GroupInvite_invitedBy_operator
+  email: GroupInvite_email_operator
+  message: GroupInvite_message_operator
+  status: GroupInvite_status_operator
+  updatedAt: GroupInvite_updatedAt_operator
+  createdAt: GroupInvite_createdAt_operator
+  id: GroupInvite_id_operator
+  AND: [GroupInvite_where_and]
+  OR: [GroupInvite_where_or]
+}
+
+type countGroupInvites {
+  totalDocs: Int
+}
+
+type GroupInvitesDocAccessFields {
+  group: GroupInvitesDocAccessFields_group
+  invitedBy: GroupInvitesDocAccessFields_invitedBy
+  email: GroupInvitesDocAccessFields_email
+  message: GroupInvitesDocAccessFields_message
+  status: GroupInvitesDocAccessFields_status
+  updatedAt: GroupInvitesDocAccessFields_updatedAt
+  createdAt: GroupInvitesDocAccessFields_createdAt
+}
+
+type GroupInvitesDocAccessFields_group {
+  create: GroupInvitesDocAccessFields_group_Create
+  read: GroupInvitesDocAccessFields_group_Read
+  update: GroupInvitesDocAccessFields_group_Update
+  delete: GroupInvitesDocAccessFields_group_Delete
+}
+
+type GroupInvitesDocAccessFields_group_Create {
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_group_Read {
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_group_Update {
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_group_Delete {
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_invitedBy {
+  create: GroupInvitesDocAccessFields_invitedBy_Create
+  read: GroupInvitesDocAccessFields_invitedBy_Read
+  update: GroupInvitesDocAccessFields_invitedBy_Update
+  delete: GroupInvitesDocAccessFields_invitedBy_Delete
+}
+
+type GroupInvitesDocAccessFields_invitedBy_Create {
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_invitedBy_Read {
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_invitedBy_Update {
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_invitedBy_Delete {
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_email {
+  create: GroupInvitesDocAccessFields_email_Create
+  read: GroupInvitesDocAccessFields_email_Read
+  update: GroupInvitesDocAccessFields_email_Update
+  delete: GroupInvitesDocAccessFields_email_Delete
+}
+
+type GroupInvitesDocAccessFields_email_Create {
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_email_Read {
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_email_Update {
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_email_Delete {
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_message {
+  create: GroupInvitesDocAccessFields_message_Create
+  read: GroupInvitesDocAccessFields_message_Read
+  update: GroupInvitesDocAccessFields_message_Update
+  delete: GroupInvitesDocAccessFields_message_Delete
+}
+
+type GroupInvitesDocAccessFields_message_Create {
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_message_Read {
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_message_Update {
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_message_Delete {
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_status {
+  create: GroupInvitesDocAccessFields_status_Create
+  read: GroupInvitesDocAccessFields_status_Read
+  update: GroupInvitesDocAccessFields_status_Update
+  delete: GroupInvitesDocAccessFields_status_Delete
+}
+
+type GroupInvitesDocAccessFields_status_Create {
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_status_Read {
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_status_Update {
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_status_Delete {
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_updatedAt {
+  create: GroupInvitesDocAccessFields_updatedAt_Create
+  read: GroupInvitesDocAccessFields_updatedAt_Read
+  update: GroupInvitesDocAccessFields_updatedAt_Update
+  delete: GroupInvitesDocAccessFields_updatedAt_Delete
+}
+
+type GroupInvitesDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_createdAt {
+  create: GroupInvitesDocAccessFields_createdAt_Create
+  read: GroupInvitesDocAccessFields_createdAt_Read
+  update: GroupInvitesDocAccessFields_createdAt_Update
+  delete: GroupInvitesDocAccessFields_createdAt_Delete
+}
+
+type GroupInvitesDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type GroupInvitesDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type GroupInvitesCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupInvitesReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupInvitesUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupInvitesDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupsFields {
+  name: GroupsFields_name
+  generateSlug: GroupsFields_generateSlug
+  slug: GroupsFields_slug
+  cover: GroupsFields_cover
+  shortDescription: GroupsFields_shortDescription
+  about: GroupsFields_about
+  privacy: GroupsFields_privacy
+  createdBy: GroupsFields_createdBy
+  updatedAt: GroupsFields_updatedAt
+  createdAt: GroupsFields_createdAt
+}
+
+type GroupsFields_name {
+  create: GroupsFields_name_Create
+  read: GroupsFields_name_Read
+  update: GroupsFields_name_Update
+  delete: GroupsFields_name_Delete
+}
+
+type GroupsFields_name_Create {
+  permission: Boolean!
+}
+
+type GroupsFields_name_Read {
+  permission: Boolean!
+}
+
+type GroupsFields_name_Update {
+  permission: Boolean!
+}
+
+type GroupsFields_name_Delete {
+  permission: Boolean!
+}
+
+type GroupsFields_generateSlug {
+  create: GroupsFields_generateSlug_Create
+  read: GroupsFields_generateSlug_Read
+  update: GroupsFields_generateSlug_Update
+  delete: GroupsFields_generateSlug_Delete
+}
+
+type GroupsFields_generateSlug_Create {
+  permission: Boolean!
+}
+
+type GroupsFields_generateSlug_Read {
+  permission: Boolean!
+}
+
+type GroupsFields_generateSlug_Update {
+  permission: Boolean!
+}
+
+type GroupsFields_generateSlug_Delete {
+  permission: Boolean!
+}
+
+type GroupsFields_slug {
+  create: GroupsFields_slug_Create
+  read: GroupsFields_slug_Read
+  update: GroupsFields_slug_Update
+  delete: GroupsFields_slug_Delete
+}
+
+type GroupsFields_slug_Create {
+  permission: Boolean!
+}
+
+type GroupsFields_slug_Read {
+  permission: Boolean!
+}
+
+type GroupsFields_slug_Update {
+  permission: Boolean!
+}
+
+type GroupsFields_slug_Delete {
+  permission: Boolean!
+}
+
+type GroupsFields_cover {
+  create: GroupsFields_cover_Create
+  read: GroupsFields_cover_Read
+  update: GroupsFields_cover_Update
+  delete: GroupsFields_cover_Delete
+}
+
+type GroupsFields_cover_Create {
+  permission: Boolean!
+}
+
+type GroupsFields_cover_Read {
+  permission: Boolean!
+}
+
+type GroupsFields_cover_Update {
+  permission: Boolean!
+}
+
+type GroupsFields_cover_Delete {
+  permission: Boolean!
+}
+
+type GroupsFields_shortDescription {
+  create: GroupsFields_shortDescription_Create
+  read: GroupsFields_shortDescription_Read
+  update: GroupsFields_shortDescription_Update
+  delete: GroupsFields_shortDescription_Delete
+}
+
+type GroupsFields_shortDescription_Create {
+  permission: Boolean!
+}
+
+type GroupsFields_shortDescription_Read {
+  permission: Boolean!
+}
+
+type GroupsFields_shortDescription_Update {
+  permission: Boolean!
+}
+
+type GroupsFields_shortDescription_Delete {
+  permission: Boolean!
+}
+
+type GroupsFields_about {
+  create: GroupsFields_about_Create
+  read: GroupsFields_about_Read
+  update: GroupsFields_about_Update
+  delete: GroupsFields_about_Delete
+}
+
+type GroupsFields_about_Create {
+  permission: Boolean!
+}
+
+type GroupsFields_about_Read {
+  permission: Boolean!
+}
+
+type GroupsFields_about_Update {
+  permission: Boolean!
+}
+
+type GroupsFields_about_Delete {
+  permission: Boolean!
+}
+
+type GroupsFields_privacy {
+  create: GroupsFields_privacy_Create
+  read: GroupsFields_privacy_Read
+  update: GroupsFields_privacy_Update
+  delete: GroupsFields_privacy_Delete
+}
+
+type GroupsFields_privacy_Create {
+  permission: Boolean!
+}
+
+type GroupsFields_privacy_Read {
+  permission: Boolean!
+}
+
+type GroupsFields_privacy_Update {
+  permission: Boolean!
+}
+
+type GroupsFields_privacy_Delete {
+  permission: Boolean!
+}
+
+type GroupsFields_createdBy {
+  create: GroupsFields_createdBy_Create
+  read: GroupsFields_createdBy_Read
+  update: GroupsFields_createdBy_Update
+  delete: GroupsFields_createdBy_Delete
+}
+
+type GroupsFields_createdBy_Create {
+  permission: Boolean!
+}
+
+type GroupsFields_createdBy_Read {
+  permission: Boolean!
+}
+
+type GroupsFields_createdBy_Update {
+  permission: Boolean!
+}
+
+type GroupsFields_createdBy_Delete {
+  permission: Boolean!
+}
+
+type GroupsFields_updatedAt {
+  create: GroupsFields_updatedAt_Create
+  read: GroupsFields_updatedAt_Read
+  update: GroupsFields_updatedAt_Update
+  delete: GroupsFields_updatedAt_Delete
+}
+
+type GroupsFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type GroupsFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type GroupsFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type GroupsFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type GroupsFields_createdAt {
+  create: GroupsFields_createdAt_Create
+  read: GroupsFields_createdAt_Read
+  update: GroupsFields_createdAt_Update
+  delete: GroupsFields_createdAt_Delete
+}
+
+type GroupsFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type GroupsFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type GroupsFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type GroupsFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type GroupsCreateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupsReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupsUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupsDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupMembersFields {
+  group: GroupMembersFields_group
+  user: GroupMembersFields_user
+  role: GroupMembersFields_role
+  status: GroupMembersFields_status
+  updatedAt: GroupMembersFields_updatedAt
+  createdAt: GroupMembersFields_createdAt
+}
+
+type GroupMembersFields_group {
+  create: GroupMembersFields_group_Create
+  read: GroupMembersFields_group_Read
+  update: GroupMembersFields_group_Update
+  delete: GroupMembersFields_group_Delete
+}
+
+type GroupMembersFields_group_Create {
+  permission: Boolean!
+}
+
+type GroupMembersFields_group_Read {
+  permission: Boolean!
+}
+
+type GroupMembersFields_group_Update {
+  permission: Boolean!
+}
+
+type GroupMembersFields_group_Delete {
+  permission: Boolean!
+}
+
+type GroupMembersFields_user {
+  create: GroupMembersFields_user_Create
+  read: GroupMembersFields_user_Read
+  update: GroupMembersFields_user_Update
+  delete: GroupMembersFields_user_Delete
+}
+
+type GroupMembersFields_user_Create {
+  permission: Boolean!
+}
+
+type GroupMembersFields_user_Read {
+  permission: Boolean!
+}
+
+type GroupMembersFields_user_Update {
+  permission: Boolean!
+}
+
+type GroupMembersFields_user_Delete {
+  permission: Boolean!
+}
+
+type GroupMembersFields_role {
+  create: GroupMembersFields_role_Create
+  read: GroupMembersFields_role_Read
+  update: GroupMembersFields_role_Update
+  delete: GroupMembersFields_role_Delete
+}
+
+type GroupMembersFields_role_Create {
+  permission: Boolean!
+}
+
+type GroupMembersFields_role_Read {
+  permission: Boolean!
+}
+
+type GroupMembersFields_role_Update {
+  permission: Boolean!
+}
+
+type GroupMembersFields_role_Delete {
+  permission: Boolean!
+}
+
+type GroupMembersFields_status {
+  create: GroupMembersFields_status_Create
+  read: GroupMembersFields_status_Read
+  update: GroupMembersFields_status_Update
+  delete: GroupMembersFields_status_Delete
+}
+
+type GroupMembersFields_status_Create {
+  permission: Boolean!
+}
+
+type GroupMembersFields_status_Read {
+  permission: Boolean!
+}
+
+type GroupMembersFields_status_Update {
+  permission: Boolean!
+}
+
+type GroupMembersFields_status_Delete {
+  permission: Boolean!
+}
+
+type GroupMembersFields_updatedAt {
+  create: GroupMembersFields_updatedAt_Create
+  read: GroupMembersFields_updatedAt_Read
+  update: GroupMembersFields_updatedAt_Update
+  delete: GroupMembersFields_updatedAt_Delete
+}
+
+type GroupMembersFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type GroupMembersFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type GroupMembersFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type GroupMembersFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type GroupMembersFields_createdAt {
+  create: GroupMembersFields_createdAt_Create
+  read: GroupMembersFields_createdAt_Read
+  update: GroupMembersFields_createdAt_Update
+  delete: GroupMembersFields_createdAt_Delete
+}
+
+type GroupMembersFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type GroupMembersFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type GroupMembersFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type GroupMembersFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type GroupMembersCreateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupMembersReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupMembersUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupMembersDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupPostsFields {
+  group: GroupPostsFields_group
+  author: GroupPostsFields_author
+  authorName: GroupPostsFields_authorName
+  postType: GroupPostsFields_postType
+  text: GroupPostsFields_text
+  commentsEnabled: GroupPostsFields_commentsEnabled
+  photos: GroupPostsFields_photos
+  updatedAt: GroupPostsFields_updatedAt
+  createdAt: GroupPostsFields_createdAt
+}
+
+type GroupPostsFields_group {
+  create: GroupPostsFields_group_Create
+  read: GroupPostsFields_group_Read
+  update: GroupPostsFields_group_Update
+  delete: GroupPostsFields_group_Delete
+}
+
+type GroupPostsFields_group_Create {
+  permission: Boolean!
+}
+
+type GroupPostsFields_group_Read {
+  permission: Boolean!
+}
+
+type GroupPostsFields_group_Update {
+  permission: Boolean!
+}
+
+type GroupPostsFields_group_Delete {
+  permission: Boolean!
+}
+
+type GroupPostsFields_author {
+  create: GroupPostsFields_author_Create
+  read: GroupPostsFields_author_Read
+  update: GroupPostsFields_author_Update
+  delete: GroupPostsFields_author_Delete
+}
+
+type GroupPostsFields_author_Create {
+  permission: Boolean!
+}
+
+type GroupPostsFields_author_Read {
+  permission: Boolean!
+}
+
+type GroupPostsFields_author_Update {
+  permission: Boolean!
+}
+
+type GroupPostsFields_author_Delete {
+  permission: Boolean!
+}
+
+type GroupPostsFields_authorName {
+  create: GroupPostsFields_authorName_Create
+  read: GroupPostsFields_authorName_Read
+  update: GroupPostsFields_authorName_Update
+  delete: GroupPostsFields_authorName_Delete
+}
+
+type GroupPostsFields_authorName_Create {
+  permission: Boolean!
+}
+
+type GroupPostsFields_authorName_Read {
+  permission: Boolean!
+}
+
+type GroupPostsFields_authorName_Update {
+  permission: Boolean!
+}
+
+type GroupPostsFields_authorName_Delete {
+  permission: Boolean!
+}
+
+type GroupPostsFields_postType {
+  create: GroupPostsFields_postType_Create
+  read: GroupPostsFields_postType_Read
+  update: GroupPostsFields_postType_Update
+  delete: GroupPostsFields_postType_Delete
+}
+
+type GroupPostsFields_postType_Create {
+  permission: Boolean!
+}
+
+type GroupPostsFields_postType_Read {
+  permission: Boolean!
+}
+
+type GroupPostsFields_postType_Update {
+  permission: Boolean!
+}
+
+type GroupPostsFields_postType_Delete {
+  permission: Boolean!
+}
+
+type GroupPostsFields_text {
+  create: GroupPostsFields_text_Create
+  read: GroupPostsFields_text_Read
+  update: GroupPostsFields_text_Update
+  delete: GroupPostsFields_text_Delete
+}
+
+type GroupPostsFields_text_Create {
+  permission: Boolean!
+}
+
+type GroupPostsFields_text_Read {
+  permission: Boolean!
+}
+
+type GroupPostsFields_text_Update {
+  permission: Boolean!
+}
+
+type GroupPostsFields_text_Delete {
+  permission: Boolean!
+}
+
+type GroupPostsFields_commentsEnabled {
+  create: GroupPostsFields_commentsEnabled_Create
+  read: GroupPostsFields_commentsEnabled_Read
+  update: GroupPostsFields_commentsEnabled_Update
+  delete: GroupPostsFields_commentsEnabled_Delete
+}
+
+type GroupPostsFields_commentsEnabled_Create {
+  permission: Boolean!
+}
+
+type GroupPostsFields_commentsEnabled_Read {
+  permission: Boolean!
+}
+
+type GroupPostsFields_commentsEnabled_Update {
+  permission: Boolean!
+}
+
+type GroupPostsFields_commentsEnabled_Delete {
+  permission: Boolean!
+}
+
+type GroupPostsFields_photos {
+  create: GroupPostsFields_photos_Create
+  read: GroupPostsFields_photos_Read
+  update: GroupPostsFields_photos_Update
+  delete: GroupPostsFields_photos_Delete
+}
+
+type GroupPostsFields_photos_Create {
+  permission: Boolean!
+}
+
+type GroupPostsFields_photos_Read {
+  permission: Boolean!
+}
+
+type GroupPostsFields_photos_Update {
+  permission: Boolean!
+}
+
+type GroupPostsFields_photos_Delete {
+  permission: Boolean!
+}
+
+type GroupPostsFields_updatedAt {
+  create: GroupPostsFields_updatedAt_Create
+  read: GroupPostsFields_updatedAt_Read
+  update: GroupPostsFields_updatedAt_Update
+  delete: GroupPostsFields_updatedAt_Delete
+}
+
+type GroupPostsFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type GroupPostsFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type GroupPostsFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type GroupPostsFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type GroupPostsFields_createdAt {
+  create: GroupPostsFields_createdAt_Create
+  read: GroupPostsFields_createdAt_Read
+  update: GroupPostsFields_createdAt_Update
+  delete: GroupPostsFields_createdAt_Delete
+}
+
+type GroupPostsFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type GroupPostsFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type GroupPostsFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type GroupPostsFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type GroupPostsCreateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupPostsReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupPostsUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupPostsDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupCommentsFields {
+  post: GroupCommentsFields_post
+  author: GroupCommentsFields_author
+  authorName: GroupCommentsFields_authorName
+  text: GroupCommentsFields_text
+  updatedAt: GroupCommentsFields_updatedAt
+  createdAt: GroupCommentsFields_createdAt
+}
+
+type GroupCommentsFields_post {
+  create: GroupCommentsFields_post_Create
+  read: GroupCommentsFields_post_Read
+  update: GroupCommentsFields_post_Update
+  delete: GroupCommentsFields_post_Delete
+}
+
+type GroupCommentsFields_post_Create {
+  permission: Boolean!
+}
+
+type GroupCommentsFields_post_Read {
+  permission: Boolean!
+}
+
+type GroupCommentsFields_post_Update {
+  permission: Boolean!
+}
+
+type GroupCommentsFields_post_Delete {
+  permission: Boolean!
+}
+
+type GroupCommentsFields_author {
+  create: GroupCommentsFields_author_Create
+  read: GroupCommentsFields_author_Read
+  update: GroupCommentsFields_author_Update
+  delete: GroupCommentsFields_author_Delete
+}
+
+type GroupCommentsFields_author_Create {
+  permission: Boolean!
+}
+
+type GroupCommentsFields_author_Read {
+  permission: Boolean!
+}
+
+type GroupCommentsFields_author_Update {
+  permission: Boolean!
+}
+
+type GroupCommentsFields_author_Delete {
+  permission: Boolean!
+}
+
+type GroupCommentsFields_authorName {
+  create: GroupCommentsFields_authorName_Create
+  read: GroupCommentsFields_authorName_Read
+  update: GroupCommentsFields_authorName_Update
+  delete: GroupCommentsFields_authorName_Delete
+}
+
+type GroupCommentsFields_authorName_Create {
+  permission: Boolean!
+}
+
+type GroupCommentsFields_authorName_Read {
+  permission: Boolean!
+}
+
+type GroupCommentsFields_authorName_Update {
+  permission: Boolean!
+}
+
+type GroupCommentsFields_authorName_Delete {
+  permission: Boolean!
+}
+
+type GroupCommentsFields_text {
+  create: GroupCommentsFields_text_Create
+  read: GroupCommentsFields_text_Read
+  update: GroupCommentsFields_text_Update
+  delete: GroupCommentsFields_text_Delete
+}
+
+type GroupCommentsFields_text_Create {
+  permission: Boolean!
+}
+
+type GroupCommentsFields_text_Read {
+  permission: Boolean!
+}
+
+type GroupCommentsFields_text_Update {
+  permission: Boolean!
+}
+
+type GroupCommentsFields_text_Delete {
+  permission: Boolean!
+}
+
+type GroupCommentsFields_updatedAt {
+  create: GroupCommentsFields_updatedAt_Create
+  read: GroupCommentsFields_updatedAt_Read
+  update: GroupCommentsFields_updatedAt_Update
+  delete: GroupCommentsFields_updatedAt_Delete
+}
+
+type GroupCommentsFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type GroupCommentsFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type GroupCommentsFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type GroupCommentsFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type GroupCommentsFields_createdAt {
+  create: GroupCommentsFields_createdAt_Create
+  read: GroupCommentsFields_createdAt_Read
+  update: GroupCommentsFields_createdAt_Update
+  delete: GroupCommentsFields_createdAt_Delete
+}
+
+type GroupCommentsFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type GroupCommentsFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type GroupCommentsFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type GroupCommentsFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type GroupCommentsCreateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupCommentsReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupCommentsUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupCommentsDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupPostLikesFields {
+  post: GroupPostLikesFields_post
+  user: GroupPostLikesFields_user
+  updatedAt: GroupPostLikesFields_updatedAt
+  createdAt: GroupPostLikesFields_createdAt
+}
+
+type GroupPostLikesFields_post {
+  create: GroupPostLikesFields_post_Create
+  read: GroupPostLikesFields_post_Read
+  update: GroupPostLikesFields_post_Update
+  delete: GroupPostLikesFields_post_Delete
+}
+
+type GroupPostLikesFields_post_Create {
+  permission: Boolean!
+}
+
+type GroupPostLikesFields_post_Read {
+  permission: Boolean!
+}
+
+type GroupPostLikesFields_post_Update {
+  permission: Boolean!
+}
+
+type GroupPostLikesFields_post_Delete {
+  permission: Boolean!
+}
+
+type GroupPostLikesFields_user {
+  create: GroupPostLikesFields_user_Create
+  read: GroupPostLikesFields_user_Read
+  update: GroupPostLikesFields_user_Update
+  delete: GroupPostLikesFields_user_Delete
+}
+
+type GroupPostLikesFields_user_Create {
+  permission: Boolean!
+}
+
+type GroupPostLikesFields_user_Read {
+  permission: Boolean!
+}
+
+type GroupPostLikesFields_user_Update {
+  permission: Boolean!
+}
+
+type GroupPostLikesFields_user_Delete {
+  permission: Boolean!
+}
+
+type GroupPostLikesFields_updatedAt {
+  create: GroupPostLikesFields_updatedAt_Create
+  read: GroupPostLikesFields_updatedAt_Read
+  update: GroupPostLikesFields_updatedAt_Update
+  delete: GroupPostLikesFields_updatedAt_Delete
+}
+
+type GroupPostLikesFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type GroupPostLikesFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type GroupPostLikesFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type GroupPostLikesFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type GroupPostLikesFields_createdAt {
+  create: GroupPostLikesFields_createdAt_Create
+  read: GroupPostLikesFields_createdAt_Read
+  update: GroupPostLikesFields_createdAt_Update
+  delete: GroupPostLikesFields_createdAt_Delete
+}
+
+type GroupPostLikesFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type GroupPostLikesFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type GroupPostLikesFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type GroupPostLikesFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type GroupPostLikesCreateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupPostLikesReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupPostLikesUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupPostLikesDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupCommentLikesFields {
+  comment: GroupCommentLikesFields_comment
+  user: GroupCommentLikesFields_user
+  updatedAt: GroupCommentLikesFields_updatedAt
+  createdAt: GroupCommentLikesFields_createdAt
+}
+
+type GroupCommentLikesFields_comment {
+  create: GroupCommentLikesFields_comment_Create
+  read: GroupCommentLikesFields_comment_Read
+  update: GroupCommentLikesFields_comment_Update
+  delete: GroupCommentLikesFields_comment_Delete
+}
+
+type GroupCommentLikesFields_comment_Create {
+  permission: Boolean!
+}
+
+type GroupCommentLikesFields_comment_Read {
+  permission: Boolean!
+}
+
+type GroupCommentLikesFields_comment_Update {
+  permission: Boolean!
+}
+
+type GroupCommentLikesFields_comment_Delete {
+  permission: Boolean!
+}
+
+type GroupCommentLikesFields_user {
+  create: GroupCommentLikesFields_user_Create
+  read: GroupCommentLikesFields_user_Read
+  update: GroupCommentLikesFields_user_Update
+  delete: GroupCommentLikesFields_user_Delete
+}
+
+type GroupCommentLikesFields_user_Create {
+  permission: Boolean!
+}
+
+type GroupCommentLikesFields_user_Read {
+  permission: Boolean!
+}
+
+type GroupCommentLikesFields_user_Update {
+  permission: Boolean!
+}
+
+type GroupCommentLikesFields_user_Delete {
+  permission: Boolean!
+}
+
+type GroupCommentLikesFields_updatedAt {
+  create: GroupCommentLikesFields_updatedAt_Create
+  read: GroupCommentLikesFields_updatedAt_Read
+  update: GroupCommentLikesFields_updatedAt_Update
+  delete: GroupCommentLikesFields_updatedAt_Delete
+}
+
+type GroupCommentLikesFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type GroupCommentLikesFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type GroupCommentLikesFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type GroupCommentLikesFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type GroupCommentLikesFields_createdAt {
+  create: GroupCommentLikesFields_createdAt_Create
+  read: GroupCommentLikesFields_createdAt_Read
+  update: GroupCommentLikesFields_createdAt_Update
+  delete: GroupCommentLikesFields_createdAt_Delete
+}
+
+type GroupCommentLikesFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type GroupCommentLikesFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type GroupCommentLikesFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type GroupCommentLikesFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type GroupCommentLikesCreateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupCommentLikesReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupCommentLikesUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupCommentLikesDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupEventsFields {
+  group: GroupEventsFields_group
+  title: GroupEventsFields_title
+  description: GroupEventsFields_description
+  location: GroupEventsFields_location
+  startsAt: GroupEventsFields_startsAt
+  endsAt: GroupEventsFields_endsAt
+  cover: GroupEventsFields_cover
+  updatedAt: GroupEventsFields_updatedAt
+  createdAt: GroupEventsFields_createdAt
+}
+
+type GroupEventsFields_group {
+  create: GroupEventsFields_group_Create
+  read: GroupEventsFields_group_Read
+  update: GroupEventsFields_group_Update
+  delete: GroupEventsFields_group_Delete
+}
+
+type GroupEventsFields_group_Create {
+  permission: Boolean!
+}
+
+type GroupEventsFields_group_Read {
+  permission: Boolean!
+}
+
+type GroupEventsFields_group_Update {
+  permission: Boolean!
+}
+
+type GroupEventsFields_group_Delete {
+  permission: Boolean!
+}
+
+type GroupEventsFields_title {
+  create: GroupEventsFields_title_Create
+  read: GroupEventsFields_title_Read
+  update: GroupEventsFields_title_Update
+  delete: GroupEventsFields_title_Delete
+}
+
+type GroupEventsFields_title_Create {
+  permission: Boolean!
+}
+
+type GroupEventsFields_title_Read {
+  permission: Boolean!
+}
+
+type GroupEventsFields_title_Update {
+  permission: Boolean!
+}
+
+type GroupEventsFields_title_Delete {
+  permission: Boolean!
+}
+
+type GroupEventsFields_description {
+  create: GroupEventsFields_description_Create
+  read: GroupEventsFields_description_Read
+  update: GroupEventsFields_description_Update
+  delete: GroupEventsFields_description_Delete
+}
+
+type GroupEventsFields_description_Create {
+  permission: Boolean!
+}
+
+type GroupEventsFields_description_Read {
+  permission: Boolean!
+}
+
+type GroupEventsFields_description_Update {
+  permission: Boolean!
+}
+
+type GroupEventsFields_description_Delete {
+  permission: Boolean!
+}
+
+type GroupEventsFields_location {
+  create: GroupEventsFields_location_Create
+  read: GroupEventsFields_location_Read
+  update: GroupEventsFields_location_Update
+  delete: GroupEventsFields_location_Delete
+}
+
+type GroupEventsFields_location_Create {
+  permission: Boolean!
+}
+
+type GroupEventsFields_location_Read {
+  permission: Boolean!
+}
+
+type GroupEventsFields_location_Update {
+  permission: Boolean!
+}
+
+type GroupEventsFields_location_Delete {
+  permission: Boolean!
+}
+
+type GroupEventsFields_startsAt {
+  create: GroupEventsFields_startsAt_Create
+  read: GroupEventsFields_startsAt_Read
+  update: GroupEventsFields_startsAt_Update
+  delete: GroupEventsFields_startsAt_Delete
+}
+
+type GroupEventsFields_startsAt_Create {
+  permission: Boolean!
+}
+
+type GroupEventsFields_startsAt_Read {
+  permission: Boolean!
+}
+
+type GroupEventsFields_startsAt_Update {
+  permission: Boolean!
+}
+
+type GroupEventsFields_startsAt_Delete {
+  permission: Boolean!
+}
+
+type GroupEventsFields_endsAt {
+  create: GroupEventsFields_endsAt_Create
+  read: GroupEventsFields_endsAt_Read
+  update: GroupEventsFields_endsAt_Update
+  delete: GroupEventsFields_endsAt_Delete
+}
+
+type GroupEventsFields_endsAt_Create {
+  permission: Boolean!
+}
+
+type GroupEventsFields_endsAt_Read {
+  permission: Boolean!
+}
+
+type GroupEventsFields_endsAt_Update {
+  permission: Boolean!
+}
+
+type GroupEventsFields_endsAt_Delete {
+  permission: Boolean!
+}
+
+type GroupEventsFields_cover {
+  create: GroupEventsFields_cover_Create
+  read: GroupEventsFields_cover_Read
+  update: GroupEventsFields_cover_Update
+  delete: GroupEventsFields_cover_Delete
+}
+
+type GroupEventsFields_cover_Create {
+  permission: Boolean!
+}
+
+type GroupEventsFields_cover_Read {
+  permission: Boolean!
+}
+
+type GroupEventsFields_cover_Update {
+  permission: Boolean!
+}
+
+type GroupEventsFields_cover_Delete {
+  permission: Boolean!
+}
+
+type GroupEventsFields_updatedAt {
+  create: GroupEventsFields_updatedAt_Create
+  read: GroupEventsFields_updatedAt_Read
+  update: GroupEventsFields_updatedAt_Update
+  delete: GroupEventsFields_updatedAt_Delete
+}
+
+type GroupEventsFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type GroupEventsFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type GroupEventsFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type GroupEventsFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type GroupEventsFields_createdAt {
+  create: GroupEventsFields_createdAt_Create
+  read: GroupEventsFields_createdAt_Read
+  update: GroupEventsFields_createdAt_Update
+  delete: GroupEventsFields_createdAt_Delete
+}
+
+type GroupEventsFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type GroupEventsFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type GroupEventsFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type GroupEventsFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type GroupEventsCreateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupEventsReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupEventsUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupEventsDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupInvitesFields {
+  group: GroupInvitesFields_group
+  invitedBy: GroupInvitesFields_invitedBy
+  email: GroupInvitesFields_email
+  message: GroupInvitesFields_message
+  status: GroupInvitesFields_status
+  updatedAt: GroupInvitesFields_updatedAt
+  createdAt: GroupInvitesFields_createdAt
+}
+
+type GroupInvitesFields_group {
+  create: GroupInvitesFields_group_Create
+  read: GroupInvitesFields_group_Read
+  update: GroupInvitesFields_group_Update
+  delete: GroupInvitesFields_group_Delete
+}
+
+type GroupInvitesFields_group_Create {
+  permission: Boolean!
+}
+
+type GroupInvitesFields_group_Read {
+  permission: Boolean!
+}
+
+type GroupInvitesFields_group_Update {
+  permission: Boolean!
+}
+
+type GroupInvitesFields_group_Delete {
+  permission: Boolean!
+}
+
+type GroupInvitesFields_invitedBy {
+  create: GroupInvitesFields_invitedBy_Create
+  read: GroupInvitesFields_invitedBy_Read
+  update: GroupInvitesFields_invitedBy_Update
+  delete: GroupInvitesFields_invitedBy_Delete
+}
+
+type GroupInvitesFields_invitedBy_Create {
+  permission: Boolean!
+}
+
+type GroupInvitesFields_invitedBy_Read {
+  permission: Boolean!
+}
+
+type GroupInvitesFields_invitedBy_Update {
+  permission: Boolean!
+}
+
+type GroupInvitesFields_invitedBy_Delete {
+  permission: Boolean!
+}
+
+type GroupInvitesFields_email {
+  create: GroupInvitesFields_email_Create
+  read: GroupInvitesFields_email_Read
+  update: GroupInvitesFields_email_Update
+  delete: GroupInvitesFields_email_Delete
+}
+
+type GroupInvitesFields_email_Create {
+  permission: Boolean!
+}
+
+type GroupInvitesFields_email_Read {
+  permission: Boolean!
+}
+
+type GroupInvitesFields_email_Update {
+  permission: Boolean!
+}
+
+type GroupInvitesFields_email_Delete {
+  permission: Boolean!
+}
+
+type GroupInvitesFields_message {
+  create: GroupInvitesFields_message_Create
+  read: GroupInvitesFields_message_Read
+  update: GroupInvitesFields_message_Update
+  delete: GroupInvitesFields_message_Delete
+}
+
+type GroupInvitesFields_message_Create {
+  permission: Boolean!
+}
+
+type GroupInvitesFields_message_Read {
+  permission: Boolean!
+}
+
+type GroupInvitesFields_message_Update {
+  permission: Boolean!
+}
+
+type GroupInvitesFields_message_Delete {
+  permission: Boolean!
+}
+
+type GroupInvitesFields_status {
+  create: GroupInvitesFields_status_Create
+  read: GroupInvitesFields_status_Read
+  update: GroupInvitesFields_status_Update
+  delete: GroupInvitesFields_status_Delete
+}
+
+type GroupInvitesFields_status_Create {
+  permission: Boolean!
+}
+
+type GroupInvitesFields_status_Read {
+  permission: Boolean!
+}
+
+type GroupInvitesFields_status_Update {
+  permission: Boolean!
+}
+
+type GroupInvitesFields_status_Delete {
+  permission: Boolean!
+}
+
+type GroupInvitesFields_updatedAt {
+  create: GroupInvitesFields_updatedAt_Create
+  read: GroupInvitesFields_updatedAt_Read
+  update: GroupInvitesFields_updatedAt_Update
+  delete: GroupInvitesFields_updatedAt_Delete
+}
+
+type GroupInvitesFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type GroupInvitesFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type GroupInvitesFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type GroupInvitesFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type GroupInvitesFields_createdAt {
+  create: GroupInvitesFields_createdAt_Create
+  read: GroupInvitesFields_createdAt_Read
+  update: GroupInvitesFields_createdAt_Update
+  delete: GroupInvitesFields_createdAt_Delete
+}
+
+type GroupInvitesFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type GroupInvitesFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type GroupInvitesFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type GroupInvitesFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type GroupInvitesCreateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupInvitesReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupInvitesUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GroupInvitesDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+input mutationGroupInput {
+  name: String!
+  generateSlug: Boolean
+  slug: String!
+  cover: Int
+  shortDescription: String
+  about: JSON
+  privacy: Group_privacy_MutationInput
+  createdBy: Int
+  updatedAt: String
+  createdAt: String
+}
+
+enum Group_privacy_MutationInput {
+  public
+  private
+}
+
+input mutationGroupUpdateInput {
+  name: String
+  generateSlug: Boolean
+  slug: String
+  cover: Int
+  shortDescription: String
+  about: JSON
+  privacy: GroupUpdate_privacy_MutationInput
+  createdBy: Int
+  updatedAt: String
+  createdAt: String
+}
+
+enum GroupUpdate_privacy_MutationInput {
+  public
+  private
+}
+
+input mutationGroupMemberInput {
+  group: Int
+  user: Int
+  role: GroupMember_role_MutationInput!
+  status: GroupMember_status_MutationInput!
+  updatedAt: String
+  createdAt: String
+}
+
+enum GroupMember_role_MutationInput {
+  admin
+  moderator
+  member
+}
+
+enum GroupMember_status_MutationInput {
+  active
+  invited
+  left
+}
+
+input mutationGroupMemberUpdateInput {
+  group: Int
+  user: Int
+  role: GroupMemberUpdate_role_MutationInput
+  status: GroupMemberUpdate_status_MutationInput
+  updatedAt: String
+  createdAt: String
+}
+
+enum GroupMemberUpdate_role_MutationInput {
+  admin
+  moderator
+  member
+}
+
+enum GroupMemberUpdate_status_MutationInput {
+  active
+  invited
+  left
+}
+
+input mutationGroupPostInput {
+  group: Int
+  author: Int
+  authorName: String
+  postType: GroupPost_postType_MutationInput!
+  text: String!
+  commentsEnabled: Boolean
+  photos: [Int]
+  updatedAt: String
+  createdAt: String
+}
+
+enum GroupPost_postType_MutationInput {
+  discussion
+  question
+  announcement
+}
+
+input mutationGroupPostUpdateInput {
+  group: Int
+  author: Int
+  authorName: String
+  postType: GroupPostUpdate_postType_MutationInput
+  text: String
+  commentsEnabled: Boolean
+  photos: [Int]
+  updatedAt: String
+  createdAt: String
+}
+
+enum GroupPostUpdate_postType_MutationInput {
+  discussion
+  question
+  announcement
+}
+
+input mutationGroupCommentInput {
+  post: Int
+  author: Int
+  authorName: String
+  text: String!
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationGroupCommentUpdateInput {
+  post: Int
+  author: Int
+  authorName: String
+  text: String
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationGroupPostLikeInput {
+  post: Int
+  user: Int
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationGroupPostLikeUpdateInput {
+  post: Int
+  user: Int
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationGroupCommentLikeInput {
+  comment: Int
+  user: Int
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationGroupCommentLikeUpdateInput {
+  comment: Int
+  user: Int
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationGroupEventInput {
+  group: Int
+  title: String!
+  description: String
+  location: String
+  startsAt: String!
+  endsAt: String
+  cover: Int
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationGroupEventUpdateInput {
+  group: Int
+  title: String
+  description: String
+  location: String
+  startsAt: String
+  endsAt: String
+  cover: Int
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationGroupInviteInput {
+  group: Int
+  invitedBy: Int
+  email: String!
+  message: String
+  status: GroupInvite_status_MutationInput
+  updatedAt: String
+  createdAt: String
+}
+
+enum GroupInvite_status_MutationInput {
+  pending
+  accepted
+  declined
+}
+
+input mutationGroupInviteUpdateInput {
+  group: Int
+  invitedBy: Int
+  email: String
+  message: String
+  status: GroupInviteUpdate_status_MutationInput
+  updatedAt: String
+  createdAt: String
+}
+
+enum GroupInviteUpdate_status_MutationInput {
+  pending
+  accepted
+  declined
+}

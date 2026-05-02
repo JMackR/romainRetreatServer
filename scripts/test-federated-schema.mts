@@ -2,7 +2,7 @@ import { configToSchema } from '@payloadcms/graphql'
 import { getPayload } from 'payload'
 
 import config from '../../romainRetreatCMS/src/payload.config.js'
-import { buildPayloadSubgraphSchemaFromBase } from '../src/subgraph/buildPayloadSubgraphSchema.js'
+import { buildPayloadSubgraphSchemaFromBase } from '../subgraphs/_shared/subgraph/buildPayloadSubgraphSchema.js'
 
 async function main() {
   const p = await getPayload({ config })

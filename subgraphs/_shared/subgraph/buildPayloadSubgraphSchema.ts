@@ -12,7 +12,8 @@ import { parse, printSchema, type GraphQLSchema } from 'graphql'
  * Use {@link buildPayloadSubgraphSchemaFromBase} with `configToSchema(config)` when
  * `payload.schema` is not populated (e.g. `graphQL.disable` is true).
  */
-const FEDERATION_LINK_SDL = /* GraphQL */ `
+/** Preamble for `buildSubgraphSchema` / per-domain recomposes (keeps one `extend schema` in printed SDL). */
+export const FEDERATION_PREAMBLE_SDL = /* GraphQL */ `
 extend schema
   @link(url: "https://specs.apollo.dev/link/v1.0")
   @link(
@@ -34,7 +35,7 @@ extend schema
 export function buildPayloadSubgraphSchemaFromBase(base: GraphQLSchema): GraphQLSchema {
   const printed = printSchema(base)
   const schema = buildSubgraphSchema({
-    typeDefs: parse(`${FEDERATION_LINK_SDL}\n${printed}`),
+    typeDefs: parse(`${FEDERATION_PREAMBLE_SDL}\n${printed}`),
   })
   const resolvers = getResolversFromSchema(base, true)
   addResolversToSchema(schema, resolvers as GraphQLResolverMap<unknown>)

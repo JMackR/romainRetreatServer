@@ -14,5 +14,5 @@
       "@payload-config": ["../romainRetreatCMS/src/payload.config.ts"]
     }
   },
-  "include": ["src/**/*.ts"]
+  "include": ["subgraphs/**/*.ts"]
 }

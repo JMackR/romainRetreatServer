@@ -31,6 +31,36 @@ const pairs: [string, string | undefined, string | undefined][] = [
     root(serverP, '@payloadcms/db-postgres'),
     root(cmsP, '@payloadcms/db-postgres'),
   ],
+  [
+    '@payloadcms/plugin-form-builder',
+    root(serverP, '@payloadcms/plugin-form-builder'),
+    root(cmsP, '@payloadcms/plugin-form-builder'),
+  ],
+  [
+    '@payloadcms/plugin-nested-docs',
+    root(serverP, '@payloadcms/plugin-nested-docs'),
+    root(cmsP, '@payloadcms/plugin-nested-docs'),
+  ],
+  [
+    '@payloadcms/plugin-redirects',
+    root(serverP, '@payloadcms/plugin-redirects'),
+    root(cmsP, '@payloadcms/plugin-redirects'),
+  ],
+  [
+    '@payloadcms/plugin-search',
+    root(serverP, '@payloadcms/plugin-search'),
+    root(cmsP, '@payloadcms/plugin-search'),
+  ],
+  [
+    '@payloadcms/plugin-seo',
+    root(serverP, '@payloadcms/plugin-seo'),
+    root(cmsP, '@payloadcms/plugin-seo'),
+  ],
+  [
+    '@payloadcms/storage-s3',
+    root(serverP, '@payloadcms/storage-s3'),
+    root(cmsP, '@payloadcms/storage-s3'),
+  ],
 ]
 
 let bad = false

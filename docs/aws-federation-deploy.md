@@ -57,12 +57,15 @@ sam deploy --guided
 # sam deploy --config-env default
 ```
 
+**`yarn deploy:lambda` (interactive, or `unified` / `all` / `content` …):** runs `sam:build` and then `sam deploy` with the right `SubgraphMode` and stack name. For **five separate Lambdas** (one GraphOS subgraph per domain), run `export SAM_BASE_PARAMETER_OVERRIDES='…Copy from your samconfig line…'`, then `yarn deploy:lambda all` (stacks `romain-retreat-sg-users`, `…-sg-content`, etc.; override with `SAM_STACK_PREFIX`). A **single** domain: `yarn deploy:lambda content`. Set `SAM_NO_CONFIRM=1` to add `--no-confirm-changeset`. See `scripts/deploy-lambda-sam.mts` for flags.
+
 **Parameters**
 
 | Parameter | Description |
 |-----------|-------------|
 | `DatabaseUrl` | Postgres URL. For IAM auth, omit the password (see above). |
 | `PayloadSecret` | Same secret you use for Payload elsewhere. |
+| `SubgraphMode` | `unified` (default): one Lambda, full app and all `/api/subgraph/*` paths. `users` \| `groups` \| `search` \| `content` \| `system`: only that Federation slice at `POST /graphql` and matching `/api/subgraph/<name>/graphql`. |
 | `UseRdsIamAuth` | `true` / `false`. When `true`, Lambda sets `RDS_IAM_AUTH=1` and signs tokens with `@aws-sdk/rds-signer`. |
 | `RdsDbiResourceId` | Required when `UseRdsIamAuth` is `true` (RDS **Resource ID**, `db-...`). |
 | `RdsIamDbUser` | DB username for the IAM policy resource (default `postgres`). |
@@ -75,6 +78,11 @@ If CloudFormation errors on `AWS::LanguageExtensions`, remove that transform fro
 **Outputs**
 
 - `SubgraphUrl` — Lambda **Function URL** (base URL). Use **`{SubgraphUrl}/graphql`** (or `/api/graphql`) as the GraphOS **routing URL**.
+
+**Troubleshooting: `GET /health` returns 502 or 503**
+
+- **502** (often 21 bytes, “Internal Server Error” text): the runtime failed **before** your app returned a body (e.g. an **uncaught** import error, or a crash inside the adapter that isn’t our boot handler). After deploying the current [lambda.ts](../subgraphs/_shared/lambda.ts) (which uses **dynamic** `import('./app.js')`), many failures that used to 502 are caught and you get **503 + JSON** instead. **CloudWatch** still has the true error. Common: **`import app` or `createApp`**: DB down, **sharp** native module missing/wrong **arch** on `arm64`, or **Payload config** failing.
+- **503** with JSON `Application failed to initialize` (boot handler): the error is also logged in CloudWatch under **`import app or createApp() failed`**. Fix env/DB/dependencies and redeploy.
 
 If CloudFormation fails on the output resource name, check the stack’s **Resources** for `AWS::Lambda::Url` and adjust [template.yaml](../template.yaml) `Outputs` accordingly.
 

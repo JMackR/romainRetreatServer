@@ -1,0 +1,243 @@
+# Per-subgraph Docker Compose, cft-federation-server style
+# (https://github.com/Loop-RetreatProject — see Loop/cft-federation-server/docker-compose.yaml).
+#
+# Layout:
+#   - 5 logical subgraphs (users, groups, search, content, system) each on its own service / port
+#   - All services share the same Payload + Hono image but pin a different PAYLOAD_LAMBDA_SUBGRAPH
+#   - Each container listens on container port 4000 (cft-style); host ports map to 4001..4005
+#   - `supergraph-build` (profile=tools) one-shot composes the supergraph via Rover from inside the network
+#   - `router` (profile=router) runs the Apollo Router (Rust) image
+#
+# Usage (from romainRetreatServer/):
+#   yarn docker:federation:up                  # up subgraphs, compose, then router (default profiles)
+#   docker compose -f docker-compose.federation.yml up users  # one subgraph
+#   make up-subgraphs && make compose && make up-supergraph  # stepwise (cft Makefile parity)
+
+name: romain-federation
+
+# Self-contained stack: the `postgres` service below provides a Postgres 17
+# instance matching AWS Aurora (same engine major + master user `postgres`
+# + db `postgres`). `db-init` (one-shot) pushes the Payload schema and
+# seeds demo content before any subgraph starts, so a fresh
+# `yarn docker:federation:up` works from a cold checkout with no host
+# Postgres needed.
+#
+# These shared env vars are split into their own anchor because docker-compose's
+# YAML `<<: *subgraph` merge REPLACES (not merges) the child service's
+# `environment:` map, so we have to spread the env via `<<: *subgraph-env` at
+# the environment-map level inside each subgraph service.
+x-subgraph-env: &subgraph-env
+  DATABASE_URL: postgresql://postgres:postgres@postgres:5432/postgres
+  PAYLOAD_DATABASE_PUSH: '0'
+  PORT: '4000'
+  HOST: 0.0.0.0
+
+x-subgraph: &subgraph
+  build:
+    context: ..
+    dockerfile: romainRetreatServer/Dockerfile
+  env_file: .env
+  networks: [federation]
+  depends_on:
+    db-init:
+      condition: service_completed_successfully
+  healthcheck:
+    test: ['CMD', 'curl', '-fsS', 'http://127.0.0.1:4000/health']
+    interval: 5s
+    timeout: 4s
+    retries: 12
+    start_period: 30s
+
+services:
+  # --------------------------------------------------------------------------
+  # Postgres 17 (matches AWS Aurora `aurora-postgresql 17.7`).
+  # Exposed on host port 5433 so it doesn't collide with `yarn db:start` (5432)
+  # or any Postgres the user already runs natively. Inside the docker network
+  # other services reach it as `postgres:5432`.
+  # --------------------------------------------------------------------------
+  postgres:
+    image: postgres:17.7-alpine
+    container_name: romain-federation-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports: ['5433:5432']
+    networks: [federation]
+    volumes:
+      - federation-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d postgres']
+      interval: 3s
+      timeout: 3s
+      retries: 20
+      start_period: 5s
+
+  # --------------------------------------------------------------------------
+  # One-shot DB initializer: pushes the Payload (Drizzle) schema and seeds
+  # demo content (users, categories, media, posts, header/footer, contact
+  # form/page, home page) — i.e. the same payload_data set that the AWS env
+  # would have after the equivalent `yarn db:push && yarn seed`.
+  #
+  # Idempotent: skips re-seeding if `posts` rows already exist (the seed
+  # script's own check). To force a clean reseed:
+  #   docker compose -f docker-compose.federation.yml run --rm db-init \
+  #     sh -c 'cd /app/romainRetreatCMS && yarn seed --force'
+  # --------------------------------------------------------------------------
+  db-init:
+    build:
+      context: ..
+      dockerfile: romainRetreatServer/Dockerfile
+    container_name: romain-federation-db-init
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/postgres
+      PAYLOAD_DATABASE_PUSH: '1'
+    networks: [federation]
+    depends_on:
+      postgres:
+        condition: service_healthy
+    working_dir: /app/romainRetreatCMS
+    command:
+      - sh
+      - -c
+      - |
+        echo '[db-init] pushing Payload schema + seeding demo content into postgres:5432/postgres'
+        yarn seed
+    restart: 'no'
+
+  # --------------------------------------------------------------------------
+  # Logical subgraphs (cft-style: one service per name, all on container :4000)
+  # --------------------------------------------------------------------------
+  users:
+    <<: *subgraph
+    container_name: romain-subgraph-users
+    environment:
+      <<: *subgraph-env
+      PAYLOAD_LAMBDA_SUBGRAPH: users
+    ports: ['4001:4000']
+
+  groups:
+    <<: *subgraph
+    container_name: romain-subgraph-groups
+    environment:
+      <<: *subgraph-env
+      PAYLOAD_LAMBDA_SUBGRAPH: groups
+    ports: ['4002:4000']
+
+  search:
+    <<: *subgraph
+    container_name: romain-subgraph-search
+    environment:
+      <<: *subgraph-env
+      PAYLOAD_LAMBDA_SUBGRAPH: search
+    ports: ['4003:4000']
+
+  content:
+    <<: *subgraph
+    container_name: romain-subgraph-content
+    environment:
+      <<: *subgraph-env
+      PAYLOAD_LAMBDA_SUBGRAPH: content
+    ports: ['4004:4000']
+
+  system:
+    <<: *subgraph
+    container_name: romain-subgraph-system
+    environment:
+      <<: *subgraph-env
+      PAYLOAD_LAMBDA_SUBGRAPH: system
+    ports: ['4005:4000']
+
+  # --------------------------------------------------------------------------
+  # Legacy unified service (back-compat with previous compose; serves all routes
+  # on :3002 like before — handy for Payload-side iteration).
+  # --------------------------------------------------------------------------
+  graphql:
+    profiles: [unified]
+    build:
+      context: ..
+      dockerfile: romainRetreatServer/Dockerfile
+    container_name: romain-federation-graphql
+    env_file: .env
+    ports: ['3002:3002']
+    networks: [federation]
+    healthcheck:
+      test: ['CMD', 'curl', '-fsS', 'http://127.0.0.1:3002/health']
+      interval: 5s
+      timeout: 4s
+      retries: 12
+      start_period: 20s
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+
+  # --------------------------------------------------------------------------
+  # Rover supergraph compose (one-shot, runs after subgraphs are healthy).
+  #   docker compose -f docker-compose.federation.yml --profile tools run --rm supergraph-build
+  # --------------------------------------------------------------------------
+  supergraph-build:
+    image: node:22-bookworm-slim
+    profiles: [tools]
+    container_name: romain-federation-supergraph-build
+    working_dir: /w/romainRetreatServer
+    environment:
+      APOLLO_ELV2_LICENSE: accept
+    networks: [federation]
+    depends_on:
+      users: { condition: service_healthy }
+      groups: { condition: service_healthy }
+      search: { condition: service_healthy }
+      content: { condition: service_healthy }
+      system: { condition: service_healthy }
+    volumes:
+      - ..:/w:rw
+    command:
+      - sh
+      - -c
+      - |
+        # The slim image has no CA bundle, which breaks Rover's HTTPS calls
+        # ("No CA certificates were loaded from the system"). Install on first
+        # run; subsequent runs hit the apt cache + are nearly instant.
+        apt-get update -qq && apt-get install -y --no-install-recommends ca-certificates >/dev/null
+        npx -y @apollo/rover@0.38.1 supergraph compose \
+          --config supergraph/schema/docker.yaml \
+          > supergraph/supergraph.docker.graphql
+
+  # --------------------------------------------------------------------------
+  # Apollo Router (Rust). Reads supergraph/supergraph.docker.graphql produced
+  # above. cft-federation-server uses a downloaded `./router` binary; here we
+  # use the official prebuilt image so contributors don't need a local Rust
+  # toolchain or to manage versions.
+  # --------------------------------------------------------------------------
+  router:
+    image: ghcr.io/apollographql/router:v1.61.0
+    profiles: [router]
+    container_name: romain-federation-router
+    depends_on:
+      users: { condition: service_healthy }
+      groups: { condition: service_healthy }
+      search: { condition: service_healthy }
+      content: { condition: service_healthy }
+      system: { condition: service_healthy }
+    networks: [federation]
+    ports: ['4000:4000']
+    volumes:
+      - ./supergraph/supergraph.docker.graphql:/dist/supergraph.graphql:ro
+      - ./supergraph/router.federation.yaml:/dist/router.federation.yaml:ro
+    environment:
+      APOLLO_ROUTER_HOT_RELOAD: 'true'
+    command:
+      - --config
+      - /dist/router.federation.yaml
+      - --supergraph
+      - /dist/supergraph.graphql
+      - --dev
+
+networks:
+  federation:
+    name: romain-federation
+    driver: bridge
+
+volumes:
+  federation-pgdata:
+    name: romain-federation-pgdata

@@ -1,0 +1,10 @@
+# Top-level CORS origins file (cft-federation-server compat).
+# Romain’s router actually loads `supergraph/router.yaml` (and `supergraph/router.federation.yaml`
+# in Docker); keep this file as a quick reference for additional origins to whitelist when the
+# router is invoked manually.
+cors:
+  origins:
+    - http://localhost:3000
+    - http://localhost:3001
+    - http://localhost:3002
+    - https://studio.apollographql.com

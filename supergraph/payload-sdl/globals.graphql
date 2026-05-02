@@ -1,0 +1,1137 @@
+# Split SDL (yarn export:subgraph-sdl) | bucket: globals (Header, Footer)
+
+type Header {
+  navItems: [Header_NavItems!]
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+type Header_NavItems {
+  link: Header_NavItems_Link
+  id: String
+}
+
+type Header_NavItems_Link {
+  type: Header_NavItems_Link_type
+  newTab: Boolean
+  reference(draft: Boolean): Header_NavItems_Link_Reference_Relationship
+  url: String
+  label: String
+}
+
+enum Header_NavItems_Link_type {
+  reference
+  custom
+}
+
+type Header_NavItems_Link_Reference_Relationship {
+  relationTo: Header_NavItems_Link_Reference_RelationTo
+  value: Header_NavItems_Link_Reference
+}
+
+enum Header_NavItems_Link_Reference_RelationTo {
+  pages
+  posts
+}
+
+union Header_NavItems_Link_Reference = Page | Post
+
+type HeaderDocAccessFields {
+  navItems: HeaderDocAccessFields_navItems
+  updatedAt: HeaderDocAccessFields_updatedAt
+  createdAt: HeaderDocAccessFields_createdAt
+}
+
+type HeaderDocAccessFields_navItems {
+  create: HeaderDocAccessFields_navItems_Create
+  read: HeaderDocAccessFields_navItems_Read
+  update: HeaderDocAccessFields_navItems_Update
+  delete: HeaderDocAccessFields_navItems_Delete
+  fields: HeaderDocAccessFields_navItems_Fields
+}
+
+type HeaderDocAccessFields_navItems_Create {
+  permission: Boolean!
+}
+
+type HeaderDocAccessFields_navItems_Read {
+  permission: Boolean!
+}
+
+type HeaderDocAccessFields_navItems_Update {
+  permission: Boolean!
+}
+
+type HeaderDocAccessFields_navItems_Delete {
+  permission: Boolean!
+}
+
+type HeaderDocAccessFields_navItems_Fields {
+  link: HeaderDocAccessFields_navItems_link
+  id: HeaderDocAccessFields_navItems_id
+}
+
+type HeaderDocAccessFields_navItems_link {
+  create: HeaderDocAccessFields_navItems_link_Create
+  read: HeaderDocAccessFields_navItems_link_Read
+  update: HeaderDocAccessFields_navItems_link_Update
+  delete: HeaderDocAccessFields_navItems_link_Delete
+  fields: HeaderDocAccessFields_navItems_link_Fields
+}
+
+type HeaderDocAccessFields_navItems_link_Create {
+  permission: Boolean!
+}
+
+type HeaderDocAccessFields_navItems_link_Read {
+  permission: Boolean!
+}
+
+type HeaderDocAccessFields_navItems_link_Update {
+  permission: Boolean!
+}
+
+type HeaderDocAccessFields_navItems_link_Delete {
+  permission: Boolean!
+}
+
+type HeaderDocAccessFields_navItems_link_Fields {
+  type: HeaderDocAccessFields_navItems_link_type
+  newTab: HeaderDocAccessFields_navItems_link_newTab
+  reference: HeaderDocAccessFields_navItems_link_reference
+  url: HeaderDocAccessFields_navItems_link_url
+  label: HeaderDocAccessFields_navItems_link_label
+}
+
+type HeaderDocAccessFields_navItems_link_type {
+  create: HeaderDocAccessFields_navItems_link_type_Create
+  read: HeaderDocAccessFields_navItems_link_type_Read
+  update: HeaderDocAccessFields_navItems_link_type_Update
+  delete: HeaderDocAccessFields_navItems_link_type_Delete
+}
+
+type HeaderDocAccessFields_navItems_link_type_Create {
+  permission: Boolean!
+}
+
+type HeaderDocAccessFields_navItems_link_type_Read {
+  permission: Boolean!
+}
+
+type HeaderDocAccessFields_navItems_link_type_Update {
+  permission: Boolean!
+}
+
+type HeaderDocAccessFields_navItems_link_type_Delete {
+  permission: Boolean!
+}
+
+type HeaderDocAccessFields_navItems_link_newTab {
+  create: HeaderDocAccessFields_navItems_link_newTab_Create
+  read: HeaderDocAccessFields_navItems_link_newTab_Read
+  update: HeaderDocAccessFields_navItems_link_newTab_Update
+  delete: HeaderDocAccessFields_navItems_link_newTab_Delete
+}
+
+type HeaderDocAccessFields_navItems_link_newTab_Create {
+  permission: Boolean!
+}
+
+type HeaderDocAccessFields_navItems_link_newTab_Read {
+  permission: Boolean!
+}
+
+type HeaderDocAccessFields_navItems_link_newTab_Update {
+  permission: Boolean!
+}
+
+type HeaderDocAccessFields_navItems_link_newTab_Delete {
+  permission: Boolean!
+}
+
+type HeaderDocAccessFields_navItems_link_reference {
+  create: HeaderDocAccessFields_navItems_link_reference_Create
+  read: HeaderDocAccessFields_navItems_link_reference_Read
+  update: HeaderDocAccessFields_navItems_link_reference_Update
+  delete: HeaderDocAccessFields_navItems_link_reference_Delete
+}
+
+type HeaderDocAccessFields_navItems_link_reference_Create {
+  permission: Boolean!
+}
+
+type HeaderDocAccessFields_navItems_link_reference_Read {
+  permission: Boolean!
+}
+
+type HeaderDocAccessFields_navItems_link_reference_Update {
+  permission: Boolean!
+}
+
+type HeaderDocAccessFields_navItems_link_reference_Delete {
+  permission: Boolean!
+}
+
+type HeaderDocAccessFields_navItems_link_url {
+  create: HeaderDocAccessFields_navItems_link_url_Create
+  read: HeaderDocAccessFields_navItems_link_url_Read
+  update: HeaderDocAccessFields_navItems_link_url_Update
+  delete: HeaderDocAccessFields_navItems_link_url_Delete
+}
+
+type HeaderDocAccessFields_navItems_link_url_Create {
+  permission: Boolean!
+}
+
+type HeaderDocAccessFields_navItems_link_url_Read {
+  permission: Boolean!
+}
+
+type HeaderDocAccessFields_navItems_link_url_Update {
+  permission: Boolean!
+}
+
+type HeaderDocAccessFields_navItems_link_url_Delete {
+  permission: Boolean!
+}
+
+type HeaderDocAccessFields_navItems_link_label {
+  create: HeaderDocAccessFields_navItems_link_label_Create
+  read: HeaderDocAccessFields_navItems_link_label_Read
+  update: HeaderDocAccessFields_navItems_link_label_Update
+  delete: HeaderDocAccessFields_navItems_link_label_Delete
+}
+
+type HeaderDocAccessFields_navItems_link_label_Create {
+  permission: Boolean!
+}
+
+type HeaderDocAccessFields_navItems_link_label_Read {
+  permission: Boolean!
+}
+
+type HeaderDocAccessFields_navItems_link_label_Update {
+  permission: Boolean!
+}
+
+type HeaderDocAccessFields_navItems_link_label_Delete {
+  permission: Boolean!
+}
+
+type HeaderDocAccessFields_navItems_id {
+  create: HeaderDocAccessFields_navItems_id_Create
+  read: HeaderDocAccessFields_navItems_id_Read
+  update: HeaderDocAccessFields_navItems_id_Update
+  delete: HeaderDocAccessFields_navItems_id_Delete
+}
+
+type HeaderDocAccessFields_navItems_id_Create {
+  permission: Boolean!
+}
+
+type HeaderDocAccessFields_navItems_id_Read {
+  permission: Boolean!
+}
+
+type HeaderDocAccessFields_navItems_id_Update {
+  permission: Boolean!
+}
+
+type HeaderDocAccessFields_navItems_id_Delete {
+  permission: Boolean!
+}
+
+type HeaderDocAccessFields_updatedAt {
+  create: HeaderDocAccessFields_updatedAt_Create
+  read: HeaderDocAccessFields_updatedAt_Read
+  update: HeaderDocAccessFields_updatedAt_Update
+  delete: HeaderDocAccessFields_updatedAt_Delete
+}
+
+type HeaderDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type HeaderDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type HeaderDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type HeaderDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type HeaderDocAccessFields_createdAt {
+  create: HeaderDocAccessFields_createdAt_Create
+  read: HeaderDocAccessFields_createdAt_Read
+  update: HeaderDocAccessFields_createdAt_Update
+  delete: HeaderDocAccessFields_createdAt_Delete
+}
+
+type HeaderDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type HeaderDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type HeaderDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type HeaderDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type HeaderReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type HeaderUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type Footer {
+  navItems: [Footer_NavItems!]
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+type Footer_NavItems {
+  link: Footer_NavItems_Link
+  id: String
+}
+
+type Footer_NavItems_Link {
+  type: Footer_NavItems_Link_type
+  newTab: Boolean
+  reference(draft: Boolean): Footer_NavItems_Link_Reference_Relationship
+  url: String
+  label: String
+}
+
+enum Footer_NavItems_Link_type {
+  reference
+  custom
+}
+
+type Footer_NavItems_Link_Reference_Relationship {
+  relationTo: Footer_NavItems_Link_Reference_RelationTo
+  value: Footer_NavItems_Link_Reference
+}
+
+enum Footer_NavItems_Link_Reference_RelationTo {
+  pages
+  posts
+}
+
+union Footer_NavItems_Link_Reference = Page | Post
+
+type FooterDocAccessFields {
+  navItems: FooterDocAccessFields_navItems
+  updatedAt: FooterDocAccessFields_updatedAt
+  createdAt: FooterDocAccessFields_createdAt
+}
+
+type FooterDocAccessFields_navItems {
+  create: FooterDocAccessFields_navItems_Create
+  read: FooterDocAccessFields_navItems_Read
+  update: FooterDocAccessFields_navItems_Update
+  delete: FooterDocAccessFields_navItems_Delete
+  fields: FooterDocAccessFields_navItems_Fields
+}
+
+type FooterDocAccessFields_navItems_Create {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_navItems_Read {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_navItems_Update {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_navItems_Delete {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_navItems_Fields {
+  link: FooterDocAccessFields_navItems_link
+  id: FooterDocAccessFields_navItems_id
+}
+
+type FooterDocAccessFields_navItems_link {
+  create: FooterDocAccessFields_navItems_link_Create
+  read: FooterDocAccessFields_navItems_link_Read
+  update: FooterDocAccessFields_navItems_link_Update
+  delete: FooterDocAccessFields_navItems_link_Delete
+  fields: FooterDocAccessFields_navItems_link_Fields
+}
+
+type FooterDocAccessFields_navItems_link_Create {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_navItems_link_Read {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_navItems_link_Update {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_navItems_link_Delete {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_navItems_link_Fields {
+  type: FooterDocAccessFields_navItems_link_type
+  newTab: FooterDocAccessFields_navItems_link_newTab
+  reference: FooterDocAccessFields_navItems_link_reference
+  url: FooterDocAccessFields_navItems_link_url
+  label: FooterDocAccessFields_navItems_link_label
+}
+
+type FooterDocAccessFields_navItems_link_type {
+  create: FooterDocAccessFields_navItems_link_type_Create
+  read: FooterDocAccessFields_navItems_link_type_Read
+  update: FooterDocAccessFields_navItems_link_type_Update
+  delete: FooterDocAccessFields_navItems_link_type_Delete
+}
+
+type FooterDocAccessFields_navItems_link_type_Create {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_navItems_link_type_Read {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_navItems_link_type_Update {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_navItems_link_type_Delete {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_navItems_link_newTab {
+  create: FooterDocAccessFields_navItems_link_newTab_Create
+  read: FooterDocAccessFields_navItems_link_newTab_Read
+  update: FooterDocAccessFields_navItems_link_newTab_Update
+  delete: FooterDocAccessFields_navItems_link_newTab_Delete
+}
+
+type FooterDocAccessFields_navItems_link_newTab_Create {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_navItems_link_newTab_Read {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_navItems_link_newTab_Update {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_navItems_link_newTab_Delete {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_navItems_link_reference {
+  create: FooterDocAccessFields_navItems_link_reference_Create
+  read: FooterDocAccessFields_navItems_link_reference_Read
+  update: FooterDocAccessFields_navItems_link_reference_Update
+  delete: FooterDocAccessFields_navItems_link_reference_Delete
+}
+
+type FooterDocAccessFields_navItems_link_reference_Create {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_navItems_link_reference_Read {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_navItems_link_reference_Update {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_navItems_link_reference_Delete {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_navItems_link_url {
+  create: FooterDocAccessFields_navItems_link_url_Create
+  read: FooterDocAccessFields_navItems_link_url_Read
+  update: FooterDocAccessFields_navItems_link_url_Update
+  delete: FooterDocAccessFields_navItems_link_url_Delete
+}
+
+type FooterDocAccessFields_navItems_link_url_Create {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_navItems_link_url_Read {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_navItems_link_url_Update {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_navItems_link_url_Delete {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_navItems_link_label {
+  create: FooterDocAccessFields_navItems_link_label_Create
+  read: FooterDocAccessFields_navItems_link_label_Read
+  update: FooterDocAccessFields_navItems_link_label_Update
+  delete: FooterDocAccessFields_navItems_link_label_Delete
+}
+
+type FooterDocAccessFields_navItems_link_label_Create {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_navItems_link_label_Read {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_navItems_link_label_Update {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_navItems_link_label_Delete {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_navItems_id {
+  create: FooterDocAccessFields_navItems_id_Create
+  read: FooterDocAccessFields_navItems_id_Read
+  update: FooterDocAccessFields_navItems_id_Update
+  delete: FooterDocAccessFields_navItems_id_Delete
+}
+
+type FooterDocAccessFields_navItems_id_Create {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_navItems_id_Read {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_navItems_id_Update {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_navItems_id_Delete {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_updatedAt {
+  create: FooterDocAccessFields_updatedAt_Create
+  read: FooterDocAccessFields_updatedAt_Read
+  update: FooterDocAccessFields_updatedAt_Update
+  delete: FooterDocAccessFields_updatedAt_Delete
+}
+
+type FooterDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_createdAt {
+  create: FooterDocAccessFields_createdAt_Create
+  read: FooterDocAccessFields_createdAt_Read
+  update: FooterDocAccessFields_createdAt_Update
+  delete: FooterDocAccessFields_createdAt_Delete
+}
+
+type FooterDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type FooterDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type FooterReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type FooterUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type HeaderFields {
+  navItems: HeaderFields_navItems
+  updatedAt: HeaderFields_updatedAt
+  createdAt: HeaderFields_createdAt
+}
+
+type HeaderFields_navItems {
+  create: HeaderFields_navItems_Create
+  read: HeaderFields_navItems_Read
+  update: HeaderFields_navItems_Update
+  delete: HeaderFields_navItems_Delete
+  fields: HeaderFields_navItems_Fields
+}
+
+type HeaderFields_navItems_Create {
+  permission: Boolean!
+}
+
+type HeaderFields_navItems_Read {
+  permission: Boolean!
+}
+
+type HeaderFields_navItems_Update {
+  permission: Boolean!
+}
+
+type HeaderFields_navItems_Delete {
+  permission: Boolean!
+}
+
+type HeaderFields_navItems_Fields {
+  link: HeaderFields_navItems_link
+  id: HeaderFields_navItems_id
+}
+
+type HeaderFields_navItems_link {
+  create: HeaderFields_navItems_link_Create
+  read: HeaderFields_navItems_link_Read
+  update: HeaderFields_navItems_link_Update
+  delete: HeaderFields_navItems_link_Delete
+  fields: HeaderFields_navItems_link_Fields
+}
+
+type HeaderFields_navItems_link_Create {
+  permission: Boolean!
+}
+
+type HeaderFields_navItems_link_Read {
+  permission: Boolean!
+}
+
+type HeaderFields_navItems_link_Update {
+  permission: Boolean!
+}
+
+type HeaderFields_navItems_link_Delete {
+  permission: Boolean!
+}
+
+type HeaderFields_navItems_link_Fields {
+  type: HeaderFields_navItems_link_type
+  newTab: HeaderFields_navItems_link_newTab
+  reference: HeaderFields_navItems_link_reference
+  url: HeaderFields_navItems_link_url
+  label: HeaderFields_navItems_link_label
+}
+
+type HeaderFields_navItems_link_type {
+  create: HeaderFields_navItems_link_type_Create
+  read: HeaderFields_navItems_link_type_Read
+  update: HeaderFields_navItems_link_type_Update
+  delete: HeaderFields_navItems_link_type_Delete
+}
+
+type HeaderFields_navItems_link_type_Create {
+  permission: Boolean!
+}
+
+type HeaderFields_navItems_link_type_Read {
+  permission: Boolean!
+}
+
+type HeaderFields_navItems_link_type_Update {
+  permission: Boolean!
+}
+
+type HeaderFields_navItems_link_type_Delete {
+  permission: Boolean!
+}
+
+type HeaderFields_navItems_link_newTab {
+  create: HeaderFields_navItems_link_newTab_Create
+  read: HeaderFields_navItems_link_newTab_Read
+  update: HeaderFields_navItems_link_newTab_Update
+  delete: HeaderFields_navItems_link_newTab_Delete
+}
+
+type HeaderFields_navItems_link_newTab_Create {
+  permission: Boolean!
+}
+
+type HeaderFields_navItems_link_newTab_Read {
+  permission: Boolean!
+}
+
+type HeaderFields_navItems_link_newTab_Update {
+  permission: Boolean!
+}
+
+type HeaderFields_navItems_link_newTab_Delete {
+  permission: Boolean!
+}
+
+type HeaderFields_navItems_link_reference {
+  create: HeaderFields_navItems_link_reference_Create
+  read: HeaderFields_navItems_link_reference_Read
+  update: HeaderFields_navItems_link_reference_Update
+  delete: HeaderFields_navItems_link_reference_Delete
+}
+
+type HeaderFields_navItems_link_reference_Create {
+  permission: Boolean!
+}
+
+type HeaderFields_navItems_link_reference_Read {
+  permission: Boolean!
+}
+
+type HeaderFields_navItems_link_reference_Update {
+  permission: Boolean!
+}
+
+type HeaderFields_navItems_link_reference_Delete {
+  permission: Boolean!
+}
+
+type HeaderFields_navItems_link_url {
+  create: HeaderFields_navItems_link_url_Create
+  read: HeaderFields_navItems_link_url_Read
+  update: HeaderFields_navItems_link_url_Update
+  delete: HeaderFields_navItems_link_url_Delete
+}
+
+type HeaderFields_navItems_link_url_Create {
+  permission: Boolean!
+}
+
+type HeaderFields_navItems_link_url_Read {
+  permission: Boolean!
+}
+
+type HeaderFields_navItems_link_url_Update {
+  permission: Boolean!
+}
+
+type HeaderFields_navItems_link_url_Delete {
+  permission: Boolean!
+}
+
+type HeaderFields_navItems_link_label {
+  create: HeaderFields_navItems_link_label_Create
+  read: HeaderFields_navItems_link_label_Read
+  update: HeaderFields_navItems_link_label_Update
+  delete: HeaderFields_navItems_link_label_Delete
+}
+
+type HeaderFields_navItems_link_label_Create {
+  permission: Boolean!
+}
+
+type HeaderFields_navItems_link_label_Read {
+  permission: Boolean!
+}
+
+type HeaderFields_navItems_link_label_Update {
+  permission: Boolean!
+}
+
+type HeaderFields_navItems_link_label_Delete {
+  permission: Boolean!
+}
+
+type HeaderFields_navItems_id {
+  create: HeaderFields_navItems_id_Create
+  read: HeaderFields_navItems_id_Read
+  update: HeaderFields_navItems_id_Update
+  delete: HeaderFields_navItems_id_Delete
+}
+
+type HeaderFields_navItems_id_Create {
+  permission: Boolean!
+}
+
+type HeaderFields_navItems_id_Read {
+  permission: Boolean!
+}
+
+type HeaderFields_navItems_id_Update {
+  permission: Boolean!
+}
+
+type HeaderFields_navItems_id_Delete {
+  permission: Boolean!
+}
+
+type HeaderFields_updatedAt {
+  create: HeaderFields_updatedAt_Create
+  read: HeaderFields_updatedAt_Read
+  update: HeaderFields_updatedAt_Update
+  delete: HeaderFields_updatedAt_Delete
+}
+
+type HeaderFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type HeaderFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type HeaderFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type HeaderFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type HeaderFields_createdAt {
+  create: HeaderFields_createdAt_Create
+  read: HeaderFields_createdAt_Read
+  update: HeaderFields_createdAt_Update
+  delete: HeaderFields_createdAt_Delete
+}
+
+type HeaderFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type HeaderFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type HeaderFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type HeaderFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type HeaderReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type HeaderUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type FooterFields {
+  navItems: FooterFields_navItems
+  updatedAt: FooterFields_updatedAt
+  createdAt: FooterFields_createdAt
+}
+
+type FooterFields_navItems {
+  create: FooterFields_navItems_Create
+  read: FooterFields_navItems_Read
+  update: FooterFields_navItems_Update
+  delete: FooterFields_navItems_Delete
+  fields: FooterFields_navItems_Fields
+}
+
+type FooterFields_navItems_Create {
+  permission: Boolean!
+}
+
+type FooterFields_navItems_Read {
+  permission: Boolean!
+}
+
+type FooterFields_navItems_Update {
+  permission: Boolean!
+}
+
+type FooterFields_navItems_Delete {
+  permission: Boolean!
+}
+
+type FooterFields_navItems_Fields {
+  link: FooterFields_navItems_link
+  id: FooterFields_navItems_id
+}
+
+type FooterFields_navItems_link {
+  create: FooterFields_navItems_link_Create
+  read: FooterFields_navItems_link_Read
+  update: FooterFields_navItems_link_Update
+  delete: FooterFields_navItems_link_Delete
+  fields: FooterFields_navItems_link_Fields
+}
+
+type FooterFields_navItems_link_Create {
+  permission: Boolean!
+}
+
+type FooterFields_navItems_link_Read {
+  permission: Boolean!
+}
+
+type FooterFields_navItems_link_Update {
+  permission: Boolean!
+}
+
+type FooterFields_navItems_link_Delete {
+  permission: Boolean!
+}
+
+type FooterFields_navItems_link_Fields {
+  type: FooterFields_navItems_link_type
+  newTab: FooterFields_navItems_link_newTab
+  reference: FooterFields_navItems_link_reference
+  url: FooterFields_navItems_link_url
+  label: FooterFields_navItems_link_label
+}
+
+type FooterFields_navItems_link_type {
+  create: FooterFields_navItems_link_type_Create
+  read: FooterFields_navItems_link_type_Read
+  update: FooterFields_navItems_link_type_Update
+  delete: FooterFields_navItems_link_type_Delete
+}
+
+type FooterFields_navItems_link_type_Create {
+  permission: Boolean!
+}
+
+type FooterFields_navItems_link_type_Read {
+  permission: Boolean!
+}
+
+type FooterFields_navItems_link_type_Update {
+  permission: Boolean!
+}
+
+type FooterFields_navItems_link_type_Delete {
+  permission: Boolean!
+}
+
+type FooterFields_navItems_link_newTab {
+  create: FooterFields_navItems_link_newTab_Create
+  read: FooterFields_navItems_link_newTab_Read
+  update: FooterFields_navItems_link_newTab_Update
+  delete: FooterFields_navItems_link_newTab_Delete
+}
+
+type FooterFields_navItems_link_newTab_Create {
+  permission: Boolean!
+}
+
+type FooterFields_navItems_link_newTab_Read {
+  permission: Boolean!
+}
+
+type FooterFields_navItems_link_newTab_Update {
+  permission: Boolean!
+}
+
+type FooterFields_navItems_link_newTab_Delete {
+  permission: Boolean!
+}
+
+type FooterFields_navItems_link_reference {
+  create: FooterFields_navItems_link_reference_Create
+  read: FooterFields_navItems_link_reference_Read
+  update: FooterFields_navItems_link_reference_Update
+  delete: FooterFields_navItems_link_reference_Delete
+}
+
+type FooterFields_navItems_link_reference_Create {
+  permission: Boolean!
+}
+
+type FooterFields_navItems_link_reference_Read {
+  permission: Boolean!
+}
+
+type FooterFields_navItems_link_reference_Update {
+  permission: Boolean!
+}
+
+type FooterFields_navItems_link_reference_Delete {
+  permission: Boolean!
+}
+
+type FooterFields_navItems_link_url {
+  create: FooterFields_navItems_link_url_Create
+  read: FooterFields_navItems_link_url_Read
+  update: FooterFields_navItems_link_url_Update
+  delete: FooterFields_navItems_link_url_Delete
+}
+
+type FooterFields_navItems_link_url_Create {
+  permission: Boolean!
+}
+
+type FooterFields_navItems_link_url_Read {
+  permission: Boolean!
+}
+
+type FooterFields_navItems_link_url_Update {
+  permission: Boolean!
+}
+
+type FooterFields_navItems_link_url_Delete {
+  permission: Boolean!
+}
+
+type FooterFields_navItems_link_label {
+  create: FooterFields_navItems_link_label_Create
+  read: FooterFields_navItems_link_label_Read
+  update: FooterFields_navItems_link_label_Update
+  delete: FooterFields_navItems_link_label_Delete
+}
+
+type FooterFields_navItems_link_label_Create {
+  permission: Boolean!
+}
+
+type FooterFields_navItems_link_label_Read {
+  permission: Boolean!
+}
+
+type FooterFields_navItems_link_label_Update {
+  permission: Boolean!
+}
+
+type FooterFields_navItems_link_label_Delete {
+  permission: Boolean!
+}
+
+type FooterFields_navItems_id {
+  create: FooterFields_navItems_id_Create
+  read: FooterFields_navItems_id_Read
+  update: FooterFields_navItems_id_Update
+  delete: FooterFields_navItems_id_Delete
+}
+
+type FooterFields_navItems_id_Create {
+  permission: Boolean!
+}
+
+type FooterFields_navItems_id_Read {
+  permission: Boolean!
+}
+
+type FooterFields_navItems_id_Update {
+  permission: Boolean!
+}
+
+type FooterFields_navItems_id_Delete {
+  permission: Boolean!
+}
+
+type FooterFields_updatedAt {
+  create: FooterFields_updatedAt_Create
+  read: FooterFields_updatedAt_Read
+  update: FooterFields_updatedAt_Update
+  delete: FooterFields_updatedAt_Delete
+}
+
+type FooterFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type FooterFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type FooterFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type FooterFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type FooterFields_createdAt {
+  create: FooterFields_createdAt_Create
+  read: FooterFields_createdAt_Read
+  update: FooterFields_createdAt_Update
+  delete: FooterFields_createdAt_Delete
+}
+
+type FooterFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type FooterFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type FooterFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type FooterFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type FooterReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type FooterUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+input Header_NavItems_Link_ReferenceRelationshipInput {
+  relationTo: Header_NavItems_Link_ReferenceRelationshipInputRelationTo
+  value: JSON
+}
+
+enum Header_NavItems_Link_ReferenceRelationshipInputRelationTo {
+  pages
+  posts
+}
+
+input Footer_NavItems_Link_ReferenceRelationshipInput {
+  relationTo: Footer_NavItems_Link_ReferenceRelationshipInputRelationTo
+  value: JSON
+}
+
+enum Footer_NavItems_Link_ReferenceRelationshipInputRelationTo {
+  pages
+  posts
+}
